@@ -1,0 +1,3903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menopause Society Certification Study Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a4d2e;
+            --primary-light: #2d6a45;
+            --accent: #d4a574;
+            --accent-bright: #e8b887;
+            --bg-cream: #f8f6f1;
+            --bg-white: #ffffff;
+            --text-dark: #1a1a1a;
+            --text-mid: #4a4a4a;
+            --text-light: #7a7a7a;
+            --border: #e0ddd5;
+            --shadow: rgba(26, 77, 46, 0.08);
+            --shadow-heavy: rgba(26, 77, 46, 0.15);
+            --correct: #2d6a45;
+            --incorrect: #c1403d;
+            --warning: #e8b887;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Crimson Pro', serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        /* Header - same as before */
+        .header {
+            background: var(--bg-white);
+            border-bottom: 2px solid var(--border);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 12px var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Crimson Pro', serif;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.1rem;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-btn {
+            padding: 0.6rem 1.4rem;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-heavy);
+        }
+
+        .nav-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-btn.primary:hover {
+            background: var(--primary-light);
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--bg-white);
+            border-radius: 16px;
+            padding: 2rem;
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+            box-shadow: 0 4px 20px var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .progress-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .progress-section h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            background: var(--border);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            height: 100%;
+            transition: width 0.6s ease;
+            border-radius: 6px;
+        }
+
+        .progress-text {
+            font-size: 0.85rem;
+            color: var(--text-mid);
+            text-align: center;
+        }
+
+        .week-selector {
+            list-style: none;
+        }
+
+        .week-item {
+            padding: 0.9rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .week-item:hover {
+            background: var(--bg-cream);
+            border-color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .week-item.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px var(--shadow-heavy);
+        }
+
+        .week-item.completed {
+            background: var(--accent-bright);
+            color: var(--text-dark);
+        }
+
+        .week-check {
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: var(--bg-white);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px var(--shadow);
+            border: 1px solid var(--border);
+            min-height: 600px;
+        }
+
+        .content-header {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .content-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .content-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-mid);
+        }
+
+        .meta-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--accent-bright);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        /* Detailed Content Sections */
+        .detail-section {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--bg-cream);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .detail-section h3 {
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            font-size: 1.6rem;
+        }
+
+        .detail-section h4 {
+            color: var(--primary-light);
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.2rem;
+        }
+
+        .detail-section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-mid);
+        }
+
+        .detail-section ul, .detail-section ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            line-height: 2;
+        }
+
+        .detail-section li {
+            margin-bottom: 0.8rem;
+            color: var(--text-mid);
+        }
+
+        .detail-section strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff9f0, #fef8f1);
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .clinical-pearl {
+            background: linear-gradient(135deg, #e8f5e9, #f1f8f4);
+            border-left: 4px solid var(--primary-light);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .clinical-pearl::before {
+            content: "💎 Clinical Pearl";
+            display: block;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .exam-tip {
+            background: linear-gradient(135deg, #fff3cd, #fcf8e8);
+            border-left: 4px solid #ffc107;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .exam-tip::before {
+            content: "🎯 Exam Tip";
+            display: block;
+            font-weight: 700;
+            color: #856404;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            margin-top: 2rem;
+        }
+
+        .quiz-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 2rem;
+            border-radius: 12px 12px 0 0;
+            text-align: center;
+        }
+
+        .quiz-header h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .quiz-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 1rem;
+        }
+
+        .quiz-stat {
+            text-align: center;
+        }
+
+        .quiz-stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .quiz-stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .quiz-body {
+            background: white;
+            border: 2px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            padding: 2rem;
+        }
+
+        .question-card {
+            background: var(--bg-cream);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 2px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .question-card.answered {
+            border-color: var(--accent);
+        }
+
+        .question-card.correct {
+            background: linear-gradient(135deg, #e8f5e9, #f1f8f4);
+            border-color: var(--correct);
+        }
+
+        .question-card.incorrect {
+            background: linear-gradient(135deg, #ffebee, #fce4ec);
+            border-color: var(--incorrect);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-number {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .question-difficulty {
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .difficulty-easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .difficulty-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .difficulty-hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .question-stem {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            border-left: 3px solid var(--accent);
+        }
+
+        .options-list {
+            list-style: none;
+        }
+
+        .option-item {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .option-item:hover {
+            border-color: var(--accent);
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .option-letter {
+            background: var(--bg-cream);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .option-item.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .option-item.selected .option-letter {
+            background: white;
+            color: var(--primary);
+        }
+
+        .option-item.correct {
+            background: var(--correct);
+            color: white;
+            border-color: var(--correct);
+        }
+
+        .option-item.correct .option-letter {
+            background: white;
+            color: var(--correct);
+        }
+
+        .option-item.incorrect {
+            background: var(--incorrect);
+            color: white;
+            border-color: var(--incorrect);
+        }
+
+        .option-item.incorrect .option-letter {
+            background: white;
+            color: var(--incorrect);
+        }
+
+        .explanation {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .explanation-header {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .explanation-content {
+            line-height: 1.8;
+            color: var(--text-mid);
+        }
+
+        .explanation-content strong {
+            color: var(--text-dark);
+        }
+
+        .reference {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow-heavy);
+        }
+
+        .btn-secondary {
+            background: var(--bg-cream);
+            color: var(--primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-bright);
+            border-color: var(--accent);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn:disabled:hover {
+            transform: none;
+        }
+
+        .score-summary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 3rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .score-summary h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .score-number {
+            font-size: 4rem;
+            font-weight: 700;
+            display: block;
+            margin: 1rem 0;
+        }
+
+        .score-feedback {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-top: 1rem;
+        }
+
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .breakdown-item {
+            text-align: center;
+        }
+
+        .breakdown-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .breakdown-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .quiz-stats, .score-breakdown {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">M</div>
+                <div class="logo-text">
+                    <h1>Menopause Mastery</h1>
+                    <p>Certification Study Platform</p>
+                </div>
+            </div>
+            <nav class="header-nav">
+                <button class="nav-btn" onclick="showView('overview')">Overview</button>
+                <button class="nav-btn" onclick="showView('study')">Study Guide</button>
+                <button class="nav-btn primary" onclick="showView('quiz')">Practice Quiz</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="progress-section">
+                <h3>Your Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+                <p class="progress-text"><span id="progressText">0 of 10 weeks</span></p>
+            </div>
+
+            <h3 style="margin-bottom: 1rem; color: var(--primary);">Study Plan</h3>
+            <ul class="week-selector" id="weekSelector"></ul>
+        </aside>
+
+        <main class="main-content" id="mainContent"></main>
+    </div>
+
+<script>
+// Comprehensive Study Data with Detailed Week Guides
+const studyData = {
+    weeks: [
+        {
+            week: 1,
+            title: "Menopause Fundamentals",
+            pages: "1-22",
+            estimatedHours: "5-7 hours",
+            learningObjectives: [
+                "Define and differentiate the stages of reproductive aging using STRAW+10 criteria",
+                "Explain the physiological changes during the menopause transition",
+                "Identify causes and management of primary ovarian insufficiency",
+                "Understand adrenal physiology changes in menopause"
+            ],
+            detailedContent: {
+                overview: "This foundational week establishes critical terminology and staging systems that will be referenced throughout your study. The STRAW+10 staging system is heavily tested and forms the basis for understanding when and how to intervene clinically.",
+                
+                sections: [
+                    {
+                        title: "Menopause Demographics and Terminology",
+                        content: `
+                            <h4>Key Definitions (Memorize These)</h4>
+                            <ul>
+                                <li><strong>Menopause:</strong> The permanent cessation of menstruation - defined retrospectively after 12 consecutive months of amenorrhea (in absence of other causes)</li>
+                                <li><strong>Perimenopause:</strong> The period immediately before menopause (when endocrine and clinical features of approaching menopause begin) and the first year after menopause</li>
+                                <li><strong>Menopause Transition:</strong> The period from onset of irregular cycles until final menstrual period</li>
+                                <li><strong>Postmenopause:</strong> The period after the final menstrual period, regardless of whether it was induced or spontaneous</li>
+                                <li><strong>Premature Menopause:</strong> Menopause occurring before age 40</li>
+                                <li><strong>Early Menopause:</strong> Menopause occurring between ages 40-45</li>
+                                <li><strong>Climacteric:</strong> The phase of aging marking transition from reproductive to non-reproductive years (less commonly used term)</li>
+                            </ul>
+
+                            <div class="clinical-pearl">
+                                The median age of menopause in Western countries is 51-52 years. Age hasn't changed over time despite increasing life expectancy. Women now spend ~40% of their lives postmenopausal.
+                            </div>
+
+                            <h4>Global Demographics</h4>
+                            <ul>
+                                <li>In 1990: 471 million women worldwide were ≥50 years</li>
+                                <li>In 2015: 861 million women (82.6% increase)</li>
+                                <li>By 2060: ~90 million US women will be ≥50 years</li>
+                                <li>Life expectancy for US females: 81.2 years</li>
+                                <li>67.2% of US women survive from age 50 to 80</li>
+                            </ul>
+                        `
+                    },
+                    {
+                        title: "STRAW+10 Staging System",
+                        content: `
+                            <div class="exam-tip">
+                                STRAW+10 is THE MOST TESTED concept in Chapter 1. You must know all 7 stages, their criteria, and what hormonal changes occur in each.
+                            </div>
+
+                            <h4>The Seven Stages</h4>
+                            
+                            <strong>REPRODUCTIVE YEARS (Stages -5 to -3):</strong>
+                            <ul>
+                                <li><strong>Stage -5 (Early):</strong> Variable to regular cycles, FSH normal</li>
+                                <li><strong>Stage -4 (Peak):</strong> Regular cycles, FSH normal</li>
+                                <li><strong>Stage -3 (Late):</strong> Regular cycles, subtle changes in flow/length, FSH normal, AMH and AFC declining</li>
+                            </ul>
+
+                            <strong>MENOPAUSAL TRANSITION (Stages -2 and -1):</strong>
+                            <ul>
+                                <li><strong>Stage -2 (Early):</strong> Variable cycle length (>7 days different from normal), FSH may be elevated in early follicular phase</li>
+                                <li><strong>Stage -1 (Late):</strong> ≥2 skipped cycles AND interval of amenorrhea ≥60 days, FSH >25 IU/L</li>
+                            </ul>
+
+                            <strong>POSTMENOPAUSE (Stages +1 and +2):</strong>
+                            <ul>
+                                <li><strong>Stage +1a (Early, first year):</strong> Amenorrhea duration 1-3 years, FSH very elevated, estradiol very low</li>
+                                <li><strong>Stage +1b (Early):</strong> 1-3 years duration, stabilization of FSH and estradiol</li>
+                                <li><strong>Stage +1c (Early):</strong> 3-6 years, continuing hormonal stabilization</li>
+                                <li><strong>Stage +2 (Late):</strong> Remaining lifespan, somatic aging dominates</li>
+                            </ul>
+
+                            <div class="highlight-box">
+                                <h4>Critical STRAW+10 Testing Points</h4>
+                                <ul>
+                                    <li>The transition from Stage -3 to -2 is marked by cycle irregularity (>7 day variation)</li>
+                                    <li>Stage -1 requires BOTH irregular cycles AND ≥60 days amenorrhea</li>
+                                    <li>Menopause is confirmed ONLY after 12 months amenorrhea</li>
+                                    <li>FSH can fluctuate during transition - single measurement not diagnostic</li>
+                                    <li>AMH and AFC are better markers of reproductive aging than FSH</li>
+                                </ul>
+                            </div>
+                        `
+                    },
+                    {
+                        title: "Physiology of the Menopause Transition",
+                        content: `
+                            <h4>Hormonal Changes</h4>
+                            
+                            <strong>Early Transition (Stage -2):</strong>
+                            <ul>
+                                <li>Declining follicle pool → decreased inhibin B</li>
+                                <li>Loss of negative feedback → rising FSH (especially early follicular phase)</li>
+                                <li>Accelerated follicular development → shorter follicular phase</li>
+                                <li>May have normal or even elevated estradiol</li>
+                                <li>Ovulation still occurs but cycles become irregular</li>
+                            </ul>
+
+                            <strong>Late Transition (Stage -1):</strong>
+                            <ul>
+                                <li>Further follicle depletion → more skipped cycles</li>
+                                <li>FSH >25 IU/L common</li>
+                                <li>Variable estradiol (can have high levels from prolonged follicular phases)</li>
+                                <li>Anovulatory cycles become more frequent</li>
+                                <li>Progesterone production decreases</li>
+                            </ul>
+
+                            <strong>Postmenopause:</strong>
+                            <ul>
+                                <li>FSH >40 IU/L (though exact levels vary)</li>
+                                <li>Estradiol <20 pg/mL typically</li>
+                                <li>Main estrogen becomes estrone (from peripheral conversion)</li>
+                                <li>Androgen production from ovaries persists but declines</li>
+                                <li>DHEA and DHEAS decline with age (independent of menopause)</li>
+                            </ul>
+
+                            <div class="clinical-pearl">
+                                The LOOP (Luteal Out Of Phase) event: An anovulatory cycle where the follicle undergoes atresia without ovulation, followed by spotting/bleeding. This is characteristic of the late transition and helps explain erratic bleeding patterns.
+                            </div>
+
+                            <div class="exam-tip">
+                                Know that FSH testing is NOT recommended for diagnosing menopause in women >45 years with typical symptoms. Clinical diagnosis is sufficient. FSH testing IS useful for suspected POI (age <40) or when diagnosis is uncertain.
+                            </div>
+                        `
+                    },
+                    {
+                        title: "Primary Ovarian Insufficiency (POI) and Early Menopause",
+                        content: `
+                            <h4>Definitions</h4>
+                            <ul>
+                                <li><strong>POI (Premature Ovarian Insufficiency):</strong> Loss of ovarian function before age 40</li>
+                                <li><strong>Early Menopause:</strong> Final menstrual period between ages 40-45</li>
+                                <li>Both associated with increased health risks</li>
+                            </ul>
+
+                            <h4>Causes of POI (High-Yield)</h4>
+                            
+                            <strong>Genetic:</strong>
+                            <ul>
+                                <li>Turner syndrome (45,X) - most common genetic cause</li>
+                                <li>Fragile X premutation (FMR1)</li>
+                                <li>Galactosemia</li>
+                                <li>46,XX gonadal dysgenesis</li>
+                            </ul>
+
+                            <strong>Autoimmune:</strong>
+                            <ul>
+                                <li>Autoimmune oophoritis (often with adrenal insufficiency)</li>
+                                <li>Associated with thyroid disease, type 1 diabetes</li>
+                                <li>Autoimmune polyglandular syndromes</li>
+                            </ul>
+
+                            <strong>Iatrogenic:</strong>
+                            <ul>
+                                <li>Chemotherapy (alkylating agents especially)</li>
+                                <li>Radiation to pelvis</li>
+                                <li>Bilateral oophorectomy</li>
+                            </ul>
+
+                            <strong>Other:</strong>
+                            <ul>
+                                <li>Infections (rare: mumps oophoritis)</li>
+                                <li>Idiopathic (majority of cases - 50-70%)</li>
+                            </ul>
+
+                            <h4>Diagnosis of POI</h4>
+                            <ul>
+                                <li>Age <40 years</li>
+                                <li>Amenorrhea or oligomenorrhea for ≥4 months</li>
+                                <li>FSH >25-40 IU/L on 2 occasions >4 weeks apart</li>
+                                <li>Low estradiol levels</li>
+                            </ul>
+
+                            <h4>Workup</h4>
+                            <ul>
+                                <li>Karyotype (to rule out Turner syndrome, especially if age <30)</li>
+                                <li>FMR1 premutation testing</li>
+                                <li>TSH, anti-thyroid antibodies</li>
+                                <li>Morning cortisol, consider ACTH stimulation test</li>
+                                <li>Anti-ovarian antibodies (low sensitivity/specificity)</li>
+                                <li>Pelvic ultrasound</li>
+                                <li>Consider bone density testing</li>
+                            </ul>
+
+                            <div class="exam-tip">
+                                POI does NOT equal infertility. 5-10% of women with POI may have intermittent ovarian function and can conceive spontaneously. Contraception counseling is important if pregnancy is not desired.
+                            </div>
+
+                            <h4>Management of POI</h4>
+                            <ul>
+                                <li><strong>Hormone therapy:</strong> Recommended until at least age 51 (average age of natural menopause)</li>
+                                <li><strong>Higher doses</strong> often needed than typical menopausal HT</li>
+                                <li>Bone health optimization (calcium, vitamin D, weight-bearing exercise)</li>
+                                <li>Cardiovascular risk assessment and management</li>
+                                <li>Psychological support and counseling</li>
+                                <li>Fertility counseling (egg donation if desired)</li>
+                                <li>Screen for associated autoimmune conditions</li>
+                            </ul>
+
+                            <div class="clinical-pearl">
+                                Women with POI have significantly increased risks of:
+                                - Osteoporosis and fractures
+                                - Cardiovascular disease
+                                - Cognitive decline
+                                - Mood disorders
+                                - Overall mortality
+                                These risks are mitigated by hormone therapy until natural menopause age.
+                            </div>
+                        `
+                    },
+                    {
+                        title: "Adrenal Physiology and Menopause",
+                        content: `
+                            <h4>DHEA and DHEAS</h4>
+                            <ul>
+                                <li>Primary androgens produced by adrenal glands</li>
+                                <li>Peak production in 20s-30s</li>
+                                <li>Decline with age (adrenopause) - INDEPENDENT of ovarian function</li>
+                                <li>By age 70: levels are ~20% of peak</li>
+                                <li>DHEAS declines faster than DHEA</li>
+                            </ul>
+
+                            <h4>Clinical Significance</h4>
+                            <ul>
+                                <li>DHEA is converted peripherally to testosterone and estradiol</li>
+                                <li>Important source of androgens in postmenopausal women</li>
+                                <li>Contributes to libido, energy, well-being</li>
+                                <li>No clear benefit from DHEA supplementation in most women</li>
+                            </ul>
+
+                            <div class="exam-tip">
+                                Unlike ovarian function changes, adrenal androgen decline is:
+                                1. Gradual and age-related (not sudden)
+                                2. Independent of menopause timing
+                                3. Not accelerated by menopause
+                                This is a common exam question to differentiate ovarian vs adrenal changes.
+                            </div>
+                        `
+                    }
+                ]
+            },
+            
+            studyStrategy: `
+                <h3>How to Master Week 1</h3>
+                <ol>
+                    <li><strong>Day 1-2:</strong> Read through all terminology. Create flashcards for STRAW+10 stages. Draw the staging diagram from memory.</li>
+                    <li><strong>Day 3-4:</strong> Deep dive into physiology. Draw out the hormonal changes in each stage. Understand WHY each change happens.</li>
+                    <li><strong>Day 5:</strong> Study POI thoroughly - causes, workup, management. This is very clinically applicable.</li>
+                    <li><strong>Day 6:</strong> Review adrenal physiology. Note the differences from ovarian changes.</li>
+                    <li><strong>Day 7:</strong> Practice questions, review weak areas, make summary tables.</li>
+                </ol>
+                
+                <div class="highlight-box">
+                    <h4>Create These Study Tools:</h4>
+                    <ul>
+                        <li>STRAW+10 stages table with all criteria</li>
+                        <li>Flowchart for POI workup</li>
+                        <li>Comparison table: Ovarian vs Adrenal hormone changes</li>
+                        <li>Timeline of hormonal changes from Stage -3 through +2</li>
+                    </ul>
+                </div>
+            `,
+            
+            keyTakeaways: [
+                "STRAW+10 has 7 stages: 5 before FMP, 2 after",
+                "Stage -2 = >7 day variation in cycle length",
+                "Stage -1 = ≥60 days amenorrhea",
+                "Menopause = 12 months amenorrhea (retrospective diagnosis)",
+                "POI = menopause before age 40, requires hormone therapy until ~age 51",
+                "FSH fluctuates during transition - not diagnostic",
+                "Adrenal androgens decline with age independent of menopause"
+            ]
+        },
+        
+        // WEEK 2
+        {
+            week: 2,
+            title: "Aging-Related Body Changes & Vasomotor Symptoms",
+            pages: "23-56",
+            estimatedHours: "6-8 hours",
+            learningObjectives: [
+                "Describe vulvovaginal changes during menopause and their management",
+                "Understand metabolic changes and weight management in midlife",
+                "Identify skin and hair changes associated with estrogen decline",
+                "Explain the pathophysiology and treatment of vasomotor symptoms"
+            ],
+            detailedContent: {
+                overview: "Week 2 covers the physical changes women experience during menopause and introduces vasomotor symptoms - the hallmark complaint. Understanding these changes is essential for counseling patients and managing expectations.",
+                
+                sections: [
+                    {
+                        title: "Vulvovaginal Changes",
+                        content: `
+                            <h4>Genitourinary Syndrome of Menopause (GSM)</h4>
+                            <p>Formerly called "vulvovaginal atrophy" or "atrophic vaginitis." The term GSM was adopted in 2014 to encompass the broader constellation of symptoms.</p>
+                            
+                            <h4>Pathophysiology</h4>
+                            <ul>
+                                <li>Estrogen decline → thinning of vaginal epithelium</li>
+                                <li>Loss of vaginal rugae and elasticity</li>
+                                <li>Decreased vaginal blood flow</li>
+                                <li>Reduced glycogen in epithelial cells → decreased lactobacilli</li>
+                                <li>Vaginal pH increases from 3.5-4.5 to 5.0-7.0</li>
+                                <li>Decreased lubrication and increased fragility</li>
+                            </ul>
+
+                            <div class="exam-tip">
+                                Unlike VMS which may resolve over time, GSM is chronic and progressive without treatment. This is a high-yield exam concept.
+                            </div>
+
+                            <h4>Clinical Features</h4>
+                            <ul>
+                                <li>Vaginal dryness, irritation, burning</li>
+                                <li>Dyspareunia (painful intercourse)</li>
+                                <li>Urinary urgency, frequency, recurrent UTIs</li>
+                                <li>Vaginal discharge (may be watery or blood-tinged)</li>
+                                <li>Physical exam: pale, dry, smooth vaginal mucosa; loss of rugae</li>
+                            </ul>
+                        `
+                    },
+                    {
+                        title: "Body Weight and Metabolic Changes",
+                        content: `
+                            <h4>Weight Gain in Menopause</h4>
+                            <ul>
+                                <li>Average weight gain: 2-5 pounds during transition</li>
+                                <li>More importantly: redistribution from gynoid (hip/thigh) to android (abdominal) pattern</li>
+                                <li>Increased visceral adiposity → metabolic risk</li>
+                                <li>Related to aging AND hormonal changes</li>
+                            </ul>
+
+                            <div class="clinical-pearl">
+                                Weight gain is primarily due to aging and lifestyle, but fat redistribution to central/visceral pattern is hormone-related. This distinction matters for counseling.
+                            </div>
+
+                            <h4>Metabolic Changes</h4>
+                            <ul>
+                                <li>Decreased resting metabolic rate (200-300 kcal/day)</li>
+                                <li>Loss of lean muscle mass</li>
+                                <li>Insulin resistance increases</li>
+                                <li>Lipid profile changes (increased LDL, decreased HDL)</li>
+                                <li>Increased risk of metabolic syndrome</li>
+                            </ul>
+
+                            <h4>Management: "5 A's" Framework</h4>
+                            <ol>
+                                <li><strong>Ask:</strong> Permission and about current habits</li>
+                                <li><strong>Assess:</strong> Current behaviors and readiness to change</li>
+                                <li><strong>Advise:</strong> Provide clear, personalized recommendations</li>
+                                <li><strong>Assist:</strong> With behavior change strategies</li>
+                                <li><strong>Arrange:</strong> Follow-up and support</li>
+                            </ol>
+
+                            <div class="exam-tip">
+                                Know the AHA lifestyle recommendations: 150 min/week moderate exercise, Mediterranean or DASH diet, limit alcohol, smoking cessation.
+                            </div>
+                        `
+                    },
+                    {
+                        title: "Skin Changes",
+                        content: `
+                            <h4>Estrogen Effects on Skin</h4>
+                            <ul>
+                                <li>Decreased collagen content (30% loss in first 5 years postmenopause)</li>
+                                <li>Reduced skin thickness and elasticity</li>
+                                <li>Decreased sebum production → dryness</li>
+                                <li>Impaired wound healing</li>
+                                <li>Increased wrinkling and sagging</li>
+                            </ul>
+
+                            <h4>Management</h4>
+                            <ul>
+                                <li>Sun protection (SPF 30+ daily)</li>
+                                <li>Retinoids for wrinkles and photoaging</li>
+                                <li>Moisturizers with hyaluronic acid, ceramides</li>
+                                <li>Systemic HT may improve skin thickness but not recommended solely for skin</li>
+                            </ul>
+                        `
+                    },
+                    {
+                        title: "Hair Changes",
+                        content: `
+                            <h4>Scalp Hair</h4>
+                            <ul>
+                                <li>Female pattern hair loss (FPHL) increases with age</li>
+                                <li>Diffuse thinning at crown and frontal scalp</li>
+                                <li>Related to androgen sensitivity and aging, not just estrogen loss</li>
+                            </ul>
+
+                            <h4>Facial/Body Hair</h4>
+                            <ul>
+                                <li>Hirsutism may develop (chin, upper lip)</li>
+                                <li>Due to relative androgen excess (decreased estrogen:androgen ratio)</li>
+                                <li>Rule out pathologic hyperandrogenism if severe or sudden</li>
+                            </ul>
+                        `
+                    },
+                    {
+                        title: "Vasomotor Symptoms (VMS)",
+                        content: `
+                            <h4>Epidemiology</h4>
+                            <ul>
+                                <li>Affect 70-80% of menopausal women</li>
+                                <li>Moderate-severe in ~40-50%</li>
+                                <li>Median duration: 7.4 years (SWAN study)</li>
+                                <li>Earlier onset (during transition) = longer duration</li>
+                                <li>African American women: longer duration</li>
+                                <li>Asian women: shorter duration, lower frequency</li>
+                            </ul>
+
+                            <div class="exam-tip">
+                                SWAN study findings on VMS duration are heavily tested. Know that median duration is 7.4 years, NOT 2-3 years as previously thought.
+                            </div>
+
+                            <h4>Pathophysiology</h4>
+                            <ul>
+                                <li>Not fully understood but involves hypothalamic thermoregulatory dysfunction</li>
+                                <li>Narrowed thermoneutral zone</li>
+                                <li>Triggered by small increases in core body temperature</li>
+                                <li>Involves serotonin, norepinephrine, and estrogen</li>
+                            </ul>
+
+                            <h4>Clinical Features</h4>
+                            <ul>
+                                <li>Sudden sensation of intense heat (chest, neck, face)</li>
+                                <li>Duration: 1-5 minutes typically</li>
+                                <li>Associated sweating, palpitations</li>
+                                <li>Followed by chills</li>
+                                <li>Night sweats → sleep disruption</li>
+                                <li>Frequency varies: few per week to dozens per day</li>
+                            </ul>
+
+                            <h4>Risk Factors</h4>
+                            <ul>
+                                <li>Smoking (strongest modifiable risk factor)</li>
+                                <li>Higher BMI</li>
+                                <li>Lower education/socioeconomic status</li>
+                                <li>Depression/anxiety</li>
+                                <li>Surgical menopause (more severe)</li>
+                            </ul>
+
+                            <div class="highlight-box">
+                                <h4>High-Yield VMS Treatment Options</h4>
+                                <strong>HORMONAL (First-line):</strong>
+                                <ul>
+                                    <li>Systemic estrogen therapy (with or without progestogen) - MOST EFFECTIVE (75-90% reduction)</li>
+                                    <li>Low-dose paroxetine (Brisdelle) 7.5mg - only FDA-approved non-hormonal</li>
+                                </ul>
+
+                                <strong>NON-HORMONAL (for contraindications to HT):</strong>
+                                <ul>
+                                    <li><strong>SSRIs:</strong> Paroxetine, escitalopram, citalopram (40-60% reduction)</li>
+                                    <li><strong>SNRIs:</strong> Venlafaxine, desvenlafaxine (40-60% reduction)</li>
+                                    <li><strong>Gabapentin:</strong> 300-900mg daily (40-50% reduction)</li>
+                                    <li><strong>Pregabalin:</strong> 75-150mg BID</li>
+                                    <li><strong>Oxybutynin:</strong> 2.5mg BID (anticholinergic)</li>
+                                    <li><strong>Fezolinetant:</strong> Newer neurokinin 3 receptor antagonist</li>
+                                </ul>
+
+                                <strong>LIFESTYLE:</strong>
+                                <ul>
+                                    <li>Cool environment, layered clothing, fans</li>
+                                    <li>Avoid triggers: spicy foods, hot beverages, alcohol</li>
+                                    <li>Regular exercise</li>
+                                    <li>Weight loss if overweight</li>
+                                    <li>Smoking cessation</li>
+                                    <li>Cognitive behavioral therapy (CBT) - evidence-based</li>
+                                    <li>Hypnotherapy - some evidence</li>
+                                </ul>
+
+                                <strong>NOT EFFECTIVE:</strong>
+                                <ul>
+                                    <li>Black cohosh - inconsistent evidence</li>
+                                    <li>Soy/isoflavones - minimal effect</li>
+                                    <li>Vitamin E - not effective</li>
+                                    <li>Evening primrose oil - not effective</li>
+                                </ul>
+                            </div>
+                        `
+                    }
+                ],
+                
+                studyStrategy: `
+                    <h3>How to Master Week 2</h3>
+                    <ol>
+                        <li><strong>Day 1:</strong> Read Chapter 2 on body changes. Create a table of each body system affected.</li>
+                        <li><strong>Day 2:</strong> Focus on metabolic and weight changes. Understand the "5 A's" framework.</li>
+                        <li><strong>Day 3:</strong> Deep dive into VMS pathophysiology and epidemiology.</li>
+                        <li><strong>Day 4-5:</strong> Master VMS treatment options. Create comparison table of efficacy for each option.</li>
+                        <li><strong>Day 6:</strong> Review GSM vs VMS differences in chronicity and treatment.</li>
+                        <li><strong>Day 7:</strong> Practice questions and weak area review.</li>
+                    </ol>
+                `,
+                
+                keyTakeaways: [
+                    "GSM is chronic and progressive; VMS may resolve over time",
+                    "Median VMS duration is 7.4 years (SWAN study)",
+                    "Estrogen therapy is most effective for VMS (75-90% reduction)",
+                    "Paroxetine 7.5mg is only FDA-approved non-hormonal for VMS",
+                    "Venlafaxine and gabapentin are effective non-hormonal alternatives",
+                    "Black cohosh, soy, vitamin E are NOT proven effective for VMS",
+                    "Weight redistribution to visceral pattern is hormone-related",
+                    "Skin loses 30% collagen in first 5 years postmenopause"
+                ]
+            }
+        },
+        
+        // WEEK 3
+        {
+            week: 3,
+            title: "Genitourinary Syndrome & Sexual Health",
+            pages: "57-130",
+            estimatedHours: "7-9 hours",
+            learningObjectives: [
+                "Diagnose and manage genitourinary syndrome of menopause (GSM)",
+                "Assess and treat female sexual dysfunction in midlife",
+                "Recognize and manage urinary incontinence and pelvic floor disorders",
+                "Evaluate abnormal uterine bleeding in perimenopause"
+            ],
+            detailedContent: {
+                overview: "This week covers critical quality-of-life issues that significantly impact menopausal women. GSM treatment options and sexual health management are heavily tested topics.",
+                
+                sections: [
+                    {
+                        title: "Genitourinary Syndrome of Menopause (GSM) - Comprehensive",
+                        content: `
+                            <div class="exam-tip">
+                                GSM treatment is one of the highest-yield topics for the exam. Know ALL options and when to use each.
+                            </div>
+
+                            <h4>Treatment Options for GSM</h4>
+                            
+                            <strong>NON-HORMONAL (First-line for mild symptoms):</strong>
+                            <ul>
+                                <li><strong>Vaginal moisturizers:</strong> Use 2-3x/week regularly (NOT just with intercourse)
+                                    <ul>
+                                        <li>Examples: Replens, Hyalo Gyn, Me Again</li>
+                                        <li>Mechanism: Maintain vaginal moisture, lower pH</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Vaginal lubricants:</strong> Use with sexual activity
+                                    <ul>
+                                        <li>Water-based, silicone-based, or hybrid</li>
+                                        <li>Avoid glycerin (can increase yeast), parabens</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Regular sexual activity:</strong> Increases blood flow, maintains tissue health</li>
+                            </ul>
+
+                            <strong>LOCAL ESTROGEN (Most effective for moderate-severe GSM):</strong>
+                            <ul>
+                                <li><strong>Vaginal estradiol tablets:</strong> 10 mcg (Vagifem)
+                                    <ul>
+                                        <li>Dosing: Daily x 2 weeks, then twice weekly</li>
+                                        <li>Minimal systemic absorption at this dose</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Vaginal estradiol cream:</strong> 0.01% (Estrace)
+                                    <ul>
+                                        <li>Dosing: 0.5-1g daily x 2 weeks, then 1-2x/week</li>
+                                        <li>More systemic absorption than tablets</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Vaginal estradiol ring:</strong> 7.5 mcg/day (Estring)
+                                    <ul>
+                                        <li>Changed every 90 days</li>
+                                        <li>Minimal systemic absorption</li>
+                                        <li>Higher adherence, patient satisfaction</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Conjugated estrogen cream:</strong> 0.625 mg/g (Premarin)
+                                    <ul>
+                                        <li>Higher systemic absorption</li>
+                                        <li>May require concurrent progestogen if uterus present</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <div class="clinical-pearl">
+                                Low-dose vaginal estrogen (tablets 10mcg, ring 7.5mcg/day) does NOT require concurrent progestogen even with intact uterus due to minimal systemic absorption. This is different from systemic HT!
+                            </div>
+
+                            <strong>SYSTEMIC HORMONE THERAPY:</strong>
+                            <ul>
+                                <li>Effective for GSM when treating VMS simultaneously</li>
+                                <li>May need additional local estrogen for optimal GSM relief</li>
+                            </ul>
+
+                            <strong>DHEA (Prasterone):</strong>
+                            <ul>
+                                <li>Intravaginal DHEA 6.5mg nightly (Intrarosa)</li>
+                                <li>Converted locally to estrogen and androgens</li>
+                                <li>FDA-approved for dyspareunia due to GSM</li>
+                                <li>Does not require concurrent progestogen</li>
+                            </ul>
+
+                            <strong>OSPEMIFENE (Osphena):</strong>
+                            <ul>
+                                <li>Oral SERM, 60mg daily</li>
+                                <li>Estrogen agonist on vagina, antagonist on breast</li>
+                                <li>FDA-approved for dyspareunia due to GSM</li>
+                                <li>Does not require progestogen (agonist on endometrium - surveillance needed)</li>
+                                <li>Black box warning: VTE and stroke risk (like estrogen)</li>
+                            </ul>
+
+                            <div class="exam-tip">
+                                Know the key differences:
+                                - Low-dose vaginal estrogen = NO progestogen needed
+                                - Ospemifene = NO progestogen needed but has VTE risk
+                                - DHEA = NO progestogen needed
+                                - Systemic estrogen or high-dose vaginal estrogen = progestogen REQUIRED if uterus present
+                            </div>
+                        `
+                    },
+                    {
+                        title: "Sexual Function and Dysfunction",
+                        content: `
+                            <h4>Prevalence</h4>
+                            <ul>
+                                <li>43% of women report sexual problems</li>
+                                <li>12% have sexual problems causing personal distress (PRESIDE study)</li>
+                                <li>Increases with age but not universal</li>
+                            </ul>
+
+                            <h4>Types of Female Sexual Dysfunction (ISSWSH Classification)</h4>
+                            <ol>
+                                <li><strong>Hypoactive Sexual Desire Disorder (HSDD):</strong> Absent/reduced sexual desire causing distress</li>
+                                <li><strong>Sexual Arousal Disorder:</strong> Inability to attain/maintain arousal</li>
+                                <li><strong>Orgasmic Disorder:</strong> Difficulty achieving orgasm despite adequate stimulation</li>
+                                <li><strong>Sexual Pain Disorders:</strong> 
+                                    <ul>
+                                        <li>Dyspareunia (pain with intercourse)</li>
+                                        <li>Vaginismus (involuntary muscle spasm)</li>
+                                        <li>Genito-pelvic pain/penetration disorder</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <div class="exam-tip">
+                                Key point: Sexual dysfunction diagnosis requires BOTH symptoms AND personal distress. Without distress, it's not a disorder requiring treatment.
+                            </div>
+
+                            <h4>Causes in Menopause</h4>
+                            <ul>
+                                <li><strong>Biological:</strong> GSM, low androgens, medications, chronic illness</li>
+                                <li><strong>Psychological:</strong> Depression, anxiety, body image, history of abuse</li>
+                                <li><strong>Relational:</strong> Partner issues, poor communication</li>
+                                <li><strong>Sociocultural:</strong> Beliefs about aging and sexuality</li>
+                            </ul>
+
+                            <h4>Medications Affecting Sexual Function</h4>
+                            <ul>
+                                <li>SSRIs/SNRIs (most common)</li>
+                                <li>Antihypertensives (beta-blockers, thiazides)</li>
+                                <li>Antipsychotics</li>
+                                <li>Anticonvulsants</li>
+                                <li>Opioids</li>
+                            </ul>
+
+                            <h4>Assessment: Brief Sexual Symptom Checklist</h4>
+                            <ul>
+                                <li>Desire for sex</li>
+                                <li>Arousal/lubrication</li>
+                                <li>Orgasm frequency/intensity</li>
+                                <li>Dyspareunia</li>
+                                <li>Partner sexual problems</li>
+                                <li>Distress about sexual function</li>
+                            </ul>
+
+                            <h4>Management: PLISSIT Model</h4>
+                            <ul>
+                                <li><strong>P</strong>ermission: Give permission to discuss</li>
+                                <li><strong>LI</strong>mited Information: Provide education</li>
+                                <li><strong>SS</strong>pecific Suggestions: Address specific concerns</li>
+                                <li><strong>IT</strong>: Intensive Therapy (refer to specialist)</li>
+                            </ul>
+
+                            <h4>Treatment Options</h4>
+                            
+                            <strong>For GSM-related dyspareunia:</strong>
+                            <ul>
+                                <li>See GSM treatments above</li>
+                            </ul>
+
+                            <strong>For HSDD:</strong>
+                            <ul>
+                                <li>Address contributing factors (medications, depression, relationship issues)</li>
+                                <li>Cognitive behavioral therapy</li>
+                                <li>Testosterone therapy (off-label in US; approved in some countries)
+                                    <ul>
+                                        <li>Consider if low desire + low testosterone + no other cause</li>
+                                        <li>Monitor for side effects: acne, hirsutism, voice changes</li>
+                                    </ul>
+                                </li>
+                                <li>Flibanserin (Addyi) - FDA approved but modest efficacy, side effects</li>
+                                <li>Bremelanotide (Vyleesi) - FDA approved, injection before sexual activity</li>
+                            </ul>
+
+                            <div class="clinical-pearl">
+                                Testosterone therapy for HSDD is controversial but commonly used off-label. Best evidence is for transdermal testosterone at physiologic doses (not commercially available in appropriate dosing for women in US - often use 1/10 of male dose).
+                            </div>
+                        `
+                    },
+                    {
+                        title: "Urinary Incontinence",
+                        content: `
+                            <h4>Types</h4>
+                            
+                            <strong>1. Stress Urinary Incontinence (SUI):</strong>
+                            <ul>
+                                <li>Urine loss with increased intra-abdominal pressure</li>
+                                <li>Examples: cough, sneeze, laugh, exercise</li>
+                                <li>Due to urethral hypermobility or intrinsic sphincter deficiency</li>
+                                <li>Not directly caused by menopause but more common with aging/parity</li>
+                            </ul>
+
+                            <strong>2. Urgency Urinary Incontinence (UUI):</strong>
+                            <ul>
+                                <li>Involuntary urine loss with sudden urge to void</li>
+                                <li>Part of overactive bladder (OAB) syndrome</li>
+                                <li>May be related to estrogen deficiency</li>
+                            </ul>
+
+                            <strong>3. Mixed Incontinence:</strong>
+                            <ul>
+                                <li>Combination of SUI and UUI</li>
+                                <li>Most common type in older women</li>
+                            </ul>
+
+                            <h4>Evaluation</h4>
+                            <ul>
+                                <li>Detailed history and voiding diary</li>
+                                <li>Physical exam including pelvic exam</li>
+                                <li>Cough stress test</li>
+                                <li>Post-void residual</li>
+                                <li>Urinalysis to rule out UTI</li>
+                            </ul>
+
+                            <h4>Treatment</h4>
+                            
+                            <strong>For SUI:</strong>
+                            <ul>
+                                <li>Pelvic floor muscle training (Kegels) - first-line</li>
+                                <li>Weight loss if overweight</li>
+                                <li>Pessary</li>
+                                <li>Surgical: midurethral sling most common</li>
+                            </ul>
+
+                            <strong>For UUI/OAB:</strong>
+                            <ul>
+                                <li>Behavioral: bladder training, fluid management</li>
+                                <li>Pelvic floor muscle training</li>
+                                <li>Anticholinergics: oxybutynin, tolterodine, others
+                                    <ul>
+                                        <li>Side effects: dry mouth, constipation, cognitive effects (concern in elderly)</li>
+                                    </ul>
+                                </li>
+                                <li>Beta-3 agonists: mirabegron (fewer cognitive effects)</li>
+                                <li>Vaginal estrogen may help if concurrent GSM</li>
+                                <li>Botox injections (for refractory cases)</li>
+                                <li>Sacral neuromodulation</li>
+                            </ul>
+
+                            <div class="exam-tip">
+                                Systemic estrogen does NOT improve incontinence and may worsen it. Vaginal estrogen may help if concurrent GSM but not first-line for incontinence alone.
+                            </div>
+                        `
+                    },
+                    {
+                        title: "Abnormal Uterine Bleeding in Perimenopause",
+                        content: `
+                            <h4>FIGO PALM-COEIN Classification</h4>
+                            <p>Structural (PALM):</p>
+                            <ul>
+                                <li><strong>P</strong>olyp</li>
+                                <li><strong>A</strong>denomyosis</li>
+                                <li><strong>L</strong>eiomyoma</li>
+                                <li><strong>M</strong>alignancy and hyperplasia</li>
+                            </ul>
+
+                            <p>Non-structural (COEIN):</p>
+                            <ul>
+                                <li><strong>C</strong>oagulopathy</li>
+                                <li><strong>O</strong>vulatory dysfunction</li>
+                                <li><strong>E</strong>ndometrial</li>
+                                <li><strong>I</strong>atrogenic</li>
+                                <li><strong>N</strong>ot yet classified</li>
+                            </ul>
+
+                            <div class="exam-tip">
+                                Ovulatory dysfunction is the MOST COMMON cause of AUB in perimenopause due to anovulatory cycles. However, must rule out structural causes, especially in women >45.
+                            </div>
+
+                            <h4>Evaluation</h4>
+                            <ul>
+                                <li><strong>All women >45 with AUB:</strong> Endometrial sampling to rule out hyperplasia/cancer</li>
+                                <li><strong>Younger women with risk factors:</strong> Also need sampling
+                                    <ul>
+                                        <li>Risk factors: obesity, PCOS, diabetes, unopposed estrogen exposure</li>
+                                    </ul>
+                                </li>
+                                <li>Transvaginal ultrasound (endometrial thickness, fibroids)</li>
+                                <li>Saline infusion sonography if needed for structural evaluation</li>
+                                <li>CBC if heavy bleeding</li>
+                                <li>TSH (hypothyroidism can cause AUB)</li>
+                                <li>Coagulation studies if suspect bleeding disorder</li>
+                            </ul>
+
+                            <h4>Management</h4>
+                            
+                            <strong>Medical:</strong>
+                            <ul>
+                                <li><strong>Cyclic progestogens:</strong> Medroxyprogesterone 10mg days 14-25 of cycle</li>
+                                <li><strong>Levonorgestrel IUD (Mirena):</strong> Very effective, also contraception</li>
+                                <li><strong>Combined hormonal contraceptives:</strong> If appropriate candidate</li>
+                                <li><strong>Tranexamic acid:</strong> Non-hormonal, used during menses only</li>
+                                <li><strong>NSAIDs:</strong> Decrease blood loss by 30-40%</li>
+                            </ul>
+
+                            <strong>Surgical:</strong>
+                            <ul>
+                                <li>Endometrial ablation (if childbearing complete, no hyperplasia)</li>
+                                <li>Hysterectomy (definitive)</li>
+                            </ul>
+                        `
+                    }
+                ],
+                
+                studyStrategy: `
+                    <h3>How to Master Week 3</h3>
+                    <ol>
+                        <li><strong>Day 1-2:</strong> Master GSM treatment options. Create comparison table of all therapies.</li>
+                        <li><strong>Day 3:</strong> Study sexual dysfunction types and assessment.</li>
+                        <li><strong>Day 4:</strong> Learn urinary incontinence classification and treatment.</li>
+                        <li><strong>Day 5:</strong> Deep dive into AUB - PALM-COEIN and evaluation algorithm.</li>
+                        <li><strong>Day 6:</strong> Review pelvic floor disorders and their overlap.</li>
+                        <li><strong>Day 7:</strong> Practice questions focusing on treatment selection.</li>
+                    </ol>
+                `,
+                
+                keyTakeaways: [
+                    "Low-dose vaginal estrogen does NOT require concurrent progestogen",
+                    "Ospemifene is oral SERM for dyspareunia - has VTE risk",
+                    "GSM is chronic/progressive; treatment needed long-term",
+                    "Sexual dysfunction requires both symptoms AND distress",
+                    "Ovulatory dysfunction is most common cause of perimenopausal AUB",
+                    "All women >45 with AUB need endometrial sampling",
+                    "Systemic estrogen does not improve incontinence",
+                    "Levonorgestrel IUD very effective for heavy menstrual bleeding"
+                ]
+            }
+        }
+        // Continuing with weeks 4-10 in next section...
+    ]
+};
+
+// Adding remaining weeks 4-10 - continuing the weeks array
+
+const additionalWeeks = [
+    // WEEK 4
+    {
+        week: 4,
+        title: "Common Midlife Diseases",
+        pages: "131-158",
+        estimatedHours: "5-6 hours",
+        learningObjectives: [
+            "Differentiate types of arthritis and their management in midlife women",
+            "Screen for and manage depression in menopause",
+            "Recognize thyroid disease prevalence and presentation",
+            "Update on STI screening in older women"
+        ],
+        detailedContent: {
+            overview: "Week 4 addresses common medical conditions that increase in prevalence around menopause. While not directly caused by hormonal changes, these conditions significantly impact quality of life.",
+            
+            sections: [
+                {
+                    title: "Arthritis in Midlife",
+                    content: `
+                        <h4>Types Most Common in Midlife Women</h4>
+                        
+                        <strong>1. Osteoarthritis (OA):</strong>
+                        <ul>
+                            <li>Most common form of arthritis</li>
+                            <li>Degenerative "wear and tear"</li>
+                            <li>Affects hands, knees, hips, spine</li>
+                            <li>Risk factors: age, obesity, joint injury, genetics</li>
+                            <li>NOT primarily inflammatory</li>
+                        </ul>
+
+                        <strong>2. Rheumatoid Arthritis (RA):</strong>
+                        <ul>
+                            <li>Autoimmune inflammatory arthritis</li>
+                            <li>Female:male ratio 3:1</li>
+                            <li>Peak onset age 30-50</li>
+                            <li>Symmetric small joint involvement</li>
+                            <li>Morning stiffness >1 hour</li>
+                            <li>Can improve during pregnancy, worsen postpartum</li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            Know how to differentiate OA vs RA:
+                            - OA: asymmetric, worse with use, minimal morning stiffness
+                            - RA: symmetric, morning stiffness >1 hour, improves with activity
+                        </div>
+
+                        <h4>Management of OA</h4>
+                        <ul>
+                            <li>Weight loss if overweight (knee OA especially)</li>
+                            <li>Exercise (strengthening, low-impact aerobic)</li>
+                            <li>Physical therapy</li>
+                            <li>Acetaminophen (first-line pharmacologic)</li>
+                            <li>NSAIDs (topical preferred in elderly)</li>
+                            <li>Intra-articular corticosteroid injections</li>
+                            <li>Joint replacement for severe, refractory cases</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Depression",
+                    content: `
+                        <h4>Prevalence</h4>
+                        <ul>
+                            <li>Perimenopause is a vulnerable period for depression</li>
+                            <li>2-4x increased risk during transition vs premenopause</li>
+                            <li>Especially high risk: history of depression, severe VMS, sleep disturbance, stressful life events</li>
+                        </ul>
+
+                        <h4>Screening</h4>
+                        <ul>
+                            <li>PHQ-9 (Patient Health Questionnaire-9)</li>
+                            <li>PHQ-2 for initial screening</li>
+                            <li>Screen all perimenopausal women, especially with risk factors</li>
+                        </ul>
+
+                        <h4>Treatment</h4>
+                        <ul>
+                            <li>SSRIs/SNRIs first-line</li>
+                            <li>Psychotherapy (CBT, IPT)</li>
+                            <li>Estrogen therapy may help mood in perimenopause (not approved indication)</li>
+                            <li>NOT recommended as sole treatment for depression</li>
+                            <li>Address contributing factors: VMS, sleep, stress</li>
+                        </ul>
+
+                        <div class="clinical-pearl">
+                            Treating VMS and improving sleep can significantly improve mood symptoms even without antidepressants. Always address the whole picture.
+                        </div>
+                    `
+                },
+                {
+                    title: "Thyroid Disease",
+                    content: `
+                        <h4>Prevalence</h4>
+                        <ul>
+                            <li>Hypothyroidism affects ~10% of women >50</li>
+                            <li>Subclinical hypothyroidism even more common</li>
+                            <li>Autoimmune thyroid disease (Hashimoto's) most common cause</li>
+                        </ul>
+
+                        <h4>Symptoms Overlap with Menopause</h4>
+                        <ul>
+                            <li>Fatigue</li>
+                            <li>Weight changes</li>
+                            <li>Mood changes</li>
+                            <li>Irregular periods (in perimenopause)</li>
+                            <li>Hair thinning</li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            Because symptoms overlap, TSH screening is reasonable in symptomatic perimenopausal women to avoid missing hypothyroidism.
+                        </div>
+
+                        <h4>Treatment</h4>
+                        <ul>
+                            <li>Levothyroxine replacement</li>
+                            <li>Goal TSH 0.5-2.5 typically (individualize)</li>
+                            <li>Recheck TSH 6-8 weeks after dose changes</li>
+                            <li>Annual monitoring once stable</li>
+                        </ul>
+                    `
+                }
+            ],
+            
+            keyTakeaways: [
+                "OA is most common arthritis; NOT primarily inflammatory",
+                "RA: symmetric, morning stiffness >1 hour, autoimmune",
+                "Perimenopause has 2-4x increased depression risk",
+                "Hypothyroidism symptoms overlap with menopause - screen with TSH",
+                "STI screening still needed in sexually active older women"
+            ]
+        }
+    },
+
+    // WEEK 5
+    {
+        week: 5,
+        title: "Osteoporosis Deep Dive",
+        pages: "159-176",
+        estimatedHours: "6-8 hours",
+        learningObjectives: [
+            "Apply bone density screening guidelines",
+            "Interpret DEXA scan results and T-scores",
+            "Calculate fracture risk using FRAX",
+            "Select appropriate pharmacologic therapy for osteoporosis"
+        ],
+        detailedContent: {
+            overview: "CRITICAL WEEK - Osteoporosis is heavily tested. Know screening guidelines, interpretation, and ALL medication options with mechanisms of action.",
+            
+            sections: [
+                {
+                    title: "Screening Guidelines",
+                    content: `
+                        <div class="exam-tip">
+                            Screening recommendations are HIGH-YIELD. Memorize these criteria.
+                        </div>
+
+                        <h4>Who Should Be Screened (DEXA scan)?</h4>
+                        <ul>
+                            <li>All women ≥65 years</li>
+                            <li>Postmenopausal women <65 with risk factors:
+                                <ul>
+                                    <li>Low body weight (<127 lbs or BMI <21)</li>
+                                    <li>Prior fracture (after age 50)</li>
+                                    <li>Parent with hip fracture</li>
+                                    <li>Current smoker</li>
+                                    <li>Rheumatoid arthritis</li>
+                                    <li>Excess alcohol (≥3 drinks/day)</li>
+                                    <li>High-risk medications (glucocorticoids, aromatase inhibitors)</li>
+                                </ul>
+                            </li>
+                            <li>Women with fragility fractures</li>
+                            <li>Women on medications affecting bone</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "DEXA Interpretation",
+                    content: `
+                        <h4>T-Score Classification</h4>
+                        <ul>
+                            <li><strong>Normal:</strong> T-score ≥-1.0</li>
+                            <li><strong>Osteopenia:</strong> T-score between -1.0 and -2.5</li>
+                            <li><strong>Osteoporosis:</strong> T-score ≤-2.5</li>
+                            <li><strong>Severe osteoporosis:</strong> T-score ≤-2.5 PLUS fragility fracture</li>
+                        </ul>
+
+                        <div class="clinical-pearl">
+                            T-score compares to young healthy adult (age 30). Z-score compares to age-matched controls. Use T-score for diagnosis in postmenopausal women.
+                        </div>
+
+                        <h4>Which Sites to Measure</h4>
+                        <ul>
+                            <li>Lumbar spine (L1-L4)</li>
+                            <li>Femoral neck</li>
+                            <li>Total hip</li>
+                            <li>Use LOWEST T-score for diagnosis</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "FRAX Calculator",
+                    content: `
+                        <h4>What is FRAX?</h4>
+                        <ul>
+                            <li>Fracture Risk Assessment Tool</li>
+                            <li>Estimates 10-year probability of:
+                                <ul>
+                                    <li>Major osteoporotic fracture (hip, spine, forearm, shoulder)</li>
+                                    <li>Hip fracture</li>
+                                </ul>
+                            </li>
+                            <li>Can be calculated with OR without BMD</li>
+                        </ul>
+
+                        <h4>Treatment Thresholds (NOF Guidelines)</h4>
+                        <p>Consider pharmacologic treatment if:</p>
+                        <ul>
+                            <li>T-score ≤-2.5 at spine, femoral neck, or total hip, OR</li>
+                            <li>History of hip or vertebral fracture, OR</li>
+                            <li>T-score between -1.0 and -2.5 (osteopenia) AND:
+                                <ul>
+                                    <li>10-year probability of hip fracture ≥3%, OR</li>
+                                    <li>10-year probability of major osteoporotic fracture ≥20%</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            FRAX thresholds are testable: ≥3% hip fracture or ≥20% major fracture = treat
+                        </div>
+                    `
+                },
+                {
+                    title: "Pharmacologic Therapy",
+                    content: `
+                        <h4>Calcium and Vitamin D (Foundation)</h4>
+                        <ul>
+                            <li>Calcium: 1200 mg/day total (diet + supplements)</li>
+                            <li>Vitamin D: 800-1000 IU/day</li>
+                            <li>Goal 25-OH vitamin D: >30 ng/mL</li>
+                            <li>NOT sufficient alone for osteoporosis treatment</li>
+                        </ul>
+
+                        <h4>Bisphosphonates (First-Line)</h4>
+                        
+                        <strong>Mechanism:</strong>
+                        <ul>
+                            <li>Inhibit osteoclast activity → decrease bone resorption</li>
+                        </ul>
+
+                        <strong>Options:</strong>
+                        <ul>
+                            <li><strong>Alendronate (Fosamax):</strong> 70 mg weekly or 10 mg daily</li>
+                            <li><strong>Risedronate (Actonel):</strong> 35 mg weekly or 5 mg daily</li>
+                            <li><strong>Ibandronate (Boniva):</strong> 150 mg monthly or 3 mg IV quarterly</li>
+                            <li><strong>Zoledronic acid (Reclast):</strong> 5 mg IV annually</li>
+                        </ul>
+
+                        <strong>Efficacy:</strong>
+                        <ul>
+                            <li>Vertebral fracture reduction: 40-70%</li>
+                            <li>Hip fracture reduction: 40-50% (alendronate, risedronate, zoledronic acid)</li>
+                            <li>Note: Ibandronate NOT proven for hip fracture reduction</li>
+                        </ul>
+
+                        <strong>Administration (oral):</strong>
+                        <ul>
+                            <li>Take first thing in morning, empty stomach</li>
+                            <li>Full glass of water</li>
+                            <li>Remain upright 30 minutes (60 min for ibandronate)</li>
+                            <li>No food/drink for 30 minutes</li>
+                        </ul>
+
+                        <strong>Side Effects:</strong>
+                        <ul>
+                            <li>GI upset (especially oral forms)</li>
+                            <li>Esophagitis (if not taken properly)</li>
+                            <li>Rare: osteonecrosis of jaw (ONJ), atypical femoral fractures</li>
+                        </ul>
+
+                        <strong>Duration:</strong>
+                        <ul>
+                            <li>Drug holiday after 3-5 years for moderate risk</li>
+                            <li>Continue if high risk (prior fracture, very low BMD)</li>
+                        </ul>
+
+                        <h4>Denosumab (Prolia)</h4>
+                        
+                        <strong>Mechanism:</strong>
+                        <ul>
+                            <li>RANKL inhibitor → decreases osteoclast formation and activity</li>
+                        </ul>
+
+                        <strong>Dosing:</strong>
+                        <ul>
+                            <li>60 mg subcutaneous every 6 months</li>
+                        </ul>
+
+                        <strong>Efficacy:</strong>
+                        <ul>
+                            <li>Vertebral fracture: 68% reduction</li>
+                            <li>Hip fracture: 40% reduction</li>
+                            <li>Non-vertebral fracture: 20% reduction</li>
+                        </ul>
+
+                        <strong>Key Points:</strong>
+                        <ul>
+                            <li>Good option if cannot tolerate bisphosphonates</li>
+                            <li>Useful in renal insufficiency (unlike bisphosphonates)</li>
+                            <li>Reversible effect - BMD decreases if stopped</li>
+                            <li>Risk of rebound vertebral fractures if discontinued - transition to bisphosphonate</li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            Denosumab is reversible - must not just stop it. Transition to bisphosphonate or risk rebound fractures.
+                        </div>
+
+                        <h4>Teriparatide (Forteo) and Abaloparatide (Tymlos)</h4>
+                        
+                        <strong>Mechanism:</strong>
+                        <ul>
+                            <li>PTH analogs → anabolic (build bone)</li>
+                        </ul>
+
+                        <strong>Dosing:</strong>
+                        <ul>
+                            <li>Daily subcutaneous injection</li>
+                            <li>Maximum 2 years lifetime use</li>
+                        </ul>
+
+                        <strong>Indications:</strong>
+                        <ul>
+                            <li>Severe osteoporosis (T-score ≤-3.0)</li>
+                            <li>Multiple fractures</li>
+                            <li>Fracture on bisphosphonate therapy</li>
+                            <li>Very high fracture risk</li>
+                        </ul>
+
+                        <strong>Key Points:</strong>
+                        <ul>
+                            <li>Most potent bone-building agents</li>
+                            <li>Expensive - reserved for severe cases</li>
+                            <li>Black box: osteosarcoma in rats (not seen in humans)</li>
+                            <li>Contraindicated: Paget's disease, prior radiation, unexplained elevated alkaline phosphatase</li>
+                            <li>Must follow with antiresorptive therapy to maintain gains</li>
+                        </ul>
+
+                        <h4>Romosozumab (Evenity)</h4>
+                        
+                        <strong>Mechanism:</strong>
+                        <ul>
+                            <li>Sclerostin inhibitor → increases bone formation AND decreases resorption</li>
+                        </ul>
+
+                        <strong>Dosing:</strong>
+                        <ul>
+                            <li>210 mg subcutaneous monthly x 12 months</li>
+                            <li>Then transition to antiresorptive</li>
+                        </ul>
+
+                        <strong>Key Points:</strong>
+                        <ul>
+                            <li>Newest agent (approved 2019)</li>
+                            <li>Dual action (build + prevent breakdown)</li>
+                            <li>Black box: cardiovascular risk - avoid if MI/stroke in past year</li>
+                            <li>Reserved for very high-risk patients</li>
+                        </ul>
+
+                        <h4>Raloxifene (Evista) - SERM</h4>
+                        
+                        <strong>Mechanism:</strong>
+                        <ul>
+                            <li>Selective estrogen receptor modulator</li>
+                            <li>Agonist on bone, antagonist on breast</li>
+                        </ul>
+
+                        <strong>Efficacy:</strong>
+                        <ul>
+                            <li>Vertebral fracture: 30-50% reduction</li>
+                            <li>NO reduction in hip fractures</li>
+                        </ul>
+
+                        <strong>Other Effects:</strong>
+                        <ul>
+                            <li>Reduces breast cancer risk (ER+ invasive breast cancer by 65%)</li>
+                            <li>Increases VTE risk (like estrogen)</li>
+                            <li>May worsen hot flashes</li>
+                        </ul>
+
+                        <strong>Use:</strong>
+                        <ul>
+                            <li>Lower-risk osteoporosis</li>
+                            <li>High breast cancer risk + osteoporosis</li>
+                            <li>Alternative if cannot take bisphosphonates</li>
+                        </ul>
+
+                        <h4>Hormone Therapy</h4>
+                        <ul>
+                            <li>Effective for bone loss prevention</li>
+                            <li>NOT FDA-approved for osteoporosis treatment</li>
+                            <li>Consider if treating VMS AND preventing bone loss</li>
+                            <li>Use other agents if osteoporosis is primary indication</li>
+                            <li>BMD decreases when stopped</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <h4>Summary: First-Line Choices</h4>
+                            <ul>
+                                <li><strong>Standard osteoporosis:</strong> Bisphosphonates (alendronate, risedronate, zoledronic acid)</li>
+                                <li><strong>Cannot tolerate oral bisphosphonates:</strong> IV zoledronic acid or denosumab</li>
+                                <li><strong>Renal insufficiency:</strong> Denosumab</li>
+                                <li><strong>Severe/very high risk:</strong> Teriparatide, abaloparatide, or romosozumab → then transition to antiresorptive</li>
+                                <li><strong>Spine-only osteoporosis + high breast cancer risk:</strong> Raloxifene</li>
+                            </ul>
+                        </div>
+                    `
+                }
+            ],
+            
+            studyStrategy: `
+                <h3>How to Master Week 5</h3>
+                <ol>
+                    <li><strong>Day 1:</strong> Memorize screening criteria and T-score definitions</li>
+                    <li><strong>Day 2:</strong> Practice FRAX calculations and treatment thresholds</li>
+                    <li><strong>Day 3-4:</strong> Master bisphosphonates - all 4 drugs, administration, efficacy</li>
+                    <li><strong>Day 5:</strong> Learn denosumab, teriparatide, romosozumab</li>
+                    <li><strong>Day 6:</strong> Create comprehensive medication comparison table</li>
+                    <li><strong>Day 7:</strong> Practice selecting appropriate therapy for different scenarios</li>
+                </ol>
+                
+                <div class="highlight-box">
+                    <h4>Must-Create Study Tool:</h4>
+                    <p>Medication comparison table with columns:</p>
+                    <ul>
+                        <li>Drug name and class</li>
+                        <li>Mechanism of action</li>
+                        <li>Dosing/route</li>
+                        <li>Vertebral fracture reduction %</li>
+                        <li>Hip fracture reduction %</li>
+                        <li>Key side effects</li>
+                        <li>Special considerations</li>
+                    </ul>
+                </div>
+            `,
+            
+            keyTakeaways: [
+                "Screen all women ≥65; younger if risk factors",
+                "T-score ≤-2.5 = osteoporosis",
+                "FRAX thresholds: ≥3% hip or ≥20% major fracture",
+                "Bisphosphonates are first-line (except ibandronate doesn't reduce hip fractures)",
+                "Denosumab: don't just stop - risk rebound fractures",
+                "Teriparatide/abaloparatide: maximum 2 years lifetime",
+                "Romosozumab: avoid if recent MI/stroke",
+                "Raloxifene: vertebral only, reduces breast cancer risk"
+            ]
+        }
+    }
+];
+
+// Merge additional weeks with main data
+studyData.weeks.push(...additionalWeeks);
+
+// Adding weeks 6-10 to complete the study program
+
+const finalWeeks = [
+    // WEEK 6
+    {
+        week: 6,
+        title: "Cardiometabolic Health",
+        pages: "177-208",
+        estimatedHours: "7-9 hours",
+        learningObjectives: [
+            "Assess cardiovascular disease risk in menopausal women",
+            "Apply updated hypertension and lipid management guidelines",
+            "Understand diabetes screening and management in midlife",
+            "Explain the timing hypothesis for hormone therapy and CVD"
+        ],
+        detailedContent: {
+            overview: "CRITICAL WEEK - CVD is the #1 killer of women. Understanding hormone therapy effects on CVD and the timing hypothesis is essential and heavily tested.",
+            
+            sections: [
+                {
+                    title: "Cardiovascular Disease Risk",
+                    content: `
+                        <h4>Key Facts</h4>
+                        <ul>
+                            <li>CVD is #1 cause of death in women (not breast cancer)</li>
+                            <li>1 in 3 women will die from CVD</li>
+                            <li>Risk accelerates after menopause</li>
+                            <li>Women have different risk profiles than men</li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            Menopause is an INDEPENDENT risk factor for CVD after adjusting for age. This is due to estrogen loss, metabolic changes, and fat redistribution.
+                        </div>
+
+                        <h4>Risk Factors</h4>
+                        <strong>Traditional:</strong>
+                        <ul>
+                            <li>Hypertension</li>
+                            <li>Dyslipidemia</li>
+                            <li>Diabetes</li>
+                            <li>Smoking</li>
+                            <li>Obesity</li>
+                            <li>Family history</li>
+                            <li>Age</li>
+                        </ul>
+
+                        <strong>Women-Specific:</strong>
+                        <ul>
+                            <li>Preeclampsia/gestational hypertension</li>
+                            <li>Gestational diabetes</li>
+                            <li>Polycystic ovary syndrome (PCOS)</li>
+                            <li>Premature menopause/POI</li>
+                            <li>Autoimmune diseases (SLE, RA)</li>
+                        </ul>
+
+                        <h4>2011 AHA Risk Stratification for Women</h4>
+                        <ul>
+                            <li><strong>High risk:</strong> CHD, CVD, PAD, AAA, diabetes, CKD, 10-year risk >10%</li>
+                            <li><strong>At risk:</strong> ≥1 major risk factor, metabolic syndrome, poor lifestyle</li>
+                            <li><strong>Ideal cardiovascular health:</strong> No risk factors</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Hormone Therapy and CVD: The Timing Hypothesis",
+                    content: `
+                        <div class="exam-tip">
+                            The timing hypothesis is ONE OF THE MOST TESTED concepts. You must understand WHY HT appears harmful in WHI but beneficial in younger women.
+                        </div>
+
+                        <h4>The WHI Findings</h4>
+                        <ul>
+                            <li>Published 2002, stopped early</li>
+                            <li>CEE+MPA arm: increased CHD in year 1, increased stroke, increased VTE</li>
+                            <li>CEE-alone arm: no increase in CHD, increased stroke, increased VTE</li>
+                            <li>Average age: 63 years</li>
+                            <li>Many women >10 years from menopause</li>
+                        </ul>
+
+                        <h4>The Timing Hypothesis Explained</h4>
+                        <p><strong>In younger, recently menopausal women (<10 years from menopause OR age <60):</strong></p>
+                        <ul>
+                            <li>Arteries relatively healthy</li>
+                            <li>Estrogen has beneficial vascular effects:
+                                <ul>
+                                    <li>Vasodilation</li>
+                                    <li>Improved endothelial function</li>
+                                    <li>Favorable lipid effects</li>
+                                    <li>Anti-inflammatory</li>
+                                </ul>
+                            </li>
+                            <li>Result: NEUTRAL or possibly beneficial CVD effect</li>
+                        </ul>
+
+                        <p><strong>In older women (>10-20 years from menopause OR age >60):</strong></p>
+                        <ul>
+                            <li>Atherosclerosis already present</li>
+                            <li>Estrogen may destabilize plaques</li>
+                            <li>Prothrombotic effects predominate</li>
+                            <li>Result: INCREASED CVD risk, especially early</li>
+                        </ul>
+
+                        <div class="clinical-pearl">
+                            "Window of opportunity" - HT is safest when started:
+                            - Within 10 years of menopause, OR
+                            - Before age 60
+                            After this window, CVD risk increases.
+                        </div>
+
+                        <h4>Current Recommendations</h4>
+                        <ul>
+                            <li>HT should NOT be used for primary or secondary CVD prevention</li>
+                            <li>HT is acceptable for VMS in women <60 or <10 years from menopause</li>
+                            <li>Contraindicated in women with known CHD, stroke, VTE history</li>
+                            <li>Transdermal estrogen may have lower VTE risk than oral</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Hypertension",
+                    content: `
+                        <h4>2017 ACC/AHA Guidelines - Updated Definition</h4>
+                        <ul>
+                            <li><strong>Normal:</strong> <120/<80</li>
+                            <li><strong>Elevated:</strong> 120-129/<80</li>
+                            <li><strong>Stage 1 HTN:</strong> 130-139/80-89</li>
+                            <li><strong>Stage 2 HTN:</strong> ≥140/90</li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            The definition changed in 2017! Stage 1 HTN is now 130-139/80-89 (previously this was "prehypertension"). Know the new cutoffs.
+                        </div>
+
+                        <h4>Treatment Thresholds</h4>
+                        <ul>
+                            <li><strong>Stage 1 HTN:</strong> Treat if 10-year ASCVD risk ≥10% OR existing CVD/CKD/diabetes</li>
+                            <li><strong>Stage 2 HTN:</strong> Treat all patients</li>
+                            <li><strong>Goal BP:</strong> <130/80 for most; <140/90 for some lower-risk</li>
+                        </ul>
+
+                        <h4>First-Line Medications</h4>
+                        <ul>
+                            <li>Thiazide diuretics</li>
+                            <li>ACE inhibitors</li>
+                            <li>ARBs</li>
+                            <li>Calcium channel blockers</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Lipid Management",
+                    content: `
+                        <h4>2013 ACC/AHA Cholesterol Guidelines</h4>
+                        <p>Shifted from "treat to target LDL" to "identify who benefits from statin therapy"</p>
+
+                        <h4>Four Statin Benefit Groups</h4>
+                        <ol>
+                            <li><strong>Clinical ASCVD:</strong> High-intensity statin (regardless of LDL)</li>
+                            <li><strong>LDL ≥190 mg/dL:</strong> High-intensity statin</li>
+                            <li><strong>Diabetes age 40-75:</strong> Moderate-intensity statin (high if 10-year risk ≥7.5%)</li>
+                            <li><strong>10-year ASCVD risk ≥7.5%:</strong> Moderate to high-intensity statin</li>
+                        </ol>
+
+                        <div class="exam-tip">
+                            Statin intensity matters:
+                            - High-intensity: Lowers LDL ≥50% (atorvastatin 40-80mg, rosuvastatin 20-40mg)
+                            - Moderate-intensity: Lowers LDL 30-49%
+                        </div>
+
+                        <h4>Monitoring</h4>
+                        <ul>
+                            <li>Baseline lipids, ALT, CK</li>
+                            <li>Repeat lipids in 4-12 weeks</li>
+                            <li>Check ALT only if symptoms</li>
+                            <li>Monitor for statin-associated muscle symptoms (SAMS)</li>
+                        </ul>
+
+                        <h4>Statin Intolerance</h4>
+                        <ul>
+                            <li>Try different statin or lower dose</li>
+                            <li>Alternate day dosing</li>
+                            <li>Add ezetimibe</li>
+                            <li>PCSK9 inhibitors for very high risk</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Diabetes and Prediabetes",
+                    content: `
+                        <h4>Diagnostic Criteria</h4>
+                        <strong>Diabetes:</strong>
+                        <ul>
+                            <li>Fasting glucose ≥126 mg/dL, OR</li>
+                            <li>2-hour OGTT ≥200 mg/dL, OR</li>
+                            <li>HbA1c ≥6.5%, OR</li>
+                            <li>Random glucose ≥200 with symptoms</li>
+                        </ul>
+
+                        <strong>Prediabetes:</strong>
+                        <ul>
+                            <li>Fasting glucose 100-125 mg/dL, OR</li>
+                            <li>2-hour OGTT 140-199 mg/dL, OR</li>
+                            <li>HbA1c 5.7-6.4%</li>
+                        </ul>
+
+                        <h4>Screening</h4>
+                        <ul>
+                            <li>Screen all adults ≥45 years</li>
+                            <li>Younger if overweight/obese + additional risk factor</li>
+                            <li>Repeat every 3 years if normal</li>
+                        </ul>
+
+                        <h4>Management</h4>
+                        <ul>
+                            <li>Lifestyle: weight loss (7%), exercise (150 min/week)</li>
+                            <li>Metformin first-line medication</li>
+                            <li>Goal HbA1c <7% for most</li>
+                            <li>Newer agents (GLP-1 agonists, SGLT2 inhibitors) have CVD benefits</li>
+                        </ul>
+
+                        <div class="clinical-pearl">
+                            Metabolic syndrome affects ~40% of women >60. Criteria: ≥3 of: abdominal obesity, high TG, low HDL, high BP, high fasting glucose. Increases CVD and diabetes risk.
+                        </div>
+                    `
+                }
+            ],
+            
+            keyTakeaways: [
+                "CVD is #1 cause of death in women",
+                "Timing hypothesis: HT safest <60 years or <10 years from menopause",
+                "HT not for CVD prevention; contraindicated with existing CVD",
+                "HTN now defined as ≥130/80 (2017 guidelines)",
+                "Statin benefit groups: clinical ASCVD, LDL ≥190, diabetes, 10-year risk ≥7.5%",
+                "Prediabetes: fasting glucose 100-125, HbA1c 5.7-6.4%"
+            ]
+        }
+    },
+
+    // WEEK 7
+    {
+        week: 7,
+        title: "Cancer Considerations",
+        pages: "209-244",
+        estimatedHours: "6-8 hours",
+        learningObjectives: [
+            "Apply breast cancer screening guidelines",
+            "Understand hormone therapy effects on breast and endometrial cancer",
+            "Manage menopausal symptoms in cancer survivors",
+            "Know screening for other cancers common in midlife"
+        ],
+        detailedContent: {
+            overview: "Cancer is a major concern for menopausal women. Understanding HT effects on cancer risk and managing symptoms in survivors is critical.",
+            
+            sections: [
+                {
+                    title: "Breast Cancer",
+                    content: `
+                        <h4>Risk Factors</h4>
+                        <ul>
+                            <li>Age (most important)</li>
+                            <li>Family history (especially first-degree relatives)</li>
+                            <li>BRCA1/2 mutations</li>
+                            <li>Dense breast tissue</li>
+                            <li>Prior breast biopsy showing atypical hyperplasia</li>
+                            <li>Early menarche, late menopause</li>
+                            <li>Nulliparity or first birth after age 30</li>
+                            <li>No breastfeeding</li>
+                            <li>Alcohol use</li>
+                            <li>Obesity (postmenopausal)</li>
+                            <li>Hormone therapy (especially EPT)</li>
+                        </ul>
+
+                        <h4>Screening Guidelines</h4>
+                        <p>Multiple organizations with slightly different recommendations:</p>
+                        
+                        <strong>USPSTF (2024):</strong>
+                        <ul>
+                            <li>Biennial mammography age 40-74 (updated from 50)</li>
+                            <li>Insufficient evidence for ≥75</li>
+                        </ul>
+
+                        <strong>ACS:</strong>
+                        <ul>
+                            <li>Annual or biennial age 45-54</li>
+                            <li>Biennial age ≥55</li>
+                            <li>Continue as long as life expectancy >10 years</li>
+                        </ul>
+
+                        <strong>NAMS:</strong>
+                        <ul>
+                            <li>Annual or biennial starting at age 40-50</li>
+                            <li>Individualize based on risk</li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            Know that guidelines vary. Key points: screening starts 40-50, continues as long as life expectancy >10 years.
+                        </div>
+
+                        <h4>HT and Breast Cancer - WHI Findings</h4>
+                        <ul>
+                            <li><strong>CEE + MPA:</strong> Increased risk after ~3-4 years (HR 1.24)
+                                <ul>
+                                    <li>Absolute increase: 8 extra cases per 10,000 women-years</li>
+                                    <li>Risk increases with duration</li>
+                                </ul>
+                            </li>
+                            <li><strong>CEE alone:</strong> NO increase (possibly decreased risk in younger women)</li>
+                        </ul>
+
+                        <div class="clinical-pearl">
+                            The progestogen appears to be the culprit for breast cancer risk increase in EPT. ET alone does not increase risk.
+                        </div>
+
+                        <h4>Clinical Implications</h4>
+                        <ul>
+                            <li>Use lowest effective dose for shortest duration needed</li>
+                            <li>Reassess annually</li>
+                            <li>Consider ET alone if hysterectomy</li>
+                            <li>Transdermal estrogen + micronized progesterone may have lower risk (observational data)</li>
+                            <li>HT is contraindicated in breast cancer survivors</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Endometrial Cancer",
+                    content: `
+                        <h4>Risk Factors</h4>
+                        <ul>
+                            <li>Unopposed estrogen exposure (main risk factor)
+                                <ul>
+                                    <li>Obesity</li>
+                                    <li>PCOS</li>
+                                    <li>Tamoxifen</li>
+                                    <li>Estrogen therapy without progestogen</li>
+                                </ul>
+                            </li>
+                            <li>Nulliparity</li>
+                            <li>Early menarche, late menopause</li>
+                            <li>Diabetes</li>
+                            <li>Lynch syndrome</li>
+                        </ul>
+
+                        <h4>HT and Endometrial Cancer</h4>
+                        <ul>
+                            <li><strong>Unopposed estrogen:</strong> 2-10x increased risk</li>
+                            <li><strong>EPT (estrogen + progestogen):</strong> NO increased risk (protective)</li>
+                            <li>This is WHY progestogen is required with intact uterus</li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            Adequate progestogen dosing and duration are critical for endometrial protection. Know minimum doses.
+                        </div>
+
+                        <h4>Symptoms</h4>
+                        <ul>
+                            <li>Postmenopausal bleeding (most common presentation)</li>
+                            <li>Any postmenopausal bleeding requires evaluation</li>
+                        </ul>
+
+                        <h4>Evaluation</h4>
+                        <ul>
+                            <li>Endometrial biopsy (office procedure)</li>
+                            <li>Transvaginal ultrasound (endometrial thickness)</li>
+                            <li>Hysteroscopy if needed</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Managing VMS in Cancer Survivors",
+                    content: `
+                        <h4>Breast Cancer Survivors</h4>
+                        <p>HT is contraindicated. Options:</p>
+                        
+                        <strong>Non-hormonal medications:</strong>
+                        <ul>
+                            <li>Venlafaxine (most data)</li>
+                            <li>Paroxetine (avoid if on tamoxifen - CYP2D6 interaction)</li>
+                            <li>Escitalopram, citalopram</li>
+                            <li>Gabapentin</li>
+                            <li>Pregabalin</li>
+                            <li>Oxybutynin</li>
+                        </ul>
+
+                        <strong>Lifestyle:</strong>
+                        <ul>
+                            <li>CBT</li>
+                            <li>Hypnotherapy</li>
+                            <li>Acupuncture</li>
+                            <li>Weight loss</li>
+                            <li>Exercise</li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            CRITICAL: Paroxetine inhibits CYP2D6, which converts tamoxifen to active metabolite. Avoid paroxetine in women on tamoxifen. Use venlafaxine or escitalopram instead.
+                        </div>
+
+                        <h4>Vaginal Estrogen in Breast Cancer Survivors</h4>
+                        <p>Controversial but may be considered:</p>
+                        <ul>
+                            <li>Ultra-low dose vaginal estrogen has minimal systemic absorption</li>
+                            <li>Limited data but appears safe in observational studies</li>
+                            <li>Discuss risks/benefits with oncologist</li>
+                            <li>Non-hormonal options first (moisturizers, lubricants)</li>
+                        </ul>
+                    `
+                }
+            ],
+            
+            keyTakeaways: [
+                "EPT (estrogen + progestogen) increases breast cancer risk; ET alone does not",
+                "Unopposed estrogen increases endometrial cancer 2-10x",
+                "EPT with adequate progestogen is endometrial-protective",
+                "HT contraindicated in breast cancer survivors",
+                "Avoid paroxetine with tamoxifen (CYP2D6 interaction)",
+                "Postmenopausal bleeding always requires evaluation"
+            ]
+        }
+    },
+
+    // WEEK 8
+    {
+        week: 8,
+        title: "Supplements & Alternatives",
+        pages: "245-276",
+        estimatedHours: "4-5 hours",
+        learningObjectives: [
+            "Understand FDA regulation of dietary supplements",
+            "Counsel patients on evidence for common supplements",
+            "Apply calcium and vitamin D recommendations",
+            "Identify safety concerns with supplements"
+        ],
+        detailedContent: {
+            overview: "Many women use supplements for menopausal symptoms. Know what works, what doesn't, and safety concerns.",
+            
+            sections: [
+                {
+                    title: "FDA Regulation",
+                    content: `
+                        <h4>Key Differences from Drugs</h4>
+                        <ul>
+                            <li>Supplements do NOT require FDA approval before marketing</li>
+                            <li>Manufacturers responsible for safety, not FDA</li>
+                            <li>No standardization of content or potency</li>
+                            <li>Can only make structure/function claims, not disease claims</li>
+                            <li>FDA can act if unsafe, but burden of proof is on FDA</li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            This regulatory gap is why supplements can vary widely in content and why safety issues may not be detected until after marketing.
+                        </div>
+                    `
+                },
+                {
+                    title: "Calcium and Vitamin D",
+                    content: `
+                        <h4>Calcium Recommendations</h4>
+                        <ul>
+                            <li>Ages 51+: 1200 mg/day total (diet + supplements)</li>
+                            <li>Best absorbed in doses ≤500 mg</li>
+                            <li>Calcium citrate better absorbed, can take without food</li>
+                            <li>Calcium carbonate needs acid - take with food</li>
+                        </ul>
+
+                        <h4>Vitamin D Recommendations</h4>
+                        <ul>
+                            <li>Ages 51-70: 600 IU/day</li>
+                            <li>Ages 71+: 800 IU/day</li>
+                            <li>Many experts recommend 800-1000 IU for all adults 50+</li>
+                            <li>Goal 25-OH vitamin D: >30 ng/mL (some say >20 sufficient)</li>
+                        </ul>
+
+                        <h4>Safety Concerns</h4>
+                        <ul>
+                            <li>Calcium supplements may increase CVD risk (controversial)</li>
+                            <li>Prefer dietary calcium when possible</li>
+                            <li>Very high vitamin D (>4000 IU/day) may increase falls</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Common Supplements for Menopause",
+                    content: `
+                        <h4>Black Cohosh</h4>
+                        <ul>
+                            <li>Most studied botanical for VMS</li>
+                            <li>Evidence: INCONSISTENT</li>
+                            <li>Some trials show benefit, many show none</li>
+                            <li>Generally safe short-term</li>
+                            <li>Rare hepatotoxicity reported</li>
+                        </ul>
+
+                        <h4>Soy and Isoflavones</h4>
+                        <ul>
+                            <li>Phytoestrogens (weak estrogen-like effects)</li>
+                            <li>Evidence for VMS: MINIMAL to none</li>
+                            <li>Asian populations may have modest benefit (genetic differences in metabolism)</li>
+                            <li>Generally safe</li>
+                        </ul>
+
+                        <h4>Red Clover</h4>
+                        <ul>
+                            <li>Contains isoflavones</li>
+                            <li>Evidence: NOT effective for VMS</li>
+                        </ul>
+
+                        <h4>Evening Primrose Oil</h4>
+                        <ul>
+                            <li>Evidence: NOT effective for VMS</li>
+                        </ul>
+
+                        <h4>Vitamin E</h4>
+                        <ul>
+                            <li>Evidence: NOT effective for VMS</li>
+                            <li>High doses may increase bleeding risk</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <h4>Bottom Line on Supplements for VMS</h4>
+                            <p><strong>NO supplement has consistent, strong evidence for VMS relief.</strong></p>
+                            <p>If patients want to try: black cohosh has most data (though inconsistent). Counsel that evidence is weak and FDA-approved options are more effective.</p>
+                        </div>
+                    `
+                }
+            ],
+            
+            keyTakeaways: [
+                "Supplements do NOT require FDA approval before marketing",
+                "Calcium: 1200 mg/day total for women 51+",
+                "Vitamin D: 800-1000 IU/day for adults 50+",
+                "Black cohosh: most studied but inconsistent evidence",
+                "Soy, red clover, evening primrose, vitamin E: NOT effective for VMS"
+            ]
+        }
+    },
+
+    // WEEK 9
+    {
+        week: 9,
+        title: "Hormone Therapy - Deep Dive Part 1",
+        pages: "277-303",
+        estimatedHours: "8-10 hours",
+        learningObjectives: [
+            "Differentiate ET vs EPT indications",
+            "Select appropriate HT formulations and routes",
+            "Apply dosing regimens correctly",
+            "Identify absolute and relative contraindications"
+        ],
+        detailedContent: {
+            overview: "THE MOST IMPORTANT WEEK. Hormone therapy is the most heavily tested content. Master formulations, dosing, routes, risks, benefits.",
+            
+            sections: [
+                {
+                    title: "Fundamentals",
+                    content: `
+                        <h4>Terminology</h4>
+                        <ul>
+                            <li><strong>ET:</strong> Estrogen Therapy (estrogen alone)</li>
+                            <li><strong>EPT:</strong> Estrogen-Progestogen Therapy (combination)</li>
+                            <li><strong>HT:</strong> Hormone Therapy (general term)</li>
+                        </ul>
+
+                        <h4>Golden Rule</h4>
+                        <div class="exam-tip">
+                            UTERUS PRESENT = must use progestogen for endometrial protection
+                            <br>HYSTERECTOMY = use estrogen alone (no progestogen needed)
+                        </div>
+
+                        <h4>FDA-Approved Indications</h4>
+                        <ol>
+                            <li>Treatment of moderate to severe VMS</li>
+                            <li>Treatment of GSM (some formulations)</li>
+                            <li>Prevention of osteoporosis (not first-line treatment)</li>
+                        </ol>
+                    `
+                },
+                {
+                    title: "Estrogen Formulations",
+                    content: `
+                        <h4>Types of Estrogen</h4>
+                        
+                        <strong>1. Conjugated Estrogens (CE):</strong>
+                        <ul>
+                            <li>Premarin (from pregnant mare urine)</li>
+                            <li>Contains multiple estrogen compounds</li>
+                            <li>Most data from WHI</li>
+                        </ul>
+
+                        <strong>2. Estradiol (17β-estradiol):</strong>
+                        <ul>
+                            <li>Bioidentical to endogenous estrogen</li>
+                            <li>Multiple delivery systems</li>
+                            <li>May have better metabolic profile than CE</li>
+                        </ul>
+
+                        <strong>3. Esterified Estrogens:</strong>
+                        <ul>
+                            <li>Synthetic mixture</li>
+                            <li>Less commonly used</li>
+                        </ul>
+
+                        <h4>Routes of Administration</h4>
+                        
+                        <strong>ORAL:</strong>
+                        <ul>
+                            <li>Most studied</li>
+                            <li>First-pass hepatic metabolism</li>
+                            <li>Favorable lipid effects (↑HDL, ↓LDL)</li>
+                            <li>BUT: ↑triglycerides, ↑CRP, ↑SHBG, ↑clotting factors</li>
+                            <li>Higher VTE risk than transdermal</li>
+                        </ul>
+
+                        <strong>TRANSDERMAL (patches, gels, sprays):</strong>
+                        <ul>
+                            <li>Avoids first-pass metabolism</li>
+                            <li>More stable serum levels</li>
+                            <li>Less effect on lipids, clotting factors, CRP</li>
+                            <li>LOWER VTE RISK (may be none in observational studies)</li>
+                            <li>Preferred if: history of VTE, high TG, liver disease, migraine</li>
+                        </ul>
+
+                        <strong>VAGINAL (creams, tablets, rings):</strong>
+                        <ul>
+                            <li>For GSM treatment</li>
+                            <li>Low-dose: minimal systemic absorption</li>
+                            <li>High-dose: significant systemic absorption</li>
+                        </ul>
+
+                        <div class="clinical-pearl">
+                            Transdermal estrogen is preferred in:
+                            - VTE risk factors
+                            - High triglycerides (>400 mg/dL)
+                            - Migraine with aura
+                            - Liver disease
+                            - Malabsorption
+                        </div>
+
+                        <h4>Equivalent Doses</h4>
+                        <p>These doses are approximately equivalent in efficacy for VMS:</p>
+                        <ul>
+                            <li>Oral CEE 0.625 mg</li>
+                            <li>Oral estradiol 1 mg</li>
+                            <li>Transdermal estradiol 0.05 mg/day</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Progestogens",
+                    content: `
+                        <h4>Why Needed</h4>
+                        <ul>
+                            <li>Protects endometrium from unopposed estrogen</li>
+                            <li>Prevents endometrial hyperplasia and cancer</li>
+                            <li>REQUIRED with intact uterus (unless using local low-dose estrogen only)</li>
+                        </ul>
+
+                        <h4>Types</h4>
+                        
+                        <strong>Progesterone:</strong>
+                        <ul>
+                            <li>Micronized progesterone (Prometrium)</li>
+                            <li>Bioidentical</li>
+                            <li>May have better safety profile (less metabolic effects)</li>
+                            <li>Sedating effect (can help sleep)</li>
+                        </ul>
+
+                        <strong>Progestins (synthetic):</strong>
+                        <ul>
+                            <li>Medroxyprogesterone acetate (MPA) - most studied (WHI)</li>
+                            <li>Norethindrone acetate (NETA)</li>
+                            <li>Drospirenone (antimineralocorticoid - may lower BP slightly)</li>
+                            <li>Levonorgestrel (IUD - Mirena)</li>
+                        </ul>
+
+                        <h4>Minimum Doses for Endometrial Protection</h4>
+                        <p>With standard estrogen dose (e.g., CEE 0.625 mg or equivalent):</p>
+                        
+                        <strong>Continuous regimen:</strong>
+                        <ul>
+                            <li>MPA 2.5 mg daily</li>
+                            <li>Micronized progesterone 100 mg daily</li>
+                            <li>NETA 0.5 mg daily</li>
+                        </ul>
+
+                        <strong>Cyclic regimen (12-14 days/month):</strong>
+                        <ul>
+                            <li>MPA 10 mg</li>
+                            <li>Micronized progesterone 200 mg</li>
+                            <li>NETA 5-10 mg</li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            Know minimum doses! Inadequate progestogen = endometrial risk.
+                        </div>
+                    `
+                },
+                {
+                    title: "EPT Regimens",
+                    content: `
+                        <h4>Continuous Combined</h4>
+                        <ul>
+                            <li>Estrogen + progestogen EVERY day</li>
+                            <li>Preferred in postmenopausal women (>1 year from LMP)</li>
+                            <li>Eventually leads to amenorrhea in 80-90%</li>
+                            <li>Irregular bleeding common first 3-6 months (counsel patient)</li>
+                        </ul>
+
+                        <h4>Cyclic/Sequential</h4>
+                        <ul>
+                            <li>Estrogen daily + progestogen 12-14 days/month</li>
+                            <li>Causes predictable withdrawal bleeding</li>
+                            <li>May be preferred in perimenopause</li>
+                            <li>Higher progestogen doses needed than continuous</li>
+                        </ul>
+
+                        <h4>Continuous-Cyclic</h4>
+                        <ul>
+                            <li>Estrogen daily + progestogen every 3 months for 14 days</li>
+                            <li>Quarterly bleeding</li>
+                            <li>Controversial - may have higher endometrial risk</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Contraindications",
+                    content: `
+                        <h4>ABSOLUTE Contraindications</h4>
+                        <ul>
+                            <li>Undiagnosed abnormal vaginal bleeding</li>
+                            <li>Known/suspected breast cancer</li>
+                            <li>Known/suspected estrogen-dependent malignancy</li>
+                            <li>Active or recent VTE (DVT, PE)</li>
+                            <li>Active or recent arterial thromboembolic disease (stroke, MI)</li>
+                            <li>Known liver disease or dysfunction</li>
+                            <li>Known protein C, protein S, or antithrombin deficiency</li>
+                            <li>Known Factor V Leiden or prothrombin mutation (controversial - some say relative)</li>
+                            <li>Pregnancy</li>
+                        </ul>
+
+                        <h4>RELATIVE Contraindications (individualize)</h4>
+                        <ul>
+                            <li>Strong family history of breast cancer</li>
+                            <li>Endometriosis</li>
+                            <li>Uterine fibroids</li>
+                            <li>Gallbladder disease</li>
+                            <li>Migraine headaches (especially with aura - prefer transdermal)</li>
+                            <li>High triglycerides (prefer transdermal)</li>
+                            <li>Hypertension (not contraindication if controlled)</li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            Active or recent (within 1 year) VTE or stroke is ABSOLUTE contraindication. Remote history may be relative depending on circumstances.
+                        </div>
+                    `
+                }
+            ],
+            
+            studyStrategy: `
+                <h3>How to Master Week 9</h3>
+                <ol>
+                    <li><strong>Day 1:</strong> Master the golden rule and understand ET vs EPT</li>
+                    <li><strong>Day 2:</strong> Learn all estrogen formulations and routes</li>
+                    <li><strong>Day 3:</strong> Study progestogens - types, doses, regimens</li>
+                    <li><strong>Day 4-5:</strong> Create comprehensive tables of all HT products</li>
+                    <li><strong>Day 6:</strong> Memorize contraindications (absolute vs relative)</li>
+                    <li><strong>Day 7:</strong> Practice case scenarios - which formulation for which patient?</li>
+                </ol>
+            `,
+            
+            keyTakeaways: [
+                "Uterus = progestogen required; hysterectomy = estrogen alone",
+                "Transdermal estrogen has lower VTE risk than oral",
+                "Minimum MPA dose for continuous EPT: 2.5 mg daily",
+                "Continuous combined → amenorrhea; cyclic → withdrawal bleed",
+                "Active VTE/stroke = absolute contraindication",
+                "Oral estrogen: first-pass effect, ↑TG, ↑VTE vs transdermal"
+            ]
+        }
+    },
+
+    // WEEK 10
+    {
+        week: 10,
+        title: "HT Part 2, SERMs & Final Review",
+        pages: "304-318",
+        estimatedHours: "6-8 hours + review time",
+        learningObjectives: [
+            "Understand bioidentical hormone therapy",
+            "Explain SERM mechanisms and uses",
+            "Master TSEC (tissue-selective estrogen complex)",
+            "Integrate all knowledge for comprehensive case management"
+        ],
+        detailedContent: {
+            overview: "Final content week plus comprehensive review. Master SERMs and prepare for exam with practice questions.",
+            
+            sections: [
+                {
+                    title: "Bioidentical Hormone Therapy",
+                    content: `
+                        <h4>Definition</h4>
+                        <ul>
+                            <li>"Bioidentical" = molecular structure identical to endogenous hormones</li>
+                            <li>17β-estradiol and micronized progesterone ARE bioidentical</li>
+                            <li>Available as FDA-approved products</li>
+                        </ul>
+
+                        <h4>Compounded "Bioidentical" Hormones (cBHT)</h4>
+                        <ul>
+                            <li>Custom-mixed by compounding pharmacies</li>
+                            <li>NOT FDA-approved</li>
+                            <li>No quality control or standardization</li>
+                            <li>Often marketed as "natural" and "safer" (not evidence-based)</li>
+                            <li>May contain untested ingredients (estriol)</li>
+                        </ul>
+
+                        <div class="exam-tip">
+                            NAMS position: Compounded hormones are NOT recommended. Use FDA-approved bioidentical products if desired (e.g., Estrace, Prometrium).
+                        </div>
+                    `
+                },
+                {
+                    title: "Selective Estrogen Receptor Modulators (SERMs)",
+                    content: `
+                        <h4>Mechanism</h4>
+                        <ul>
+                            <li>Tissue-selective estrogen effects</li>
+                            <li>Agonist in some tissues, antagonist in others</li>
+                            <li>Different SERMs have different tissue effects</li>
+                        </ul>
+
+                        <h4>Raloxifene (Evista)</h4>
+                        <ul>
+                            <li><strong>Agonist:</strong> Bone (prevents bone loss)</li>
+                            <li><strong>Antagonist:</strong> Breast (reduces cancer risk)</li>
+                            <li><strong>Neutral/antagonist:</strong> Endometrium</li>
+                            <li><strong>Antagonist:</strong> Vasomotor (worsens hot flashes)</li>
+                        </ul>
+                        
+                        <p><strong>Uses:</strong></p>
+                        <ul>
+                            <li>Osteoporosis prevention/treatment (vertebral fractures only)</li>
+                            <li>Breast cancer risk reduction</li>
+                        </ul>
+
+                        <p><strong>Side effects:</strong></p>
+                        <ul>
+                            <li>VTE risk (similar to estrogen)</li>
+                            <li>Worsens hot flashes</li>
+                            <li>Leg cramps</li>
+                        </ul>
+
+                        <h4>Tamoxifen</h4>
+                        <ul>
+                            <li><strong>Antagonist:</strong> Breast (treats/prevents breast cancer)</li>
+                            <li><strong>Agonist:</strong> Endometrium (increases endometrial cancer risk)</li>
+                            <li><strong>Agonist:</strong> Bone</li>
+                        </ul>
+
+                        <p>Not used for menopausal symptoms; used for breast cancer.</p>
+
+                        <h4>Ospemifene (Osphena)</h4>
+                        <ul>
+                            <li><strong>Agonist:</strong> Vagina (treats dyspareunia/GSM)</li>
+                            <li><strong>Antagonist:</strong> Breast</li>
+                            <li><strong>Mixed:</strong> Endometrium (surveillance needed)</li>
+                        </ul>
+
+                        <p>Discussed in Week 3 - oral SERM for GSM.</p>
+                    `
+                },
+                {
+                    title: "TSEC (Tissue Selective Estrogen Complex)",
+                    content: `
+                        <h4>What is TSEC?</h4>
+                        <ul>
+                            <li>Combination of estrogen + SERM</li>
+                            <li>Goal: estrogen benefits without need for separate progestogen</li>
+                        </ul>
+
+                        <h4>Duavee (CEE + Bazedoxifene)</h4>
+                        <ul>
+                            <li>Only available TSEC in US</li>
+                            <li>CEE 0.45 mg + bazedoxifene 20 mg</li>
+                            <li>Bazedoxifene protects endometrium (antagonist effect)</li>
+                            <li>FDA-approved for VMS and osteoporosis prevention</li>
+                            <li>Can use with intact uterus - no progestogen needed</li>
+                        </ul>
+
+                        <p><strong>Advantages:</strong></p>
+                        <ul>
+                            <li>No progestogen (avoids progestogen side effects)</li>
+                            <li>No withdrawal bleeding</li>
+                            <li>Dual benefit: VMS + bone</li>
+                        </ul>
+
+                        <p><strong>Disadvantages:</strong></p>
+                        <ul>
+                            <li>Still has estrogen VTE risk</li>
+                            <li>Limited long-term data</li>
+                            <li>More expensive</li>
+                        </ul>
+                    `
+                }
+            ],
+            
+            reviewFocus: `
+                <h3>FINAL REVIEW WEEK - Your Exam Preparation Plan</h3>
+                
+                <h4>Day 1-2: HIGH-YIELD TOPIC REVIEW</h4>
+                <ul>
+                    <li>STRAW+10 staging (all 7 stages with criteria)</li>
+                    <li>VMS treatment options and efficacy</li>
+                    <li>GSM treatment - all options</li>
+                    <li>Osteoporosis: screening, FRAX, all medications</li>
+                    <li>HT formulations, routes, contraindications</li>
+                </ul>
+
+                <h4>Day 3-4: PRACTICE QUESTIONS</h4>
+                <ul>
+                    <li>Work through NAMS Study Guide</li>
+                    <li>Review ALL explanations (even for correct answers)</li>
+                    <li>Identify weak areas</li>
+                </ul>
+
+                <h4>Day 5: WEAK AREA FOCUS</h4>
+                <ul>
+                    <li>Review chapters where you missed questions</li>
+                    <li>Create summary cards for difficult concepts</li>
+                </ul>
+
+                <h4>Day 6: CREATE SUMMARY MATERIALS</h4>
+                <ul>
+                    <li>HT formulations comparison table</li>
+                    <li>Osteoporosis medications table</li>
+                    <li>Contraindications lists (absolute vs relative)</li>
+                    <li>VMS treatment efficacy chart</li>
+                </ul>
+
+                <h4>Day 7: FINAL REVIEW</h4>
+                <ul>
+                    <li>Review your summary materials</li>
+                    <li>Light practice questions</li>
+                    <li>DON'T cram new material</li>
+                    <li>Get good sleep</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h4>Exam Day Tips</h4>
+                    <ul>
+                        <li>Read each question carefully</li>
+                        <li>Identify what's actually being asked</li>
+                        <li>Eliminate obviously wrong answers first</li>
+                        <li>Watch for "EXCEPT" and "NOT" questions</li>
+                        <li>Don't second-guess yourself</li>
+                        <li>Manage your time (but you'll likely have plenty)</li>
+                    </ul>
+                </div>
+            `,
+            
+            keyTakeaways: [
+                "Compounded hormones NOT recommended - use FDA-approved products",
+                "Raloxifene: good for bone + breast cancer prevention, worsens VMS",
+                "TSEC (Duavee): estrogen + bazedoxifene - no progestogen needed",
+                "Ospemifene: oral SERM for dyspareunia, has VTE risk",
+                "Review all high-yield topics systematically before exam"
+            ]
+        }
+    }
+];
+
+// Merge final weeks
+studyData.weeks.push(...finalWeeks);
+// Comprehensive Practice Quiz Database
+const quizData = {
+    quizzes: [
+        {
+            id: 'week1-foundations',
+            title: 'Week 1: Menopause Foundations',
+            description: 'Test your knowledge of menopause terminology, STRAW+10 staging, and POI',
+            totalQuestions: 25,
+            passingScore: 80,
+            questions: [
+                {
+                    id: 1,
+                    difficulty: 'easy',
+                    question: 'According to the STRAW+10 criteria, menopause is defined as:',
+                    options: [
+                        '6 months of amenorrhea',
+                        '12 months of amenorrhea',
+                        '18 months of amenorrhea',
+                        '24 months of amenorrhea'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'Menopause is defined as 12 consecutive months of amenorrhea in the absence of other pathological or physiological causes. This is a retrospective diagnosis. The 12-month criterion is universally accepted and is a cornerstone of menopause diagnosis.',
+                    reference: 'Menopause Practice, Chapter 1, Page 2',
+                    topic: 'Terminology'
+                },
+                {
+                    id: 2,
+                    difficulty: 'medium',
+                    question: 'A 48-year-old woman reports that her menstrual cycles have become irregular, with cycle lengths varying from 24 to 35 days over the past 6 months. According to STRAW+10, she is in which stage?',
+                    options: [
+                        'Stage -3 (Late Reproductive)',
+                        'Stage -2 (Early Menopausal Transition)',
+                        'Stage -1 (Late Menopausal Transition)',
+                        'Stage +1a (Early Postmenopause)'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'Stage -2 (Early Menopausal Transition) is characterized by variable cycle length with >7 days variation from normal. This patient shows an 11-day variation (35-24 = 11 days), which meets the criteria. Stage -1 would require amenorrhea ≥60 days, which she has not experienced.',
+                    reference: 'Menopause Practice, Chapter 1, Figure 1',
+                    topic: 'STRAW+10 Staging'
+                },
+                {
+                    id: 3,
+                    difficulty: 'hard',
+                    question: 'A 52-year-old woman had her last menstrual period 8 months ago. She asks if she still needs contraception. What is the most appropriate counseling?',
+                    stem: 'The patient has no history of hysterectomy, is not using hormonal contraception, and has been sexually active.',
+                    options: [
+                        'She no longer needs contraception as she is menopausal',
+                        'She should continue contraception until 12 months after her last period',
+                        'She should continue contraception until FSH is >40 IU/L on two occasions',
+                        'She only needs contraception if she resumes having periods'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'Contraception should be continued until menopause is confirmed (12 months amenorrhea) because ovulation can still occur during the transition. At 8 months, she has not yet met the criteria for menopause diagnosis. Small risk of pregnancy exists until 12 months of amenorrhea is documented. FSH testing is not recommended for contraceptive decision-making as levels can fluctuate.',
+                    reference: 'Menopause Practice, Chapter 1, Page 2',
+                    topic: 'Clinical Application'
+                },
+                {
+                    id: 4,
+                    difficulty: 'medium',
+                    question: 'What is the median age of natural menopause in Western countries?',
+                    options: [
+                        '48-49 years',
+                        '51-52 years',
+                        '54-55 years',
+                        '57-58 years'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'The median age of natural menopause in Western populations is 51-52 years. This age has remained remarkably stable over time despite increases in life expectancy. It is important to note significant individual variation exists (normal range approximately 40-58 years).',
+                    reference: 'Menopause Practice, Chapter 1, Page 1',
+                    topic: 'Demographics'
+                },
+                {
+                    id: 5,
+                    difficulty: 'hard',
+                    question: 'A 38-year-old woman presents with 6 months of amenorrhea. Labs show FSH 45 IU/L and estradiol 15 pg/mL. Which of the following workup tests is MOST important?',
+                    stem: 'She has no history of chemotherapy, radiation, or surgery. Pregnancy test is negative.',
+                    options: [
+                        'Repeat FSH in 4 weeks',
+                        'Karyotype analysis',
+                        'Pelvic MRI',
+                        'Anti-Müllerian hormone (AMH) level'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'In a woman <40 years with suspected POI, karyotype is essential to rule out Turner syndrome (45,X) and other chromosomal abnormalities, especially if age <30. While repeating FSH is needed to confirm POI (must be elevated on 2 occasions >4 weeks apart), karyotype is the most important diagnostic test given the clinical implications of chromosomal abnormalities. FMR1 testing would also be important.',
+                    reference: 'Menopause Practice, Chapter 1, Table 3',
+                    topic: 'POI Workup'
+                },
+                {
+                    id: 6,
+                    difficulty: 'easy',
+                    question: 'Primary ovarian insufficiency (POI) is defined as menopause occurring before what age?',
+                    options: [
+                        'Age 35',
+                        'Age 40',
+                        'Age 45',
+                        'Age 50'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'POI is defined as menopause occurring before age 40. This is distinguished from early menopause, which occurs between ages 40-45. The distinction is important as POI carries higher risks and typically warrants hormone therapy until at least the average age of natural menopause (~51 years).',
+                    reference: 'Menopause Practice, Chapter 1, Page 12',
+                    topic: 'POI Definition'
+                },
+                {
+                    id: 7,
+                    difficulty: 'medium',
+                    question: 'During the late menopausal transition (Stage -1), which hormonal pattern is most characteristic?',
+                    options: [
+                        'FSH <10 IU/L, regular estradiol levels',
+                        'FSH >25 IU/L, variable estradiol levels',
+                        'FSH normal, progesterone elevated',
+                        'FSH normal, estradiol consistently low'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'Stage -1 (Late Menopausal Transition) is characterized by elevated FSH (typically >25 IU/L) but with variable estradiol levels. Estradiol can actually be high due to prolonged follicular phases despite overall declining ovarian function. This variability in estradiol explains why FSH alone is not reliable for diagnosis during the transition.',
+                    reference: 'Menopause Practice, Chapter 1, Figure 1',
+                    topic: 'Hormonal Changes'
+                },
+                {
+                    id: 8,
+                    difficulty: 'hard',
+                    question: 'A 28-year-old woman diagnosed with POI asks about her future fertility. What is the most accurate statement?',
+                    stem: 'She has been amenorrheic for 8 months. FSH is 52 IU/L on two occasions. She has no genetic abnormalities on karyotype.',
+                    options: [
+                        'She is permanently infertile and cannot conceive',
+                        '5-10% of women with POI may have intermittent ovarian function and can conceive',
+                        'She can conceive but only with in vitro fertilization using her own eggs',
+                        'Fertility can be restored with high-dose estrogen therapy'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'Despite POI diagnosis, 5-10% of women may have intermittent ovarian function with occasional ovulation and potential for spontaneous pregnancy. This is why contraception counseling is important if pregnancy is not desired. However, for women desiring pregnancy, egg donation is typically recommended as the most reliable option. POI does not equal absolute infertility, though pregnancy rates are very low.',
+                    reference: 'Menopause Practice, Chapter 1, Page 14',
+                    topic: 'POI Management'
+                },
+                {
+                    id: 9,
+                    difficulty: 'medium',
+                    question: 'What is the most common cause of primary ovarian insufficiency (POI)?',
+                    options: [
+                        'Turner syndrome',
+                        'Autoimmune oophoritis',
+                        'Chemotherapy',
+                        'Idiopathic (unknown cause)'
+                    ],
+                    correctAnswer: 3,
+                    explanation: 'The majority of POI cases (50-70%) are idiopathic, meaning no specific cause is identified despite thorough workup. Among identifiable causes, genetic factors (Turner syndrome, FMR1 premutation) and autoimmune conditions are most common. Iatrogenic causes (chemotherapy, radiation) are also significant.',
+                    reference: 'Menopause Practice, Chapter 1, Page 13',
+                    topic: 'POI Etiology'
+                },
+                {
+                    id: 10,
+                    difficulty: 'easy',
+                    question: 'What is the primary source of estrogen in postmenopausal women?',
+                    options: [
+                        'Ovarian estradiol production',
+                        'Peripheral conversion of androgens to estrone',
+                        'Adrenal gland estrogen synthesis',
+                        'Dietary phytoestrogens'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'In postmenopausal women, the primary estrogen source is estrone, produced by peripheral conversion of androgens (primarily androstenedione) in adipose tissue and other sites. This is why body weight/adiposity affects estrogen levels in postmenopausal women. Direct ovarian estrogen production is minimal after menopause.',
+                    reference: 'Menopause Practice, Chapter 1, Page 10',
+                    topic: 'Postmenopausal Physiology'
+                },
+                {
+                    id: 11,
+                    difficulty: 'hard',
+                    question: 'A 45-year-old woman with POI (diagnosed at age 37) asks when she can stop hormone therapy. What is the most appropriate recommendation?',
+                    stem: 'She is currently on oral estradiol 2mg daily with micronized progesterone. She feels well and has no contraindications to HT.',
+                    options: [
+                        'She can stop now as she has been on therapy for >5 years',
+                        'Continue until age 51-52 (average age of natural menopause)',
+                        'Continue until age 60',
+                        'Continue lifelong therapy'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'Women with POI should receive hormone therapy at least until the average age of natural menopause (51-52 years) to mitigate the increased risks of osteoporosis, cardiovascular disease, and cognitive decline associated with early estrogen deficiency. After age 51, the decision to continue can be individualized based on symptoms and risk-benefit assessment, similar to typical menopausal HT.',
+                    reference: 'Menopause Practice, Chapter 1, Page 17',
+                    topic: 'POI Management'
+                },
+                {
+                    id: 12,
+                    difficulty: 'medium',
+                    question: 'Which statement about DHEA and DHEAS in menopause is correct?',
+                    options: [
+                        'DHEA levels increase after menopause due to compensatory adrenal activity',
+                        'DHEA decline is accelerated by menopause',
+                        'DHEA/DHEAS decline gradually with age, independent of menopause',
+                        'DHEA levels remain stable throughout menopause and aging'
+                    ],
+                    correctAnswer: 2,
+                    explanation: 'DHEA and DHEAS decline gradually with aging (adrenopause) but this decline is independent of ovarian function and menopause timing. Levels peak in the 20s-30s and decline to ~20% of peak by age 70. This is an important distinction from ovarian hormone changes, which are directly related to menopause.',
+                    reference: 'Menopause Practice, Chapter 1, Page 9-11',
+                    topic: 'Adrenal Physiology'
+                },
+                {
+                    id: 13,
+                    difficulty: 'medium',
+                    question: 'What defines Stage -1 (Late Menopausal Transition) in the STRAW+10 system?',
+                    options: [
+                        'Cycle length variation >7 days',
+                        'Amenorrhea ≥60 days',
+                        'FSH >40 IU/L',
+                        'Hot flashes beginning'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'Stage -1 is defined by ≥2 skipped cycles AND an interval of amenorrhea ≥60 days. This is more severe irregularity than Stage -2 (which only requires >7 day cycle variation). FSH is often >25 IU/L but the amenorrhea criterion is the defining feature. Symptoms can occur at any stage and are not part of staging criteria.',
+                    reference: 'Menopause Practice, Chapter 1, Figure 1',
+                    topic: 'STRAW+10 Staging'
+                },
+                {
+                    id: 14,
+                    difficulty: 'easy',
+                    question: 'FSH testing for menopause diagnosis is most appropriate in which scenario?',
+                    options: [
+                        'A 52-year-old with 8 months of amenorrhea and hot flashes',
+                        'A 38-year-old with 6 months of amenorrhea',
+                        'A 55-year-old with irregular periods for 2 years',
+                        'A 49-year-old on combined oral contraceptives'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'FSH testing is most useful for diagnosing POI in women <40 years with amenorrhea, as the diagnosis has significant implications requiring intervention. In women >45 years with typical symptoms, clinical diagnosis is sufficient and FSH testing is not routinely recommended. FSH cannot be interpreted in women on hormonal contraception.',
+                    reference: 'Menopause Practice, Chapter 1, Page 3',
+                    topic: 'Diagnostic Testing'
+                },
+                {
+                    id: 15,
+                    difficulty: 'hard',
+                    question: 'Which statement about inhibin B during the menopausal transition is correct?',
+                    options: [
+                        'Inhibin B levels increase, suppressing FSH',
+                        'Inhibin B levels decline, removing negative feedback on FSH',
+                        'Inhibin B levels remain stable while FSH increases',
+                        'Inhibin B is not relevant to reproductive aging'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'Inhibin B, produced by ovarian granulosa cells, declines with decreasing follicle number during the menopausal transition. This decline removes negative feedback on the pituitary, resulting in increased FSH secretion. The loss of inhibin B is one of the earliest hormonal changes in reproductive aging and occurs before significant changes in estradiol or FSH.',
+                    reference: 'Menopause Practice, Chapter 1, Page 7-8',
+                    topic: 'Reproductive Physiology'
+                },
+                {
+                    id: 16,
+                    difficulty: 'medium',
+                    question: 'A woman with documented POI should be screened for which associated condition?',
+                    stem: 'She has normal karyotype and negative FMR1 testing.',
+                    options: [
+                        'Breast cancer',
+                        'Autoimmune thyroid disease',
+                        'Ovarian cancer',
+                        'Cervical dysplasia'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'POI has significant associations with autoimmune conditions, particularly thyroid disease (Hashimoto thyroiditis), adrenal insufficiency (Addison disease), and other autoimmune disorders. Screening should include TSH, anti-thyroid antibodies, and morning cortisol at minimum. Some patients have autoimmune polyglandular syndromes.',
+                    reference: 'Menopause Practice, Chapter 1, Table 3',
+                    topic: 'POI Screening'
+                },
+                {
+                    id: 17,
+                    difficulty: 'easy',
+                    question: 'What percentage of their lives do women now spend in the postmenopausal state?',
+                    options: [
+                        'About 20%',
+                        'About 30%',
+                        'About 40%',
+                        'About 50%'
+                    ],
+                    correctAnswer: 2,
+                    explanation: 'With increasing life expectancy (now ~81 years for US women) and stable median menopause age (~51 years), many women now spend approximately 40% of their lives in the postmenopausal state. This underscores the importance of optimal menopause management for long-term health and quality of life.',
+                    reference: 'Menopause Practice, Chapter 1, Page 1',
+                    topic: 'Demographics'
+                },
+                {
+                    id: 18,
+                    difficulty: 'hard',
+                    question: 'What is a LOOP (Luteal Out Of Phase) event?',
+                    options: [
+                        'A prolonged luteal phase with elevated progesterone',
+                        'An anovulatory cycle where the follicle undergoes atresia without ovulation',
+                        'A cycle with two ovulations occurring',
+                        'A shortened follicular phase with early ovulation'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'A LOOP event is an anovulatory cycle characteristic of the late menopausal transition where the follicle develops but undergoes atresia without ovulation, followed by spotting or bleeding. This helps explain the erratic bleeding patterns common during the transition and represents disordered follicular dynamics rather than normal ovulatory cycles.',
+                    reference: 'Menopause Practice, Chapter 1, Figure 2',
+                    topic: 'Transition Physiology'
+                },
+                {
+                    id: 19,
+                    difficulty: 'medium',
+                    question: 'Which genetic test is recommended for women diagnosed with POI?',
+                    options: [
+                        'BRCA1/2 mutation testing',
+                        'FMR1 gene premutation testing',
+                        'APOE genotyping',
+                        'Factor V Leiden mutation'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'FMR1 (Fragile X Mental Retardation 1) gene premutation testing is recommended in POI workup, particularly in women with family history of developmental disabilities or premature ovarian failure. Women with FMR1 premutation have ~20% risk of POI. Karyotype is also essential. BRCA testing may be considered if family history suggests hereditary cancer syndrome but is not routine POI workup.',
+                    reference: 'Menopause Practice, Chapter 1, Page 13',
+                    topic: 'POI Genetics'
+                },
+                {
+                    id: 20,
+                    difficulty: 'medium',
+                    question: 'In Stage -3 (Late Reproductive), which of the following is expected?',
+                    options: [
+                        'Irregular cycles with >7 day variation',
+                        'Regular cycles with subtle changes in flow or length',
+                        'Amenorrhea ≥60 days',
+                        'FSH consistently >25 IU/L'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'Stage -3 is characterized by regular menstrual cycles but with subtle changes in flow or cycle length. FSH remains normal but AMH and antral follicle count (AFC) are declining. This stage represents early reproductive aging with maintained cyclicity. Stage -2 is when cycles become irregular (>7 day variation).',
+                    reference: 'Menopause Practice, Chapter 1, Figure 1',
+                    topic: 'STRAW+10 Staging'
+                },
+                {
+                    id: 21,
+                    difficulty: 'hard',
+                    question: 'A 35-year-old woman with newly diagnosed POI asks about bone health. What is the most important counseling point?',
+                    stem: 'She is otherwise healthy with no history of fractures.',
+                    options: [
+                        'Bone density testing is not needed until age 65',
+                        'She should start bisphosphonate therapy immediately',
+                        'She has significantly increased fracture risk without hormone therapy',
+                        'Calcium and vitamin D supplementation alone are sufficient'
+                    ],
+                    correctAnswer: 2,
+                    explanation: 'Women with POI have dramatically increased risk of osteoporosis and fractures due to prolonged estrogen deficiency. Hormone therapy until at least age 51 is recommended to mitigate this risk and is more physiologic than bisphosphonates for this age group. Bone density testing should be considered at diagnosis or shortly after. Calcium and vitamin D are important but insufficient alone.',
+                    reference: 'Menopause Practice, Chapter 1, Page 17',
+                    topic: 'POI Complications'
+                },
+                {
+                    id: 22,
+                    difficulty: 'easy',
+                    question: 'What is the most common symptom during the menopausal transition?',
+                    options: [
+                        'Weight gain',
+                        'Vaginal dryness',
+                        'Vasomotor symptoms (hot flashes)',
+                        'Mood changes'
+                    ],
+                    correctAnswer: 2,
+                    explanation: 'Vasomotor symptoms (VMS), including hot flashes and night sweats, are the most common and characteristic symptoms of the menopausal transition, affecting 70-80% of women. They typically begin in the late transition (Stage -1) and can persist for several years postmenopause.',
+                    reference: 'Menopause Practice, Chapter 3',
+                    topic: 'Symptoms'
+                },
+                {
+                    id: 23,
+                    difficulty: 'medium',
+                    question: 'Why is single FSH measurement not recommended for diagnosing menopause in women >45 years?',
+                    options: [
+                        'FSH testing is too expensive',
+                        'FSH levels can fluctuate significantly during the transition',
+                        'FSH is not affected by menopause',
+                        'Anti-Müllerian hormone (AMH) is more accurate'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'During the menopausal transition, FSH levels can fluctuate widely from cycle to cycle and even within a single cycle. A woman can have elevated FSH one month and normal FSH the next. Therefore, single measurements are unreliable. In women >45 with typical symptoms, clinical diagnosis based on menstrual pattern is more appropriate than hormonal testing.',
+                    reference: 'Menopause Practice, Chapter 1, Page 3',
+                    topic: 'Diagnostic Testing'
+                },
+                {
+                    id: 24,
+                    difficulty: 'hard',
+                    question: 'A 42-year-old woman underwent bilateral oophorectomy for endometriosis. Regarding hormone therapy, what is the most appropriate approach?',
+                    stem: 'She has an intact uterus and no history of breast cancer or other contraindications.',
+                    options: [
+                        'Estrogen-only therapy is appropriate as she has no ovarian tissue',
+                        'She needs estrogen plus progestogen therapy due to intact uterus',
+                        'No hormone therapy is needed as surgical menopause is not symptomatic',
+                        'She should wait until age 51 to start hormone therapy'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'Despite having an intact uterus, this woman needs estrogen plus progestogen therapy for endometrial protection. The presence of a uterus (not ovaries) determines the need for progestogen. Additionally, given her young age at surgical menopause, hormone therapy until at least age 51 is recommended to reduce risks associated with early estrogen deficiency.',
+                    reference: 'Menopause Practice, Chapter 11',
+                    topic: 'HT Principles'
+                },
+                {
+                    id: 25,
+                    difficulty: 'medium',
+                    question: 'What is the approximate normal range for age at natural menopause?',
+                    options: [
+                        '35-45 years',
+                        '40-58 years',
+                        '45-65 years',
+                        '50-70 years'
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'The normal range for natural menopause is approximately 40-58 years, with the median around 51-52 years. Menopause before age 40 is considered premature (POI), and menopause between 40-45 is considered early. Both are associated with increased health risks and typically warrant evaluation and intervention.',
+                    reference: 'Menopause Practice, Chapter 1, Page 1',
+                    topic: 'Demographics'
+                }
+            ]
+        },
+        // Additional quiz sets for other weeks would go here
+        {
+            id: 'comprehensive-practice',
+            title: 'Comprehensive Practice Exam',
+            description: 'Mixed questions covering all major topics - simulates actual exam',
+            totalQuestions: 50,
+            passingScore: 75,
+            questions: [] // Would be populated with questions from all chapters
+        }
+    ]
+};
+// Main Application Logic
+let currentProgress = 0;
+let completedWeeks = new Set();
+let quizState = {
+    currentQuiz: null,
+    currentQuestionIndex: 0,
+    answers: {},
+    score: 0,
+    showingResults: false
+};
+
+// Initialize application
+function init() {
+    renderWeekSelector();
+    showWelcomeScreen();
+    loadProgress();
+}
+
+// Load saved progress from localStorage
+function loadProgress() {
+    const saved = localStorage.getItem('menopauseStudyProgress');
+    if (saved) {
+        const data = JSON.parse(saved);
+        completedWeeks = new Set(data.completedWeeks || []);
+        currentProgress = (completedWeeks.size / studyData.weeks.length) * 100;
+        updateProgressBar();
+    }
+}
+
+// Save progress to localStorage
+function saveProgress() {
+    const data = {
+        completedWeeks: Array.from(completedWeeks),
+        lastUpdated: new Date().toISOString()
+    };
+    localStorage.setItem('menopauseStudyProgress', JSON.stringify(data));
+}
+
+// Update progress bar
+function updateProgressBar() {
+    document.getElementById('progressBar').style.width = currentProgress + '%';
+    document.getElementById('progressText').textContent = 
+        `${completedWeeks.size} of ${studyData.weeks.length} weeks completed`;
+}
+
+// Render week selector in sidebar
+function renderWeekSelector() {
+    const selector = document.getElementById('weekSelector');
+    selector.innerHTML = '';
+
+    studyData.weeks.forEach((week, index) => {
+        const li = document.createElement('li');
+        li.className = 'week-item';
+        if (completedWeeks.has(index)) {
+            li.classList.add('completed');
+        }
+        
+        li.innerHTML = `
+            <span>Week ${week.week}: ${week.title}</span>
+            <span class="week-check">${completedWeeks.has(index) ? '✓' : ''}</span>
+        `;
+        
+        li.onclick = () => showWeekDetail(index);
+        selector.appendChild(li);
+    });
+}
+
+// Show welcome/overview screen
+function showWelcomeScreen() {
+    const content = document.getElementById('mainContent');
+    content.innerHTML = `
+        <div style="text-align: center; padding: 4rem 2rem;">
+            <h2 style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;">
+                Welcome to Your Certification Journey
+            </h2>
+            <p style="font-size: 1.2rem; color: var(--text-mid); max-width: 700px; margin: 0 auto 3rem; line-height: 1.8;">
+                This 10-week study plan will guide you through all the material you need to pass 
+                the Menopause Society Certification Exam with confidence.
+            </p>
+            
+            <div style="background: var(--bg-cream); border-radius: 12px; padding: 2rem; margin-top: 3rem;">
+                <h3 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.8rem;">
+                    Your 10-Week Roadmap
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    ${studyData.weeks.map((week, index) => `
+                        <div style="background: white; padding: 1.5rem; border-radius: 10px; 
+                                    border: 2px solid ${completedWeeks.has(index) ? 'var(--primary-light)' : 'var(--border)'}; 
+                                    cursor: pointer;" onclick="showWeekDetail(${index})">
+                            <div style="font-weight: 700; color: var(--primary); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                                Week ${week.week} ${completedWeeks.has(index) ? '✓' : ''}
+                            </div>
+                            <div style="font-size: 0.9rem; color: var(--text-mid);">
+                                ${week.title}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <button class="btn btn-primary" onclick="showWeekDetail(0)" 
+                        style="font-size: 1.1rem; padding: 1.2rem 3rem;">
+                    Start Week 1 →
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+// Show detailed week view
+function showWeekDetail(weekIndex) {
+    const week = studyData.weeks[weekIndex];
+    const content = document.getElementById('mainContent');
+    
+    // Update sidebar
+    document.querySelectorAll('.week-item').forEach((item, i) => {
+        item.classList.remove('active');
+        if (i === weekIndex) item.classList.add('active');
+    });
+
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>Week ${week.week}: ${week.title}</h2>
+            <div class="content-meta">
+                <div class="meta-item">
+                    <div class="meta-icon">📖</div>
+                    <span>Pages ${week.pages}</span>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-icon">⏱️</div>
+                    <span>${week.estimatedHours}</span>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-icon">🎯</div>
+                    <span>${week.learningObjectives.length} Learning Objectives</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <h3>📚 Overview</h3>
+            <p>${week.detailedContent.overview}</p>
+        </div>
+
+        <div class="detail-section">
+            <h3>🎯 Learning Objectives</h3>
+            <p>By the end of this week, you should be able to:</p>
+            <ul>
+                ${week.learningObjectives.map(obj => `<li>${obj}</li>`).join('')}
+            </ul>
+        </div>
+
+        ${week.detailedContent.sections.map(section => `
+            <div class="detail-section">
+                <h3>${section.title}</h3>
+                ${section.content}
+            </div>
+        `).join('')}
+
+        ${week.studyStrategy ? `
+            <div class="detail-section">
+                ${week.studyStrategy}
+            </div>
+        ` : ''}
+
+        ${week.keyTakeaways ? `
+            <div class="highlight-box">
+                <h4>🔑 Key Takeaways</h4>
+                <ul>
+                    ${week.keyTakeaways.map(point => `<li>${point}</li>`).join('')}
+                </ul>
+            </div>
+        ` : ''}
+
+        <div style="display: flex; gap: 1rem; margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border);">
+            <button class="btn btn-secondary" onclick="showWeekDetail(${Math.max(0, weekIndex - 1)})" 
+                    ${weekIndex === 0 ? 'disabled' : ''}>
+                ← Previous Week
+            </button>
+            <button class="btn btn-primary" onclick="markWeekComplete(${weekIndex})" style="flex: 1;">
+                ${completedWeeks.has(weekIndex) ? '✓ Completed' : 'Mark Week Complete'}
+            </button>
+            <button class="btn btn-secondary" onclick="showWeekDetail(${Math.min(studyData.weeks.length - 1, weekIndex + 1)})" 
+                    ${weekIndex === studyData.weeks.length - 1 ? 'disabled' : ''}>
+                Next Week →
+            </button>
+        </div>
+    `;
+}
+
+// Mark week as complete
+function markWeekComplete(weekIndex) {
+    if (!completedWeeks.has(weekIndex)) {
+        completedWeeks.add(weekIndex);
+        currentProgress = Math.round((completedWeeks.size / studyData.weeks.length) * 100);
+        updateProgressBar();
+        renderWeekSelector();
+        saveProgress();
+        
+        if (completedWeeks.size === studyData.weeks.length) {
+            alert('🎉 Congratulations! You\'ve completed all 10 weeks! You\'re ready for the exam!');
+        }
+    }
+}
+
+// Show quiz view
+function showView(view) {
+    if (view === 'overview') {
+        showWelcomeScreen();
+    } else if (view === 'study') {
+        showWeekDetail(0);
+    } else if (view === 'quiz') {
+        showQuizSelection();
+    }
+}
+
+// Show quiz selection
+function showQuizSelection() {
+    const content = document.getElementById('mainContent');
+    content.innerHTML = `
+        <div class="content-header">
+            <h2>Practice Quizzes</h2>
+            <p style="margin-top: 1rem; color: var(--text-mid);">
+                Test your knowledge with these comprehensive practice questions
+            </p>
+        </div>
+
+        <div style="display: grid; gap: 1.5rem; margin-top: 2rem;">
+            ${quizData.quizzes.map(quiz => `
+                <div style="background: var(--bg-cream); border: 2px solid var(--border); 
+                            border-radius: 12px; padding: 2rem; cursor: pointer; transition: all 0.3s ease;"
+                     onmouseover="this.style.borderColor='var(--accent)'; this.style.transform='translateY(-4px)'"
+                     onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)'"
+                     onclick="startQuiz('${quiz.id}')">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">${quiz.title}</h3>
+                    <p style="color: var(--text-mid); margin-bottom: 1rem;">${quiz.description}</p>
+                    <div style="display: flex; gap: 2rem; font-size: 0.9rem; color: var(--text-light);">
+                        <span>📝 ${quiz.totalQuestions} questions</span>
+                        <span>✅ ${quiz.passingScore}% to pass</span>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+// Start a quiz
+function startQuiz(quizId) {
+    const quiz = quizData.quizzes.find(q => q.id === quizId);
+    if (!quiz || quiz.questions.length === 0) {
+        alert('This quiz is coming soon!');
+        return;
+    }
+    
+    quizState = {
+        currentQuiz: quiz,
+        currentQuestionIndex: 0,
+        answers: {},
+        score: 0,
+        showingResults: false
+    };
+    
+    showQuestion();
+}
+
+// Show current question
+function showQuestion() {
+    const quiz = quizState.currentQuiz;
+    const question = quiz.questions[quizState.currentQuestionIndex];
+    const content = document.getElementById('mainContent');
+    
+    content.innerHTML = `
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h3>${quiz.title}</h3>
+                <div class="quiz-stats">
+                    <div class="quiz-stat">
+                        <span class="quiz-stat-number">${quizState.currentQuestionIndex + 1}</span>
+                        <span class="quiz-stat-label">of ${quiz.questions.length}</span>
+                    </div>
+                    <div class="quiz-stat">
+                        <span class="quiz-stat-number">${Object.keys(quizState.answers).length}</span>
+                        <span class="quiz-stat-label">Answered</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quiz-body">
+                <div class="question-card ${quizState.answers[question.id] !== undefined ? 'answered' : ''}">
+                    <div class="question-header">
+                        <span class="question-number">Question ${quizState.currentQuestionIndex + 1}</span>
+                        <span class="question-difficulty difficulty-${question.difficulty}">
+                            ${question.difficulty.toUpperCase()}
+                        </span>
+                    </div>
+                    
+                    ${question.stem ? `<div class="question-stem">${question.stem}</div>` : ''}
+                    
+                    <div class="question-text">${question.question}</div>
+                    
+                    <ul class="options-list">
+                        ${question.options.map((option, index) => {
+                            const isSelected = quizState.answers[question.id] === index;
+                            return `
+                                <li class="option-item ${isSelected ? 'selected' : ''}" 
+                                    onclick="selectAnswer(${question.id}, ${index})">
+                                    <div class="option-letter">${String.fromCharCode(65 + index)}</div>
+                                    <div class="option-text">${option}</div>
+                                </li>
+                            `;
+                        }).join('')}
+                    </ul>
+                    
+                    <div class="explanation ${quizState.answers[question.id] !== undefined ? 'show' : ''}">
+                        <div class="explanation-header">
+                            ${quizState.answers[question.id] === question.correctAnswer ? '✅ Correct!' : '❌ Incorrect'}
+                        </div>
+                        <div class="explanation-content">
+                            <strong>Correct Answer: ${String.fromCharCode(65 + question.correctAnswer)}</strong>
+                            <p>${question.explanation}</p>
+                        </div>
+                        <div class="reference">📖 ${question.reference} | Topic: ${question.topic}</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-actions">
+                    <button class="btn btn-secondary" 
+                            onclick="previousQuestion()" 
+                            ${quizState.currentQuestionIndex === 0 ? 'disabled' : ''}>
+                        ← Previous
+                    </button>
+                    
+                    ${quizState.currentQuestionIndex < quiz.questions.length - 1 ? `
+                        <button class="btn btn-primary" onclick="nextQuestion()">
+                            Next Question →
+                        </button>
+                    ` : `
+                        <button class="btn btn-primary" onclick="finishQuiz()">
+                            Finish Quiz
+                        </button>
+                    `}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Select an answer
+function selectAnswer(questionId, answerIndex) {
+    if (quizState.answers[questionId] !== undefined) return; // Already answered
+    
+    quizState.answers[questionId] = answerIndex;
+    showQuestion(); // Refresh to show explanation
+}
+
+// Navigate to next question
+function nextQuestion() {
+    if (quizState.currentQuestionIndex < quizState.currentQuiz.questions.length - 1) {
+        quizState.currentQuestionIndex++;
+        showQuestion();
+    }
+}
+
+// Navigate to previous question
+function previousQuestion() {
+    if (quizState.currentQuestionIndex > 0) {
+        quizState.currentQuestionIndex--;
+        showQuestion();
+    }
+}
+
+// Finish quiz and show results
+function finishQuiz() {
+    const quiz = quizState.currentQuiz;
+    let correct = 0;
+    
+    quiz.questions.forEach(q => {
+        if (quizState.answers[q.id] === q.correctAnswer) {
+            correct++;
+        }
+    });
+    
+    const percentage = Math.round((correct / quiz.questions.length) * 100);
+    const passed = percentage >= quiz.passingScore;
+    
+    const content = document.getElementById('mainContent');
+    content.innerHTML = `
+        <div class="score-summary">
+            <h3>Quiz Complete!</h3>
+            <span class="score-number">${percentage}%</span>
+            <div class="score-feedback">
+                ${passed ? 
+                    '🎉 Congratulations! You passed this quiz!' : 
+                    '📚 Keep studying! Review the explanations and try again.'}
+            </div>
+            
+            <div class="score-breakdown">
+                <div class="breakdown-item">
+                    <span class="breakdown-number">${correct}</span>
+                    <span class="breakdown-label">Correct</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-number">${quiz.questions.length - correct}</span>
+                    <span class="breakdown-label">Incorrect</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-number">${quiz.passingScore}%</span>
+                    <span class="breakdown-label">Passing Score</span>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                <button class="btn btn-secondary" onclick="showQuizSelection()">
+                    Back to Quizzes
+                </button>
+                <button class="btn btn-primary" onclick="startQuiz('${quiz.id}')">
+                    Retake Quiz
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body></html>
