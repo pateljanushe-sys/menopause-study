@@ -3,10 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menopause Society Certification Study Platform</title>
+    <title>Menopause Mastery — Certification Study Platform by Dr. Janu Patel, MD MPH</title>
+    <meta name="description" content="Master the Menopause Society Certification Exam with Dr. Janu Patel's evidence-based study platform. 10-week curriculum, 243 practice questions, clinical pearls, and exam tips.">
+    <meta name="keywords" content="menopause certification, NAMS exam, menopause education, hormone therapy, clinical practice, medical education, menopause society">
+    <meta name="author" content="Dr. Janu Patel, MD MPH">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Menopause Mastery — Certification Study Platform">
+    <meta property="og:description" content="Evidence-based menopause education by Dr. Janu Patel, National Menopause Implementation Lead. 243 practice questions across 10 weeks.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://menopausestudyguide.netlify.app">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Menopause Mastery — Certification Study Platform">
+    <meta name="twitter:description" content="Evidence-based menopause education by Dr. Janu Patel. Pass your certification exam with confidence.">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Menopause Mastery",
+      "url": "https://menopausestudyguide.netlify.app",
+      "description": "Certification study platform for menopause healthcare providers",
+      "author": {
+        "@type": "Person",
+        "name": "Dr. Janu Patel",
+        "jobTitle": "National Menopause Implementation Lead & District Medical Director",
+        "worksFor": { "@type": "Organization", "name": "One Medical" }
+      },
+      "educationalLevel": "Professional Development"
+    }
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #1a4d2e;
@@ -26,6 +63,71 @@
             --warning: #e8b887;
         }
 
+        /* Dark Mode */
+        [data-theme="dark"] {
+            --primary: #4ade80;
+            --primary-light: #86efac;
+            --accent: #fbbf24;
+            --accent-bright: #fcd34d;
+            --bg-cream: #0f172a;
+            --bg-white: #1e293b;
+            --text-dark: #f1f5f9;
+            --text-mid: #cbd5e1;
+            --text-light: #94a3b8;
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-heavy: rgba(0, 0, 0, 0.5);
+            --correct: #4ade80;
+            --incorrect: #f87171;
+            --warning: #fbbf24;
+        }
+
+        [data-theme="dark"] .logo-icon {
+            background: linear-gradient(135deg, #166534, #22c55e);
+        }
+
+        [data-theme="dark"] .header {
+            background: #1e293b;
+            border-bottom-color: #334155;
+        }
+
+        [data-theme="dark"] img {
+            opacity: 0.9;
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background: var(--accent);
+            color: #0f172a;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -33,11 +135,12 @@
         }
 
         body {
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Inter', 'DM Sans', sans-serif;
             background: var(--bg-cream);
             color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         h1, h2, h3, h4 {
@@ -1057,6 +1160,8 @@
         @media (max-width: 1024px) {
             .container {
                 grid-template-columns: 1fr;
+                padding: 1.5rem 1rem;
+                gap: 1.5rem;
             }
 
             .sidebar {
@@ -1068,6 +1173,90 @@
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
+
+            .header-content {
+                padding: 0 1rem;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+
+            .header-nav {
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .logo-text h1 {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem 0.75rem;
+            }
+
+            .header-nav {
+                gap: 0.25rem;
+            }
+
+            .nav-btn {
+                padding: 0.35rem 0.6rem;
+                font-size: 0.78rem;
+                border-width: 1.5px;
+            }
+
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+
+            .sidebar {
+                padding: 1.25rem;
+            }
+
+            .topic-card, .question-card {
+                padding: 1.25rem;
+            }
+
+            .score-summary {
+                padding: 2rem 1.5rem;
+            }
+
+            .score-number {
+                font-size: 3rem;
+            }
+        }
+
+        /* Smooth transitions for theme switching */
+        .header, .sidebar, .main-content, .topic-card, .question-card,
+        .nav-btn, .btn, .score-summary, .overview-card, .guide-card {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Footer */
+        .site-footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .site-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .site-footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -1086,6 +1275,7 @@
                 <button class="nav-btn" onclick="showView('study')">Study Guide</button>
                 <button class="nav-btn" onclick="showView('guides')">Patient Guides</button>
                 <button class="nav-btn primary" onclick="showView('quiz')">Practice Quiz</button>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
             </nav>
         </div>
     </header>
@@ -7939,5 +8129,100 @@ function showPatientGuide(index) {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', init);
+
+// ===== DARK MODE =====
+function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('mm-theme', next);
+    document.querySelector('.theme-toggle').textContent = next === 'dark' ? '☀️' : '🌙';
+}
+
+// Apply saved theme on load
+(function() {
+    const saved = localStorage.getItem('mm-theme');
+    if (saved === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.querySelector('.theme-toggle');
+            if (toggle) toggle.textContent = '☀️';
+        });
+    }
+})();
+
+// ===== PROGRESS PERSISTENCE (localStorage) =====
+const STORAGE_KEY = 'mm-progress';
+
+function saveProgress() {
+    try {
+        const progress = {
+            completedWeeks: getCompletedWeeks(),
+            quizScores: getQuizScores(),
+            lastVisited: new Date().toISOString(),
+            currentWeek: typeof currentWeek !== 'undefined' ? currentWeek : 0
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    } catch(e) { /* localStorage not available */ }
+}
+
+function loadProgress() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            const progress = JSON.parse(saved);
+            if (progress.completedWeeks) {
+                restoreCompletedWeeks(progress.completedWeeks);
+            }
+            return progress;
+        }
+    } catch(e) { /* localStorage not available */ }
+    return null;
+}
+
+function getCompletedWeeks() {
+    const completed = [];
+    document.querySelectorAll('.week-item.completed').forEach(function(el) {
+        completed.push(el.dataset.week);
+    });
+    return completed;
+}
+
+function getQuizScores() {
+    try {
+        const scores = localStorage.getItem('mm-quiz-scores');
+        return scores ? JSON.parse(scores) : {};
+    } catch(e) { return {}; }
+}
+
+function saveQuizScore(weekIndex, score, total) {
+    try {
+        const scores = getQuizScores();
+        scores['week-' + weekIndex] = { score: score, total: total, date: new Date().toISOString() };
+        localStorage.setItem('mm-quiz-scores', JSON.stringify(scores));
+    } catch(e) { /* localStorage not available */ }
+}
+
+function restoreCompletedWeeks(weeks) {
+    // Will be called after DOM is ready if progress exists
+}
+
+// Auto-save progress periodically
+setInterval(saveProgress, 30000);
+
+// Save on page unload
+window.addEventListener('beforeunload', saveProgress);
+
+// Load progress on init
+document.addEventListener('DOMContentLoaded', function() {
+    loadProgress();
+});
 </script>
+
+<footer class="site-footer">
+    <p>Built by <strong>Dr. Janu Patel, MD MPH</strong> — National Menopause Implementation Lead & District Medical Director, One Medical</p>
+    <p style="margin-top: 0.5rem;">© 2026 Menopause Mastery. Evidence-based education for healthcare providers.</p>
+</footer>
+
 </body></html>
