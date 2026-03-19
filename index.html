@@ -7727,7 +7727,7 @@ function navTo(view) {
     if (nav) nav.classList.remove('mobile-open');
 
     if (view === 'home') {
-        showWelcomeGate();
+        showView('overview');
         setActiveNav('home');
         return;
     }
