@@ -7548,57 +7548,116 @@ function renderWeekSelector() {
 
 // Show welcome/overview screen
 function showOverviewPage() {
-    const weekIcons = ['🔬','🌡️','🩺','💊','🦴','❤️‍🔥','<svg width="28" height="28" viewBox="0 0 80 120" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="rpk1" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF7EB8"/><stop offset="100%" stop-color="#E91E90"/></linearGradient><linearGradient id="rpk2" x1="1" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FFA0CC"/><stop offset="100%" stop-color="#E91E90"/></linearGradient></defs><path d="M36 55 L22 110 L30 108 L40 65 Z" fill="url(#rpk1)"/><path d="M44 55 L58 110 L50 108 L40 65 Z" fill="url(#rpk2)"/><path d="M40 65 C32 52 10 26 12 12 C13 4 20 0 28 4 C34 7 38 16 40 24" fill="url(#rpk2)"/><path d="M40 65 C48 52 70 26 68 12 C67 4 60 0 52 4 C46 7 42 16 40 24" fill="url(#rpk1)"/></svg>','🌿','💉','🎓'];
+    const weekIcons = ['🔬','🌡️','🩺','💊','🦴','❤️‍🔥','<svg width="24" height="24" viewBox="0 0 80 120" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="rpk1" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF7EB8"/><stop offset="100%" stop-color="#E91E90"/></linearGradient><linearGradient id="rpk2" x1="1" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FFA0CC"/><stop offset="100%" stop-color="#E91E90"/></linearGradient></defs><path d="M36 55 L22 110 L30 108 L40 65 Z" fill="url(#rpk1)"/><path d="M44 55 L58 110 L50 108 L40 65 Z" fill="url(#rpk2)"/><path d="M40 65 C32 52 10 26 12 12 C13 4 20 0 28 4 C34 7 38 16 40 24" fill="url(#rpk2)"/><path d="M40 65 C48 52 70 26 68 12 C67 4 60 0 52 4 C46 7 42 16 40 24" fill="url(#rpk1)"/></svg>','🌿','💉','🎓'];
+    // Find current week (first incomplete)
+    var currentWeekIdx = 0;
+    for (var i = 0; i < studyData.weeks.length; i++) { if (!completedWeeks.has(i)) { currentWeekIdx = i; break; } }
+    var progressPct = (completedWeeks.size / studyData.weeks.length) * 100;
+
     const content = document.getElementById('mainContent');
     content.innerHTML = `
-        <div style="text-align: center; padding: 3rem 2rem;">
+        <style>
+            .tl-wrap { position:relative; max-width:700px; margin:0 auto; padding:2rem 0; }
+            .tl-line { position:absolute; left:50%; top:0; bottom:0; width:3px; background:rgba(0,77,73,0.1); transform:translateX(-50%); border-radius:3px; z-index:0; }
+            .tl-line-fill { position:absolute; left:50%; top:0; width:3px; background:linear-gradient(180deg,#004D49,#009E87); transform:translateX(-50%); border-radius:3px; z-index:1; transition:height 1s ease; }
+            .tl-item { position:relative; display:flex; align-items:flex-start; margin-bottom:0.5rem; z-index:2; }
+            .tl-item.tl-left { flex-direction:row-reverse; }
+            .tl-item.tl-right { flex-direction:row; }
+            .tl-card { flex:0 0 calc(50% - 40px); background:rgba(255,255,255,0.6); backdrop-filter:blur(8px); padding:1.5rem; border-radius:18px; border:1.5px solid rgba(0,77,73,0.08); cursor:pointer; transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275); box-shadow:0 4px 16px rgba(0,77,73,0.06); }
+            .tl-card:hover { transform:translateY(-4px); box-shadow:0 12px 36px rgba(0,77,73,0.14); border-color:rgba(0,158,135,0.3); }
+            .tl-card.tl-completed { border-color:rgba(0,158,135,0.25); background:rgba(238,246,244,0.7); }
+            .tl-card.tl-current { border-color:#009E87; box-shadow:0 4px 24px rgba(0,158,135,0.2); }
+            .tl-dot-wrap { flex:0 0 80px; display:flex; align-items:center; justify-content:center; position:relative; }
+            .tl-dot { width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg,#004D49,#009E87); display:flex; align-items:center; justify-content:center; font-size:1.3rem; box-shadow:0 4px 16px rgba(0,77,73,0.25); z-index:3; transition:all 0.3s ease; }
+            .tl-dot.tl-done { background:linear-gradient(135deg,#068466,#00d4a8); }
+            .tl-dot.tl-active { animation:tlPulse 2s ease-in-out infinite; }
+            @keyframes tlPulse { 0%,100% { box-shadow:0 4px 16px rgba(0,77,73,0.25); } 50% { box-shadow:0 4px 28px rgba(0,158,135,0.5); } }
+            .tl-card-title { font-weight:700; color:var(--primary); font-size:1.05rem; margin-bottom:0.25rem; font-family:'Crimson Pro',serif; }
+            .tl-card-topic { font-size:0.88rem; color:var(--text-mid); line-height:1.5; margin-bottom:0.5rem; }
+            .tl-card-meta { display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; }
+            .tl-tag { font-size:0.7rem; padding:0.2rem 0.55rem; border-radius:8px; font-weight:500; }
+            .tl-connector { display:none; }
+            @media(max-width:768px) {
+                .tl-line, .tl-line-fill { left:24px; }
+                .tl-item, .tl-item.tl-left { flex-direction:row !important; }
+                .tl-dot-wrap { flex:0 0 48px; }
+                .tl-dot { width:38px; height:38px; border-radius:10px; font-size:1rem; }
+                .tl-card { flex:1; }
+            }
+        </style>
+
+        <div style="text-align:center;padding:3rem 2rem 1rem;">
             <div style="display:inline-block;padding:0.4rem 1.2rem;background:rgba(0,77,73,0.08);border-radius:50px;font-size:0.8rem;font-weight:600;color:var(--primary);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:1.2rem;">Your Roadmap</div>
-            <h2 style="font-size: 2.6rem; margin-bottom: 1rem;">
+            <h2 style="font-size:2.4rem;margin-bottom:0.8rem;">
                 <span class="gradient-text">Your 10-Week Certification Journey</span>
             </h2>
-            <p style="font-size: 1.1rem; color: var(--text-mid); max-width: 650px; margin: 0 auto 3rem; line-height: 1.7;">
-                A structured study plan covering everything you need to pass the Menopause Society Certification Exam with confidence.
+            <p style="font-size:1.05rem;color:var(--text-mid);max-width:600px;margin:0 auto 1rem;line-height:1.7;">
+                A structured path from fundamentals to mastery. Each week builds on the last.
             </p>
-            
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; max-width: 800px; margin: 0 auto;">
-                ${studyData.weeks.map((week, index) => `
-                    <div class="scroll-reveal" style="background: rgba(255,255,255,0.6); backdrop-filter:blur(8px); padding: 2rem; border-radius: 20px; 
-                                border: 1.5px solid ${completedWeeks.has(index) ? 'rgba(0,158,135,0.3)' : 'rgba(0,77,73,0.08)'}; 
-                                cursor: pointer; transition: all 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
-                                box-shadow: 0 4px 16px rgba(0,77,73,0.06); text-align:left; display:flex; gap:1.2rem; align-items:flex-start;"
-                         onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(0,77,73,0.12)';this.style.borderColor='rgba(0,158,135,0.3)'"
-                         onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(0,77,73,0.06)';this.style.borderColor='${completedWeeks.has(index) ? 'rgba(0,158,135,0.3)' : 'rgba(0,77,73,0.08)'}'"
-                         onclick="navTo('study');setTimeout(function(){showWeekDetail(${index})},100)">
-                        <div style="min-width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#004D49,#009E87);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;box-shadow:0 4px 12px rgba(0,77,73,0.2);position:relative;">
-                            ${completedWeeks.has(index) ? '<span style="font-size:1.4rem;">✓</span>' : weekIcons[index]}
-                            <span style="position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#004D49;font-size:0.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.15);">${week.week}</span>
-                        </div>
-                        <div style="flex:1;">
-                            <div style="font-weight: 700; color: var(--primary); font-size: 1.1rem; margin-bottom: 0.3rem; font-family:'Crimson Pro',serif;">
-                                Week ${week.week}
-                            </div>
-                            <div style="font-size: 0.92rem; color: var(--text-mid); line-height: 1.5; margin-bottom:0.5rem;">
-                                ${week.title}
-                            </div>
-                            <div style="display:flex;gap:0.6rem;align-items:center;">
-                                <span style="font-size:0.72rem;color:var(--text-light);background:var(--bg-cream);padding:0.2rem 0.6rem;border-radius:10px;">⏱ ${week.estimatedHours}</span>
-                                ${completedWeeks.has(index) ? '<span style="font-size:0.72rem;color:var(--correct);background:rgba(6,132,102,0.08);padding:0.2rem 0.6rem;border-radius:10px;font-weight:600;">✓ Completed</span>' : ''}
-                            </div>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-
-            <div style="margin-top: 3rem;">
-                <button class="hero-cta" onclick="navTo('study')" 
-                        style="background:linear-gradient(135deg,#004D49,#009E87);color:white;border-radius:50px;padding:1.1rem 3rem;font-size:1.05rem;font-weight:700;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(0,77,73,0.25);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);"
-                        onmouseover="this.style.transform='translateY(-4px) scale(1.02)';this.style.boxShadow='0 12px 40px rgba(0,77,73,0.3)'"
-                        onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,77,73,0.25)'">
-                    Start Week 1 →
-                </button>
+            <!-- Progress summary bar -->
+            <div style="max-width:400px;margin:0 auto 2rem;text-align:left;">
+                <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--text-mid);margin-bottom:0.4rem;">
+                    <span>${completedWeeks.size} of 10 weeks completed</span>
+                    <span style="font-weight:600;color:var(--primary);">${Math.round(progressPct)}%</span>
+                </div>
+                <div style="height:6px;background:rgba(0,77,73,0.08);border-radius:6px;overflow:hidden;">
+                    <div style="height:100%;width:${progressPct}%;background:linear-gradient(90deg,#004D49,#009E87);border-radius:6px;transition:width 1s ease;"></div>
+                </div>
             </div>
         </div>
+
+        <div class="tl-wrap">
+            <div class="tl-line"></div>
+            <div class="tl-line-fill" id="tlFill"></div>
+            ${studyData.weeks.map((week, i) => {
+                var side = i % 2 === 0 ? 'tl-right' : 'tl-left';
+                var done = completedWeeks.has(i);
+                var isCurrent = i === currentWeekIdx;
+                var cardClass = done ? 'tl-completed' : (isCurrent ? 'tl-current' : '');
+                var dotClass = done ? 'tl-done' : (isCurrent ? 'tl-active' : '');
+                return '<div class="tl-item ' + side + ' scroll-reveal">' +
+                    '<div class="tl-dot-wrap"><div class="tl-dot ' + dotClass + '">' +
+                    (done ? '<span style="color:white;font-size:1.1rem;">✓</span>' : weekIcons[i]) +
+                    '</div></div>' +
+                    '<div class="tl-card ' + cardClass + '" onclick="navTo(\'study\');setTimeout(function(){showWeekDetail(' + i + ')},100)">' +
+                    '<div class="tl-card-title">Week ' + week.week + '</div>' +
+                    '<div class="tl-card-topic">' + week.title + '</div>' +
+                    '<div class="tl-card-meta">' +
+                    '<span class="tl-tag" style="color:var(--text-light);background:var(--bg-cream);">⏱ ' + week.estimatedHours + '</span>' +
+                    (done ? '<span class="tl-tag" style="color:var(--correct);background:rgba(6,132,102,0.08);font-weight:600;">✓ Completed</span>' : '') +
+                    (isCurrent ? '<span class="tl-tag" style="color:#009E87;background:rgba(0,158,135,0.08);font-weight:600;">📍 You are here</span>' : '') +
+                    '</div></div></div>';
+            }).join('')}
+
+            <!-- Finish line -->
+            <div class="tl-item tl-right scroll-reveal" style="margin-bottom:0;">
+                <div class="tl-dot-wrap"><div class="tl-dot" style="background:linear-gradient(135deg,var(--accent),#ffa726);font-size:1.3rem;">🎓</div></div>
+                <div style="flex:0 0 calc(50% - 40px);padding:1.5rem;text-align:center;">
+                    <div style="font-weight:700;color:var(--primary);font-size:1.1rem;font-family:'Crimson Pro',serif;">Certification Ready!</div>
+                    <div style="font-size:0.85rem;color:var(--text-mid);margin-top:0.3rem;">You've got this 🔥</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align:center;padding:1rem 2rem 3rem;">
+            <button class="hero-cta" onclick="navTo('study');setTimeout(function(){showWeekDetail(${currentWeekIdx})},100)"
+                    style="background:linear-gradient(135deg,#004D49,#009E87);color:white;border-radius:50px;padding:1.1rem 3rem;font-size:1.05rem;font-weight:700;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(0,77,73,0.25);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);"
+                    onmouseover="this.style.transform='translateY(-4px) scale(1.02)';this.style.boxShadow='0 12px 40px rgba(0,77,73,0.3)'"
+                    onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,77,73,0.25)'">
+                ${completedWeeks.size > 0 ? 'Continue Week ' + (currentWeekIdx + 1) + ' →' : 'Start Week 1 →'}
+            </button>
+        </div>
     `;
+
+    // Animate timeline fill
+    setTimeout(function() {
+        var fill = document.getElementById('tlFill');
+        if (fill) {
+            var pct = ((completedWeeks.size + 0.5) / (studyData.weeks.length + 1)) * 100;
+            fill.style.height = pct + '%';
+        }
+    }, 200);
+
     setTimeout(initScrollReveal, 100);
 }
 
