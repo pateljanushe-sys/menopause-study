@@ -7793,14 +7793,23 @@ function showView(view) {
     var mainContent = document.getElementById('mainContent');
     if (mainContent) mainContent.classList.add('view-transition');
 
+    // Hide sidebar on overview, show on other views
+    var sidebar = document.querySelector('.sidebar');
+    var container = document.querySelector('.container');
     if (view === 'overview') {
+        if (sidebar) sidebar.style.display = 'none';
+        if (container) container.style.gridTemplateColumns = '1fr';
         showWelcomeScreen();
-    } else if (view === 'study') {
-        showWeekDetail(0);
-    } else if (view === 'quiz') {
-        showQuizSelection();
-    } else if (view === 'guides') {
-        showPatientGuides();
+    } else {
+        if (sidebar) sidebar.style.display = '';
+        if (container) container.style.gridTemplateColumns = '300px 1fr';
+        if (view === 'study') {
+            showWeekDetail(0);
+        } else if (view === 'quiz') {
+            showQuizSelection();
+        } else if (view === 'guides') {
+            showPatientGuides();
+        }
     }
 
     setActiveNav(view);
