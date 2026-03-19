@@ -1211,6 +1211,20 @@
                 z-index: 999;
             }
             #welcomeBanner { display: none !important; }
+            .mobile-welcome-bar {
+                display: none;
+                text-align: center;
+                padding: 0.6rem 1rem;
+                background: linear-gradient(90deg, #004D49, #009E87);
+                color: white;
+                font-weight: 600;
+                font-size: 0.9rem;
+                cursor: pointer;
+                position: sticky;
+                top: 70px;
+                z-index: 999;
+            }
+            .mobile-welcome-bar.visible { display: block !important; }
         }
     </style>
 </head>
@@ -1290,6 +1304,11 @@
                 </nav>
             </div>
         </header>
+
+        <!-- Mobile Welcome Banner -->
+        <div id="mobileWelcome" class="mobile-welcome-bar" style="display:none;" onclick="showWelcomeGate()">
+            Welcome, <span id="userNameMobile"></span> 👋
+        </div>
 
         <div class="container">
             <aside class="sidebar">
@@ -1390,6 +1409,8 @@ function showWelcomeGate() {
     }
     var banner = document.getElementById('welcomeBanner');
     if (banner) banner.style.display = 'none';
+    var mobileBanner = document.getElementById('mobileWelcome');
+    if (mobileBanner) mobileBanner.classList.remove('visible');
 }
 
 function showWelcomeBanner(name) {
@@ -1398,6 +1419,13 @@ function showWelcomeBanner(name) {
     if (banner && nameSpan && name) {
         nameSpan.textContent = name;
         banner.style.display = 'inline';
+    }
+    // Mobile banner
+    var mobileBanner = document.getElementById('mobileWelcome');
+    var mobileNameSpan = document.getElementById('userNameMobile');
+    if (mobileBanner && mobileNameSpan && name) {
+        mobileNameSpan.textContent = name;
+        mobileBanner.classList.add('visible');
     }
 }
 
