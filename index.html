@@ -93,6 +93,10 @@
             border-bottom-color: #2a4040;
         }
 
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, #0f1a1a 0%, #0d1f1e 50%, #0f1a1a 100%);
+        }
+
         [data-theme="dark"] img {
             opacity: 0.9;
         }
@@ -159,7 +163,8 @@
 
         body {
             font-family: 'Inter', 'DM Sans', sans-serif;
-            background: var(--bg-cream);
+            background: linear-gradient(135deg, #e0f2f0 0%, #d4ede9 30%, #e8f5f0 60%, #f0faf7 100%);
+            background-attachment: fixed;
             color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
