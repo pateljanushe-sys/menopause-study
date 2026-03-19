@@ -1606,8 +1606,11 @@ function handleEmailGate(e) {
         localStorage.setItem('mm-name', name);
         document.getElementById('emailGate').classList.add('hidden');
         showWelcomeBanner(name);
-        // Track sign-up
-        if (typeof gtag === 'function') gtag('event', 'sign_up', { method: 'name_gate', user_name: name });
+        // Track sign-up + set user property
+        if (typeof gtag === 'function') {
+            gtag('set', 'user_properties', { user_name: name });
+            gtag('event', 'sign_up', { method: 'name_gate', user_name: name });
+        }
         // Also submit to Netlify for tracking
         var formData = new FormData(document.getElementById('emailGateForm'));
         fetch('/', {
@@ -1655,6 +1658,8 @@ function showWelcomeBanner(name) {
         var gate = document.getElementById('emailGate');
         if (gate) gate.classList.add('hidden');
         showWelcomeBanner(savedName);
+        // Set user property for returning visitors
+        if (typeof gtag === 'function') gtag('set', 'user_properties', { user_name: savedName });
     }
 })();
 
