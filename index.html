@@ -1011,6 +1011,200 @@
         .site-footer a:hover {
             text-decoration: underline;
         }
+
+        /* === PROGRESS RING === */
+        .progress-ring-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .progress-ring-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+        .progress-ring-wrapper svg {
+            transform: rotate(-90deg);
+        }
+        .progress-ring-bg {
+            fill: none;
+            stroke: var(--border);
+            stroke-width: 8;
+        }
+        .progress-ring-fill {
+            fill: none;
+            stroke: url(#progressGradient);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 314;
+            stroke-dashoffset: 314;
+            transition: stroke-dashoffset 1s ease;
+        }
+        .progress-ring-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Inter', sans-serif;
+        }
+        .progress-ring-text small {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* === VIEW TRANSITIONS === */
+        .view-transition {
+            animation: viewSlideIn 0.4s ease;
+        }
+        @keyframes viewSlideIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === ACTIVE NAV STATE === */
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px var(--shadow-heavy);
+        }
+        .nav-btn.active:hover {
+            background: var(--primary-light);
+        }
+
+        /* === TOAST NOTIFICATIONS === */
+        .toast-container {
+            position: fixed;
+            top: 90px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .toast {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 0.85rem 1.25rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px var(--shadow-heavy);
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            animation: toastIn 0.4s ease, toastOut 0.3s ease 3s forwards;
+            max-width: 340px;
+        }
+        .toast.success { border-left-color: var(--correct); }
+        .toast.celebration { border-left-color: var(--accent); }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes toastOut {
+            from { opacity: 1; }
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+
+        /* === BACK TO TOP === */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 4px 16px var(--shadow-heavy);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px var(--shadow-heavy);
+            background: var(--primary-light);
+        }
+        .back-to-top.visible {
+            display: flex;
+        }
+
+        /* === CONFETTI === */
+        .confetti-piece {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 10000;
+            pointer-events: none;
+        }
+
+        /* === HAMBURGER MENU (mobile) === */
+        .hamburger {
+            display: none;
+            background: none;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .hamburger:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* === READING TIME BADGE === */
+        .reading-time-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            background: var(--bg-cream);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .header-nav .nav-btn { display: none; }
+            .header-nav .theme-toggle { display: none; }
+            .header-nav.mobile-open .nav-btn { display: block; width: 100%; text-align: left; }
+            .header-nav.mobile-open .theme-toggle { display: flex; }
+            .header-nav.mobile-open {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-white);
+                padding: 1rem;
+                border-top: 1px solid var(--border);
+                box-shadow: 0 8px 24px var(--shadow-heavy);
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                z-index: 999;
+            }
+            #welcomeBanner { display: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -1063,14 +1257,15 @@
                         <p>Certification Study Platform</p>
                     </div>
                 </div>
-                <nav class="header-nav">
+                <nav class="header-nav" id="headerNav">
                     <span id="welcomeBanner" style="font-size:0.95rem;color:var(--primary);font-weight:600;display:none;white-space:nowrap;cursor:pointer;" onclick="showWelcomeGate()" title="Click to change your name or return to the welcome page">Welcome, <span id="userName"></span> 👋</span>
-                    <button class="nav-btn" onclick="showWelcomeGate()" title="Home">Home</button>
-                    <button class="nav-btn" onclick="showView('overview')">Overview</button>
-                    <button class="nav-btn" onclick="showView('study')">Study Guide</button>
-                    <button class="nav-btn" onclick="showView('guides')">Patient Guides</button>
-                    <button class="nav-btn" onclick="showView('quiz')">Practice Quiz</button>
+                    <button class="nav-btn" onclick="navTo('home')" data-nav="home">Home</button>
+                    <button class="nav-btn" onclick="navTo('overview')" data-nav="overview">Overview</button>
+                    <button class="nav-btn" onclick="navTo('study')" data-nav="study">Study Guide</button>
+                    <button class="nav-btn" onclick="navTo('guides')" data-nav="guides">Patient Guides</button>
+                    <button class="nav-btn" onclick="navTo('quiz')" data-nav="quiz">Practice Quiz</button>
                     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">&#127769;</button>
+                    <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
                 </nav>
             </div>
         </header>
@@ -1079,7 +1274,22 @@
             <aside class="sidebar">
                 <div class="progress-section">
                     <h3>Your Progress</h3>
-                    <div class="progress-bar">
+                    <div class="progress-ring-container">
+                        <div class="progress-ring-wrapper">
+                            <svg width="120" height="120" viewBox="0 0 120 120">
+                                <defs>
+                                    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#004D49"/>
+                                        <stop offset="100%" style="stop-color:#009E87"/>
+                                    </linearGradient>
+                                </defs>
+                                <circle class="progress-ring-bg" cx="60" cy="60" r="50"/>
+                                <circle class="progress-ring-fill" id="progressRing" cx="60" cy="60" r="50"/>
+                            </svg>
+                            <div class="progress-ring-text" id="progressRingText">0%<small>complete</small></div>
+                        </div>
+                    </div>
+                    <div class="progress-bar" style="display:none;">
                         <div class="progress-fill" id="progressBar" style="width: 0%"></div>
                     </div>
                     <p class="progress-text"><span id="progressText">0 of 10 weeks</span></p>
@@ -1098,9 +1308,9 @@
         <div class="about-author-inner">
             <div class="about-author-photo">JP</div>
             <div class="about-author-text">
-                <h3>Dr. Janu Patel, MD MPH</h3>
-                <div class="author-role">National Menopause Implementation Lead & District Medical Director, Peninsula Region at One Medical</div>
-                <p>Created this platform to help providers feel empowered and prepared for the certification exam. With a passion for evidence-based menopause care, Dr. Patel has designed a comprehensive study experience that covers every topic tested on the Menopause Society Certification Exam.</p>
+                <h3><a href="https://www.onemedical.com/providers/janu-patel/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">Dr. Janu Patel, MD MPH</a></h3>
+                <div class="author-role">National Menopause Implementation Lead & District Medical Director, Peninsula Region at <a href="https://www.onemedical.com/providers/janu-patel/" target="_blank" rel="noopener" style="color:var(--primary);text-decoration:underline;">One Medical</a></div>
+                <p>The epicenter of good health is understanding your mind and body. A Menopause Society Certified Practitioner, Dr. Patel created this platform to help providers feel empowered and prepared for the certification exam. With additional training in nutritional science and a collaborative, evidence-based approach to care, she has designed a comprehensive study experience covering every topic tested on the Menopause Society Certification Exam.</p>
             </div>
         </div>
     </section>
@@ -7082,6 +7292,7 @@ function updateProgressBar() {
     document.getElementById('progressBar').style.width = currentProgress + '%';
     document.getElementById('progressText').textContent = 
         `${completedWeeks.size} of ${studyData.weeks.length} weeks completed`;
+    updateProgressRing(completedWeeks.size, studyData.weeks.length);
 }
 
 // Render week selector in sidebar
@@ -7098,7 +7309,10 @@ function renderWeekSelector() {
         
         li.innerHTML = `
             <span>Week ${week.week}: ${week.title}</span>
-            <span class="week-check">${completedWeeks.has(index) ? '✓' : ''}</span>
+            <span style="display:flex;align-items:center;gap:0.4rem;">
+                <span class="reading-time-badge">⏱ ${week.estimatedHours}</span>
+                <span class="week-check">${completedWeeks.has(index) ? '✓' : ''}</span>
+            </span>
         `;
         
         li.onclick = () => showWeekDetail(index);
@@ -7245,8 +7459,91 @@ function markWeekComplete(weekIndex) {
     }
 }
 
+// === NAV MANAGEMENT ===
+function navTo(view) {
+    // Close mobile nav if open
+    var nav = document.getElementById('headerNav');
+    if (nav) nav.classList.remove('mobile-open');
+
+    if (view === 'home') {
+        showWelcomeGate();
+        setActiveNav('home');
+        return;
+    }
+    showView(view);
+    setActiveNav(view);
+}
+
+function setActiveNav(view) {
+    document.querySelectorAll('.nav-btn[data-nav]').forEach(function(btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-nav') === view);
+    });
+}
+
+function toggleMobileNav() {
+    var nav = document.getElementById('headerNav');
+    if (nav) nav.classList.toggle('mobile-open');
+}
+
+// === TOAST NOTIFICATIONS ===
+function showToast(message, type) {
+    type = type || '';
+    var container = document.getElementById('toastContainer');
+    if (!container) return;
+    var toast = document.createElement('div');
+    toast.className = 'toast' + (type ? ' ' + type : '');
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(function() { toast.remove(); }, 3500);
+}
+
+// === CONFETTI ===
+function launchConfetti() {
+    var colors = ['#004D49', '#009E87', '#ffc776', '#068466', '#ffd699'];
+    for (var i = 0; i < 60; i++) {
+        var piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.top = '-10px';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        piece.style.width = (Math.random() * 8 + 6) + 'px';
+        piece.style.height = (Math.random() * 8 + 6) + 'px';
+        piece.style.transition = 'all ' + (Math.random() * 2 + 1.5) + 's ease';
+        document.body.appendChild(piece);
+        setTimeout(function(p) {
+            p.style.top = (Math.random() * 80 + 20) + 'vh';
+            p.style.left = (parseFloat(p.style.left) + (Math.random() - 0.5) * 20) + 'vw';
+            p.style.opacity = '0';
+            p.style.transform = 'rotate(' + (Math.random() * 720) + 'deg)';
+        }, 50, piece);
+        setTimeout(function(p) { p.remove(); }, 4000, piece);
+    }
+}
+
+// === PROGRESS RING UPDATE ===
+function updateProgressRing(completed, total) {
+    var ring = document.getElementById('progressRing');
+    var ringText = document.getElementById('progressRingText');
+    if (!ring) return;
+    var pct = total > 0 ? Math.round((completed / total) * 100) : 0;
+    var circumference = 314; // 2 * PI * 50
+    var offset = circumference - (pct / 100) * circumference;
+    ring.style.strokeDashoffset = offset;
+    if (ringText) ringText.innerHTML = pct + '%<small>complete</small>';
+}
+
+// === BACK TO TOP ===
+window.addEventListener('scroll', function() {
+    var btn = document.getElementById('backToTop');
+    if (btn) btn.classList.toggle('visible', window.scrollY > 400);
+});
+
 // Show quiz view
 function showView(view) {
+    var mainContent = document.getElementById('mainContent');
+    if (mainContent) mainContent.classList.add('view-transition');
+
     if (view === 'overview') {
         showWelcomeScreen();
     } else if (view === 'study') {
@@ -7256,6 +7553,8 @@ function showView(view) {
     } else if (view === 'guides') {
         showPatientGuides();
     }
+
+    setActiveNav(view);
 }
 
 // Show quiz selection
@@ -7426,7 +7725,17 @@ function finishQuiz() {
     
     const percentage = Math.round((correct / quiz.questions.length) * 100);
     const passed = percentage >= quiz.passingScore;
-    
+
+    // Toast + confetti for great scores
+    if (percentage >= 80) {
+        showToast('🎯 Amazing! ' + percentage + '% — you crushed it!', 'celebration');
+        setTimeout(launchConfetti, 300);
+    } else if (percentage >= 60) {
+        showToast('📚 ' + percentage + '% — solid effort, keep going!', 'success');
+    } else {
+        showToast('💪 ' + percentage + '% — review the explanations and try again!');
+    }
+
     const content = document.getElementById('mainContent');
     content.innerHTML = `
         <div class="score-summary">
@@ -8080,8 +8389,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
+<div class="toast-container" id="toastContainer"></div>
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
 <footer class="site-footer">
-    <p>Built by <strong>Dr. Janu Patel, MD MPH</strong> — National Menopause Implementation Lead & District Medical Director, One Medical</p>
+    <p>Built by <a href="https://www.onemedical.com/providers/janu-patel/" target="_blank" rel="noopener"><strong>Dr. Janu Patel, MD MPH</strong></a> — Menopause Society Certified Practitioner at <a href="https://www.onemedical.com" target="_blank" rel="noopener">One Medical</a></p>
     <p style="margin-top: 0.5rem;">&copy; 2026 Menopause Mastery. Evidence-based education for healthcare providers.</p>
 </footer>
 
