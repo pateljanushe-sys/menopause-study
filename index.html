@@ -235,6 +235,7 @@
             line-height: 1.7;
         }
 
+        .email-gate-card input[type="text"],
         .email-gate-card input[type="email"] {
             width: 100%;
             padding: 1rem 1.2rem;
@@ -248,6 +249,7 @@
             margin-bottom: 1rem;
         }
 
+        .email-gate-card input[type="text"]:focus,
         .email-gate-card input[type="email"]:focus {
             outline: none;
             border-color: #009E87;
@@ -1009,17 +1011,18 @@
     </style>
 </head>
 <body>
-    <!-- Email Gate Overlay -->
+    <!-- Welcome Gate Overlay -->
     <div class="email-gate" id="emailGate">
         <div class="email-gate-card">
             <div class="gate-logo">M</div>
             <h2>Welcome to Menopause Mastery</h2>
-            <p>Get free access to our 10-week certification study platform with 240+ practice questions, clinical pearls, and patient guides.</p>
-            <form data-netlify="true" name="email-gate" id="emailGateForm" onsubmit="handleEmailGate(event)">
-                <input type="email" name="email" placeholder="Enter your professional email" required autocomplete="email" />
-                <button type="submit">Get Free Access</button>
+            <p>Your 10-week certification study platform with 240+ practice questions, clinical pearls, and patient guides awaits.</p>
+            <form data-netlify="true" name="welcome-gate" id="emailGateForm" onsubmit="handleEmailGate(event)">
+                <label style="font-size:0.95rem;color:var(--text-mid);margin-bottom:0.25rem;display:block;text-align:left;">Introduce yourself ✨</label>
+                <input type="text" name="preferred-name" placeholder="What should we call you?" required autocomplete="given-name" />
+                <button type="submit">Let's Get Started</button>
             </form>
-            <p class="gate-fine-print">We respect your privacy. Your email is used only to personalize your experience.</p>
+            <p class="gate-fine-print">We personalize your experience with your name — that's it!</p>
         </div>
     </div>
 
@@ -1058,6 +1061,7 @@
                     </div>
                 </div>
                 <nav class="header-nav">
+                    <span id="welcomeBanner" style="font-size:0.95rem;color:var(--primary);font-weight:600;display:none;white-space:nowrap;">Welcome, <span id="userName"></span> 👋</span>
                     <button class="nav-btn" onclick="showView('overview')">Overview</button>
                     <button class="nav-btn" onclick="showView('study')">Study Guide</button>
                     <button class="nav-btn" onclick="showView('guides')">Patient Guides</button>
@@ -1099,15 +1103,16 @@
 
 
 <script>
-// ===== EMAIL GATE LOGIC =====
+// ===== WELCOME GATE LOGIC =====
 function handleEmailGate(e) {
     e.preventDefault();
-    var emailInput = document.querySelector('#emailGateForm input[name="email"]');
-    var email = emailInput.value;
-    if (email) {
-        localStorage.setItem('mm-email', email);
+    var nameInput = document.querySelector('#emailGateForm input[name="preferred-name"]');
+    var name = nameInput.value.trim();
+    if (name) {
+        localStorage.setItem('mm-name', name);
         document.getElementById('emailGate').classList.add('hidden');
-        // Also submit to Netlify
+        showWelcomeBanner(name);
+        // Also submit to Netlify for tracking
         var formData = new FormData(document.getElementById('emailGateForm'));
         fetch('/', {
             method: 'POST',
@@ -1117,12 +1122,22 @@ function handleEmailGate(e) {
     }
 }
 
-// Check email gate on load
+function showWelcomeBanner(name) {
+    var banner = document.getElementById('welcomeBanner');
+    var nameSpan = document.getElementById('userName');
+    if (banner && nameSpan && name) {
+        nameSpan.textContent = name;
+        banner.style.display = 'inline';
+    }
+}
+
+// Check welcome gate on load
 (function() {
-    var savedEmail = localStorage.getItem('mm-email');
-    if (savedEmail) {
+    var savedName = localStorage.getItem('mm-name');
+    if (savedName) {
         var gate = document.getElementById('emailGate');
         if (gate) gate.classList.add('hidden');
+        showWelcomeBanner(savedName);
     }
 })();
 
