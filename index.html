@@ -450,6 +450,9 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.95rem;
+            min-width: 0;
+            text-align: center;
+            white-space: nowrap;
         }
 
         .nav-btn:hover {
@@ -1062,11 +1065,11 @@
                 </div>
                 <nav class="header-nav">
                     <span id="welcomeBanner" style="font-size:0.95rem;color:var(--primary);font-weight:600;display:none;white-space:nowrap;cursor:pointer;" onclick="showWelcomeGate()" title="Click to change your name or return to the welcome page">Welcome, <span id="userName"></span> 👋</span>
-                    <button class="nav-btn" onclick="showWelcomeGate()" title="Home">🏠 Home</button>
+                    <button class="nav-btn" onclick="showWelcomeGate()" title="Home">Home</button>
                     <button class="nav-btn" onclick="showView('overview')">Overview</button>
                     <button class="nav-btn" onclick="showView('study')">Study Guide</button>
                     <button class="nav-btn" onclick="showView('guides')">Patient Guides</button>
-                    <button class="nav-btn primary" onclick="showView('quiz')">Practice Quiz</button>
+                    <button class="nav-btn" onclick="showView('quiz')">Practice Quiz</button>
                     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">&#127769;</button>
                 </nav>
             </div>
