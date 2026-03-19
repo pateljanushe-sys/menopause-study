@@ -1061,7 +1061,8 @@
                     </div>
                 </div>
                 <nav class="header-nav">
-                    <span id="welcomeBanner" style="font-size:0.95rem;color:var(--primary);font-weight:600;display:none;white-space:nowrap;">Welcome, <span id="userName"></span> 👋</span>
+                    <span id="welcomeBanner" style="font-size:0.95rem;color:var(--primary);font-weight:600;display:none;white-space:nowrap;cursor:pointer;" onclick="showWelcomeGate()" title="Click to change your name or return to the welcome page">Welcome, <span id="userName"></span> 👋</span>
+                    <button class="nav-btn" onclick="showWelcomeGate()" title="Home">🏠 Home</button>
                     <button class="nav-btn" onclick="showView('overview')">Overview</button>
                     <button class="nav-btn" onclick="showView('study')">Study Guide</button>
                     <button class="nav-btn" onclick="showView('guides')">Patient Guides</button>
@@ -1120,6 +1121,18 @@ function handleEmailGate(e) {
             body: new URLSearchParams(formData).toString()
         }).catch(function() { /* silently fail */ });
     }
+}
+
+function showWelcomeGate() {
+    localStorage.removeItem('mm-name');
+    var gate = document.getElementById('emailGate');
+    if (gate) {
+        gate.classList.remove('hidden');
+        var input = gate.querySelector('input[name="preferred-name"]');
+        if (input) { input.value = ''; input.focus(); }
+    }
+    var banner = document.getElementById('welcomeBanner');
+    if (banner) banner.style.display = 'none';
 }
 
 function showWelcomeBanner(name) {
