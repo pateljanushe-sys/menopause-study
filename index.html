@@ -7578,11 +7578,14 @@ function showOverviewPage() {
             .tl-tag { font-size:0.7rem; padding:0.2rem 0.55rem; border-radius:8px; font-weight:500; }
             .tl-connector { display:none; }
             @media(max-width:768px) {
-                .tl-line, .tl-line-fill { left:24px; }
-                .tl-item, .tl-item.tl-left { flex-direction:row !important; }
-                .tl-dot-wrap { flex:0 0 48px; }
-                .tl-dot { width:38px; height:38px; border-radius:10px; font-size:1rem; }
-                .tl-card { flex:1; }
+                .tl-line, .tl-line-fill { left:28px; }
+                .tl-item, .tl-item.tl-left, .tl-item.tl-right { flex-direction:row !important; }
+                .tl-dot-wrap { flex:0 0 56px; }
+                .tl-dot { width:42px; height:42px; border-radius:12px; font-size:1.1rem; }
+                .tl-card { flex:1 1 auto !important; width:auto !important; margin-left:0.5rem; padding:1.2rem; }
+                .tl-card-title { font-size:1rem; }
+                .tl-card-topic { font-size:0.85rem; }
+                .tl-wrap { padding:1rem 0.5rem; }
             }
         </style>
 
@@ -7741,6 +7744,11 @@ function showWeekDetail(weekIndex) {
         item.classList.remove('active');
         if (i === weekIndex) item.classList.add('active');
     });
+
+    // On mobile, scroll to content area so user sees the week (sidebar stacks above)
+    if (window.innerWidth <= 1024) {
+        setTimeout(function() { content.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150);
+    }
 
     content.innerHTML = `
         <div class="content-header">
