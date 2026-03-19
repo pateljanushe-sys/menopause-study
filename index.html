@@ -7496,6 +7496,9 @@ function showWeekDetail(weekIndex) {
     const week = studyData.weeks[weekIndex];
     const content = document.getElementById('mainContent');
     
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     // Update sidebar
     document.querySelectorAll('.week-item').forEach((item, i) => {
         item.classList.remove('active');
@@ -7783,6 +7786,7 @@ function showView(view) {
     }
 
     setActiveNav(view);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Show quiz selection
