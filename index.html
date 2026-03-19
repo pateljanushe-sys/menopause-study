@@ -7528,44 +7528,72 @@ function renderWeekSelector() {
 // Show welcome/overview screen
 function showWelcomeScreen() {
     const content = document.getElementById('mainContent');
+    const reasons = [
+        { num: 1, icon: '🕵🏽‍♀️', title: 'You become a symptom detective', body: 'Hot flashes, brain fog, insomnia, joint pain, palpitations, anxiety… menopause is the ultimate masquerader. When you "get it," you connect dots others miss.' },
+        { num: 2, icon: '❤️', title: 'You instantly 10x your patient satisfaction', body: 'Nothing hits harder than: <em>"No one has ever explained this to me before."</em> You go from "just another doctor" → life-changing human.' },
+        { num: 3, icon: '🌱', title: 'You treat the root, not just the noise', body: 'Instead of prescribing SSRIs for mood, gabapentin for sleep, and beta blockers for palpitations — you recognize: <strong>estrogen withdrawal is the main character.</strong>' },
+        { num: 4, icon: '🧠⚡', title: 'You become fluent in hormone nerd-dom', body: 'E2, P4, FSH, SHBG, allopregnanolone… You\'re speaking a biochemical language most clinicians avoid — but patients desperately need.' },
+        { num: 5, icon: '🧩', title: 'You help women get their brain back', body: 'That "I\'m not myself" feeling? You understand the neurobiology behind estrogen + dopamine + serotonin → and can actually fix it.' },
+        { num: 6, icon: '📉', title: 'You reduce long-term disease risk', body: 'You\'re not just treating hot flashes — you\'re impacting cardiovascular disease, osteoporosis, and cognitive decline. This is <strong>preventive medicine at its finest.</strong>' },
+        { num: 7, icon: '🚀', title: 'You reclaim a massively underserved population', body: 'Half the population will go through menopause. Yet most were told to "just deal with it." You step into a huge care gap.' },
+        { num: 8, icon: '🧨', title: 'You get to debunk decades of bad science', body: 'WHI trauma still lingers. You become the clinician who says: <em>"Actually… the story is more nuanced."</em> And patients feel relief.' },
+        { num: 9, icon: '💬', title: 'Your visits get deeper (in the best way)', body: 'Menopause opens conversations about identity, aging, sexual health, and relationships. This is <strong>real medicine</strong>, not checkbox care.' },
+        { num: 10, icon: '🔥', title: 'You become the clinician everyone talks about', body: 'Word spreads FAST: <em>"Go see her — she actually understands hormones."</em> This is how you build a reputation without even trying.' }
+    ];
+
     content.innerHTML = `
-        <div style="text-align: center; padding: 4rem 2rem;">
-            <h2 style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;">
-                <span class="gradient-text">Welcome to Your Certification Journey</span>
-            </h2>
-            <p style="font-size: 1.2rem; color: var(--text-mid); max-width: 700px; margin: 0 auto 3rem; line-height: 1.8;">
-                This 10-week study plan will guide you through all the material you need to pass 
-                the Menopause Society Certification Exam with confidence.
-            </p>
-            
-            <div style="background: var(--bg-cream); border-radius: 12px; padding: 2rem; margin-top: 3rem;">
-                <h3 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.8rem;">
-                    Your 10-Week Roadmap
-                </h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                    ${studyData.weeks.map((week, index) => `
-                        <div style="background: white; padding: 1.5rem; border-radius: 10px; 
-                                    border: 2px solid ${completedWeeks.has(index) ? 'var(--primary-light)' : 'var(--border)'}; 
-                                    cursor: pointer;" onclick="showWeekDetail(${index})">
-                            <div style="font-weight: 700; color: var(--primary); font-size: 1.1rem; margin-bottom: 0.5rem;">
-                                Week ${week.week} ${completedWeeks.has(index) ? '✓' : ''}
-                            </div>
-                            <div style="font-size: 0.9rem; color: var(--text-mid);">
-                                ${week.title}
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
+        <div style="padding: 2rem 1rem; max-width: 900px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <div style="display:inline-block;padding:0.4rem 1.2rem;background:rgba(0,77,73,0.08);border-radius:50px;font-size:0.8rem;font-weight:600;color:var(--primary);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:1.2rem;">Why This Matters</div>
+                <h2 style="font-size: 2.6rem; margin-bottom: 1rem; line-height: 1.1;">
+                    <span class="gradient-text">🔥 Top 10 Reasons Every Clinician<br>Should Master Menopausal Care</span>
+                </h2>
+                <p style="font-size: 1.1rem; color: var(--text-mid); max-width: 600px; margin: 0 auto; line-height: 1.7;">
+                    This isn't just another certification. It's a paradigm shift in how you practice medicine.
+                </p>
             </div>
 
-            <div style="margin-top: 3rem;">
-                <button class="btn btn-primary" onclick="showWeekDetail(0)" 
-                        style="font-size: 1.1rem; padding: 1.2rem 3rem;">
-                    Start Week 1 →
+            <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+                ${reasons.map((r, i) => `
+                    <div class="scroll-reveal" style="display:flex;gap:1.5rem;align-items:flex-start;padding:1.8rem;background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);border:1px solid rgba(0,77,73,0.08);border-radius:16px;transition:all 0.3s ease;cursor:default;"
+                         onmouseover="this.style.transform='translateX(8px)';this.style.borderColor='rgba(0,158,135,0.3)';this.style.boxShadow='0 8px 32px rgba(0,77,73,0.1)'"
+                         onmouseout="this.style.transform='';this.style.borderColor='rgba(0,77,73,0.08)';this.style.boxShadow=''">
+                        <div style="min-width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#004D49,#009E87);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:white;font-weight:800;font-family:'Crimson Pro',serif;flex-shrink:0;">
+                            ${r.num}
+                        </div>
+                        <div>
+                            <div style="font-size:1.15rem;font-weight:700;color:var(--text-dark);margin-bottom:0.4rem;font-family:'Crimson Pro',serif;">
+                                ${r.icon} ${r.title}
+                            </div>
+                            <div style="font-size:0.95rem;color:var(--text-mid);line-height:1.7;">
+                                ${r.body}
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+
+            <!-- Bonus -->
+            <div class="scroll-reveal" style="margin-top:2rem;padding:2rem;background:linear-gradient(135deg,rgba(0,77,73,0.06),rgba(0,158,135,0.06));border:1.5px solid rgba(0,158,135,0.15);border-radius:20px;text-align:center;">
+                <div style="font-size:1.3rem;font-weight:700;color:var(--primary);margin-bottom:0.8rem;font-family:'Crimson Pro',serif;">🧠 Bonus (because you're you)</div>
+                <p style="font-size:1rem;color:var(--text-mid);line-height:1.8;max-width:600px;margin:0 auto;">
+                    It's one of the few areas where <strong>science + storytelling + empathy</strong> all matter equally — and when done right, outcomes improve dramatically.
+                </p>
+            </div>
+
+            <!-- CTA -->
+            <div style="text-align:center;margin-top:3rem;">
+                <button class="hero-cta" onclick="navTo('study')" style="background:linear-gradient(135deg,#004D49,#009E87);color:white;border-radius:50px;padding:1.1rem 3rem;font-size:1.05rem;font-weight:700;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(0,77,73,0.25);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);"
+                    onmouseover="this.style.transform='translateY(-4px) scale(1.02)';this.style.boxShadow='0 12px 40px rgba(0,77,73,0.3)'"
+                    onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,77,73,0.25)'">
+                    Start Your 10-Week Journey →
                 </button>
             </div>
         </div>
     `;
+
+    // Trigger scroll reveal for new elements
+    setTimeout(initScrollReveal, 100);
 }
 
 // Show detailed week view
