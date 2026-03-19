@@ -601,17 +601,22 @@
 
         /* Sidebar — glass morphism + independent scroll */
         .sidebar {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 20px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.85) 0%, rgba(238,246,244,0.7) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
             padding: 2rem;
             position: sticky;
             top: 120px;
             max-height: calc(100vh - 140px);
             overflow-y: auto;
-            box-shadow: 0 8px 32px rgba(0, 77, 73, 0.08);
-            border: 1.5px solid rgba(0, 77, 73, 0.15);
+            box-shadow:
+                0 2px 4px rgba(0, 77, 73, 0.04),
+                0 8px 16px rgba(0, 77, 73, 0.06),
+                0 20px 48px rgba(0, 77, 73, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0, 77, 73, 0.1);
+            border-top: 1.5px solid rgba(255, 255, 255, 0.8);
         }
 
         /* Subtle scrollbar for sidebar */
@@ -630,14 +635,22 @@
         }
 
         [data-theme="dark"] .sidebar {
-            background: rgba(26, 46, 46, 0.6);
+            background: linear-gradient(145deg, rgba(26,46,46,0.85) 0%, rgba(20,34,34,0.7) 100%);
             border-color: rgba(255, 255, 255, 0.05);
+            border-top-color: rgba(255, 255, 255, 0.1);
+            box-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.1),
+                0 8px 16px rgba(0, 0, 0, 0.15),
+                0 20px 48px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .progress-section {
             margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0,77,73,0.04) 0%, rgba(0,158,135,0.04) 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(0,77,73,0.06);
         }
 
         .progress-section h3 {
@@ -674,29 +687,34 @@
         .week-item {
             padding: 0.9rem 1rem;
             margin-bottom: 0.5rem;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0,77,73,0.06);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(255,255,255,0.5);
         }
 
         .week-item:hover {
-            background: var(--bg-mint);
-            border-color: var(--accent);
-            transform: translateX(4px);
+            background: rgba(255,255,255,0.9);
+            border-color: var(--primary-light);
+            transform: translateX(6px);
+            box-shadow: 0 4px 16px rgba(0, 77, 73, 0.1);
         }
 
         .week-item.active {
-            background: var(--primary);
+            background: linear-gradient(135deg, #004D49, #009E87);
             color: white;
-            box-shadow: 0 4px 12px var(--shadow-heavy);
+            border-color: transparent;
+            box-shadow: 0 4px 20px rgba(0, 77, 73, 0.25);
+            transform: translateX(4px);
         }
 
         .week-item.completed {
-            background: var(--accent-bright);
+            background: rgba(0, 158, 135, 0.08);
+            border-color: rgba(0, 158, 135, 0.2);
             color: var(--text-dark);
         }
 
