@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88HMG48YXN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-88HMG48YXN');
+    </script>
     <title>Menopause Mastery — Certification Study Platform by Dr. Janu Patel, MD MPH</title>
     <meta name="description" content="Master the Menopause Society Certification Exam with Dr. Janu Patel's evidence-based study platform. 10-week curriculum, 243 practice questions, clinical pearls, and exam tips.">
     <meta name="keywords" content="menopause certification, NAMS exam, menopause education, hormone therapy, clinical practice, medical education, menopause society">
@@ -1511,6 +1520,8 @@ function handleEmailGate(e) {
         localStorage.setItem('mm-name', name);
         document.getElementById('emailGate').classList.add('hidden');
         showWelcomeBanner(name);
+        // Track sign-up
+        if (typeof gtag === 'function') gtag('event', 'sign_up', { method: 'name_gate', user_name: name });
         // Also submit to Netlify for tracking
         var formData = new FormData(document.getElementById('emailGateForm'));
         fetch('/', {
@@ -7868,6 +7879,8 @@ function showView(view) {
     }
 
     setActiveNav(view);
+    // Track section view
+    if (typeof gtag === 'function') gtag('event', 'page_view', { page_title: view });
     // Scroll to top of content area after DOM + layout update
     setTimeout(function() {
         var mc = document.getElementById('mainContent');
@@ -8043,6 +8056,9 @@ function finishQuiz() {
     
     const percentage = Math.round((correct / quiz.questions.length) * 100);
     const passed = percentage >= quiz.passingScore;
+
+    // Track quiz completion
+    if (typeof gtag === 'function') gtag('event', 'quiz_complete', { score: percentage, quiz_name: quiz.title });
 
     // Toast + confetti for great scores
     if (percentage >= 80) {
