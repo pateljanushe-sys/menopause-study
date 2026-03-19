@@ -7589,8 +7589,10 @@ function showWeekDetail(weekIndex) {
         </div>
     `;
 
-    // Scroll to top of content area
-    content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Scroll to top of content area after DOM update
+    setTimeout(function() {
+        content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
 }
 
 // Mark week as complete
@@ -7813,9 +7815,11 @@ function showView(view) {
     }
 
     setActiveNav(view);
-    // Scroll to top of content area, not the page
-    var mc = document.getElementById('mainContent');
-    if (mc) mc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Scroll to top of content area after DOM + layout update
+    setTimeout(function() {
+        var mc = document.getElementById('mainContent');
+        if (mc) mc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
 }
 
 // Show quiz selection
