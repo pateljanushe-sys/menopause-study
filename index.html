@@ -7548,6 +7548,7 @@ function renderWeekSelector() {
 
 // Show welcome/overview screen
 function showOverviewPage() {
+    const weekIcons = ['🔬','🌡️','🩺','💊','🦴','❤️‍🔥','🎗️','🌿','💉','🎓'];
     const content = document.getElementById('mainContent');
     content.innerHTML = `
         <div style="text-align: center; padding: 3rem 2rem;">
@@ -7559,25 +7560,31 @@ function showOverviewPage() {
                 A structured study plan covering everything you need to pass the Menopause Society Certification Exam with confidence.
             </p>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; max-width: 1000px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; max-width: 800px; margin: 0 auto;">
                 ${studyData.weeks.map((week, index) => `
-                    <div style="background: rgba(255,255,255,0.6); backdrop-filter:blur(8px); padding: 1.8rem; border-radius: 16px; 
+                    <div class="scroll-reveal" style="background: rgba(255,255,255,0.6); backdrop-filter:blur(8px); padding: 2rem; border-radius: 20px; 
                                 border: 1.5px solid ${completedWeeks.has(index) ? 'rgba(0,158,135,0.3)' : 'rgba(0,77,73,0.08)'}; 
                                 cursor: pointer; transition: all 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
-                                box-shadow: 0 4px 16px rgba(0,77,73,0.06);"
-                         onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 12px 32px rgba(0,77,73,0.12)';this.style.borderColor='rgba(0,158,135,0.3)'"
+                                box-shadow: 0 4px 16px rgba(0,77,73,0.06); text-align:left; display:flex; gap:1.2rem; align-items:flex-start;"
+                         onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(0,77,73,0.12)';this.style.borderColor='rgba(0,158,135,0.3)'"
                          onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(0,77,73,0.06)';this.style.borderColor='${completedWeeks.has(index) ? 'rgba(0,158,135,0.3)' : 'rgba(0,77,73,0.08)'}'"
                          onclick="navTo('study');setTimeout(function(){showWeekDetail(${index})},100)">
-                        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#004D49,#009E87);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:1rem;margin-bottom:1rem;font-family:'Crimson Pro',serif;">
-                            ${completedWeeks.has(index) ? '✓' : week.week}
+                        <div style="min-width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#004D49,#009E87);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;box-shadow:0 4px 12px rgba(0,77,73,0.2);position:relative;">
+                            ${completedWeeks.has(index) ? '<span style="font-size:1.4rem;">✓</span>' : weekIcons[index]}
+                            <span style="position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#004D49;font-size:0.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.15);">${week.week}</span>
                         </div>
-                        <div style="font-weight: 700; color: var(--primary); font-size: 1.05rem; margin-bottom: 0.4rem; font-family:'Crimson Pro',serif;">
-                            Week ${week.week}
+                        <div style="flex:1;">
+                            <div style="font-weight: 700; color: var(--primary); font-size: 1.1rem; margin-bottom: 0.3rem; font-family:'Crimson Pro',serif;">
+                                Week ${week.week}
+                            </div>
+                            <div style="font-size: 0.92rem; color: var(--text-mid); line-height: 1.5; margin-bottom:0.5rem;">
+                                ${week.title}
+                            </div>
+                            <div style="display:flex;gap:0.6rem;align-items:center;">
+                                <span style="font-size:0.72rem;color:var(--text-light);background:var(--bg-cream);padding:0.2rem 0.6rem;border-radius:10px;">⏱ ${week.estimatedHours}</span>
+                                ${completedWeeks.has(index) ? '<span style="font-size:0.72rem;color:var(--correct);background:rgba(6,132,102,0.08);padding:0.2rem 0.6rem;border-radius:10px;font-weight:600;">✓ Completed</span>' : ''}
+                            </div>
                         </div>
-                        <div style="font-size: 0.9rem; color: var(--text-mid); line-height: 1.5;">
-                            ${week.title}
-                        </div>
-                        <div style="margin-top:0.8rem;font-size:0.75rem;color:var(--text-light);">⏱ ${week.estimatedHours}</div>
                     </div>
                 `).join('')}
             </div>
@@ -7592,6 +7599,7 @@ function showOverviewPage() {
             </div>
         </div>
     `;
+    setTimeout(initScrollReveal, 100);
 }
 
 function showTop10Page() {
