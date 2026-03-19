@@ -1153,6 +1153,97 @@
             .hero-stats { flex-direction: column; gap: 0.8rem; }
         }
 
+        /* Global Progress Bar */
+        .global-progress-bar {
+            position: sticky;
+            top: 72px;
+            z-index: 99;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,77,73,0.06);
+            padding: 0.6rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,77,73,0.04);
+        }
+        .gpb-inner { max-width: 1200px; margin: 0 auto; }
+        .gpb-info { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem; }
+        .gpb-label { font-size:0.75rem; font-weight:600; color:var(--text-mid); text-transform:uppercase; letter-spacing:0.5px; }
+        .gpb-pct { font-size:0.85rem; font-weight:800; color:var(--primary); font-family:'Crimson Pro',serif; }
+        .gpb-track {
+            position: relative;
+            height: 10px;
+            background: rgba(0,77,73,0.06);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .gpb-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #004D49, #009E87, #00d4a8);
+            border-radius: 10px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .gpb-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, transparent 60%, rgba(0,212,168,0.4));
+            border-radius: 10px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: blur(4px);
+        }
+        .gpb-weeks {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.3rem;
+            padding: 0 2px;
+        }
+        .gpb-week-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,77,73,0.12);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .gpb-week-dot:hover { border-color: #009E87; transform: scale(1.2); }
+        .gpb-week-dot.gpb-done {
+            background: linear-gradient(135deg, #004D49, #009E87);
+            border-color: transparent;
+            color: white;
+        }
+        .gpb-week-dot.gpb-current {
+            border-color: #009E87;
+            box-shadow: 0 0 0 3px rgba(0,158,135,0.2);
+            color: #009E87;
+            font-weight: 800;
+        }
+        [data-theme="dark"] .global-progress-bar {
+            background: rgba(15,26,26,0.9);
+            border-bottom-color: rgba(255,255,255,0.04);
+        }
+        [data-theme="dark"] .gpb-track { background: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .gpb-week-dot { background: #1a2e2e; border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); }
+        [data-theme="dark"] .gpb-week-dot.gpb-done { background: linear-gradient(135deg, #004D49, #009E87); color: white; }
+        @media (max-width: 768px) {
+            .global-progress-bar { padding: 0.5rem 1rem; top: 60px; }
+            .gpb-week-dot { width: 16px; height: 16px; font-size: 0.45rem; }
+        }
+        @media (max-width: 480px) {
+            .gpb-weeks { gap: 2px; }
+            .gpb-week-dot { width: 14px; height: 14px; }
+        }
+
         /* Mobile week navigator (hidden on desktop) */
         .mobile-week-nav {
             display: none;
@@ -1501,6 +1592,21 @@
                 </nav>
             </div>
         </header>
+
+        <!-- Global Progress Bar -->
+        <div class="global-progress-bar" id="globalProgressBar">
+            <div class="gpb-inner">
+                <div class="gpb-info">
+                    <span class="gpb-label">Your Progress</span>
+                    <span class="gpb-pct" id="gpbPct">0%</span>
+                </div>
+                <div class="gpb-track">
+                    <div class="gpb-fill" id="gpbFill"></div>
+                    <div class="gpb-glow" id="gpbGlow"></div>
+                </div>
+                <div class="gpb-weeks" id="gpbWeeks"></div>
+            </div>
+        </div>
 
         <!-- Mobile Welcome Banner -->
         <div id="mobileWelcome" class="mobile-welcome-bar" style="display:none;" onclick="showWelcomeGate()">
@@ -7562,6 +7668,7 @@ function init() {
     renderMobileWeekSelector();
     showView('overview');
     loadProgress();
+    updateGlobalProgressBar();
 }
 
 // Mobile week navigator
@@ -7619,6 +7726,31 @@ function updateProgressBar() {
     document.getElementById('progressText').textContent = 
         `${completedWeeks.size} of ${studyData.weeks.length} weeks completed`;
     updateProgressRing(completedWeeks.size, studyData.weeks.length);
+    updateGlobalProgressBar();
+}
+
+function updateGlobalProgressBar() {
+    var pct = (completedWeeks.size / studyData.weeks.length) * 100;
+    var fill = document.getElementById('gpbFill');
+    var glow = document.getElementById('gpbGlow');
+    var pctEl = document.getElementById('gpbPct');
+    var weeksEl = document.getElementById('gpbWeeks');
+    if (fill) fill.style.width = pct + '%';
+    if (glow) glow.style.width = pct + '%';
+    if (pctEl) pctEl.textContent = Math.round(pct) + '%';
+    if (weeksEl) {
+        weeksEl.innerHTML = '';
+        for (var i = 0; i < studyData.weeks.length; i++) {
+            var dot = document.createElement('div');
+            dot.className = 'gpb-week-dot';
+            if (completedWeeks.has(i)) dot.classList.add('gpb-done');
+            else if (i === currentMobileWeek || (!completedWeeks.has(i) && i === Array.from({length:studyData.weeks.length}, (_,x)=>x).find(x => !completedWeeks.has(x)))) dot.classList.add('gpb-current');
+            dot.textContent = i + 1;
+            dot.title = 'Week ' + (i+1) + ': ' + studyData.weeks[i].title;
+            dot.onclick = (function(idx) { return function() { navTo('study'); setTimeout(function(){ showWeekDetail(idx); }, 100); }; })(i);
+            weeksEl.appendChild(dot);
+        }
+    }
 }
 
 // Render week selector in sidebar
