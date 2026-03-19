@@ -7589,9 +7589,14 @@ function showWeekDetail(weekIndex) {
         </div>
     `;
 
-    // Scroll to top of content area after DOM update
+    // Scroll to the week heading after DOM update
     setTimeout(function() {
-        content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        var heading = content.querySelector('.content-header');
+        if (heading) {
+            heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }, 50);
 }
 
