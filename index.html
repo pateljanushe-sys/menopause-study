@@ -8338,11 +8338,14 @@ function showView(view) {
     setActiveNav(view);
     // Track section view
     if (typeof gtag === 'function') gtag('event', 'page_view', { page_title: view });
-    // Scroll to top of content area after DOM + layout update
-    setTimeout(function() {
-        var mc = document.getElementById('mainContent');
-        if (mc) mc.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
+    // Scroll to top of content area — but NOT on initial page load (let hero be seen first)
+    if (window._vishNavInitialized) {
+        setTimeout(function() {
+            var mc = document.getElementById('mainContent');
+            if (mc) mc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+    }
+    window._vishNavInitialized = true;
 }
 
 // Show quiz selection
