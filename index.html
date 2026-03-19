@@ -163,8 +163,9 @@
 
         body {
             font-family: 'Inter', 'DM Sans', sans-serif;
-            background: linear-gradient(135deg, #e0f2f0 0%, #d4ede9 30%, #e8f5f0 60%, #f0faf7 100%);
-            background-attachment: fixed;
+            background: linear-gradient(135deg, #e0f2f0 0%, #d4ede9 25%, #e8f5f0 50%, #d4ede9 75%, #e0f2f0 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
             color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
@@ -174,7 +175,40 @@
         h1, h2, h3, h4 {
             font-family: 'Crimson Pro', serif;
             font-weight: 600;
-            line-height: 1.2;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+        }
+
+        /* Gradient text for major headings */
+        .gradient-text {
+            background: linear-gradient(135deg, #004D49 0%, #009E87 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        [data-theme="dark"] .gradient-text {
+            background: linear-gradient(135deg, #00d4a8 0%, #4aedc4 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        /* Scroll reveal animation */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animated background gradient */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         /* ===== EMAIL GATE ===== */
@@ -389,15 +423,22 @@
             opacity: 0.8;
         }
 
-        /* Header */
+        /* Header — glass morphism */
         .header {
-            background: var(--bg-white);
-            border-bottom: 2px solid var(--border);
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 77, 73, 0.08);
             padding: 1.5rem 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 12px var(--shadow);
+            box-shadow: 0 4px 30px rgba(0, 77, 73, 0.06);
+        }
+
+        [data-theme="dark"] .header {
+            background: rgba(26, 46, 46, 0.8);
+            border-bottom-color: rgba(255, 255, 255, 0.05);
         }
 
         .header-content {
@@ -431,7 +472,6 @@
 
         .logo-text h1 {
             font-size: 1.5rem;
-            color: var(--primary);
             margin-bottom: 0.1rem;
         }
 
@@ -448,35 +488,44 @@
         }
 
         .nav-btn {
-            padding: 0.6rem 1.4rem;
-            border: 2px solid var(--primary);
-            background: var(--bg-white);
-            color: var(--primary);
+            padding: 0.6rem 1.2rem;
+            border: none;
+            background: transparent;
+            color: var(--text-mid);
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             min-width: 0;
             text-align: center;
             white-space: nowrap;
+            position: relative;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #004D49, #009E87);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 2px;
         }
 
         .nav-btn:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px var(--shadow-heavy);
+            color: var(--primary);
+            transform: translateY(-1px);
         }
 
-        .nav-btn.primary {
-            background: var(--primary);
-            color: white;
+        .nav-btn:hover::after {
+            width: 70%;
         }
 
-        .nav-btn.primary:hover {
-            background: var(--primary-light);
-        }
+        /* nav-btn.primary no longer differentiated — uniform tabs */
 
         /* Main Layout */
         .container {
@@ -494,16 +543,23 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Sidebar */
+        /* Sidebar — glass morphism */
         .sidebar {
-            background: var(--bg-white);
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
             padding: 2rem;
             height: fit-content;
             position: sticky;
             top: 120px;
-            box-shadow: 0 4px 20px var(--shadow);
-            border: 1px solid var(--border);
+            box-shadow: 0 8px 32px rgba(0, 77, 73, 0.08);
+            border: 1px solid rgba(0, 77, 73, 0.08);
+        }
+
+        [data-theme="dark"] .sidebar {
+            background: rgba(26, 46, 46, 0.6);
+            border-color: rgba(255, 255, 255, 0.05);
         }
 
         .progress-section {
@@ -1078,12 +1134,11 @@
 
         /* === ACTIVE NAV STATE === */
         .nav-btn.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px var(--shadow-heavy);
+            color: var(--primary);
+            font-weight: 700;
         }
-        .nav-btn.active:hover {
-            background: var(--primary-light);
+        .nav-btn.active::after {
+            width: 80%;
         }
 
         /* === TOAST NOTIFICATIONS === */
@@ -1266,15 +1321,15 @@
             <button class="hero-cta" onclick="document.getElementById('appContent').scrollIntoView({behavior:'smooth'})">Start Learning</button>
             <div class="hero-stats">
                 <div class="hero-stat">
-                    <span class="hero-stat-number">10</span>
+                    <span class="hero-stat-number counter-animate" data-target="10" data-suffix="">0</span>
                     <span class="hero-stat-label">Study Weeks</span>
                 </div>
                 <div class="hero-stat">
-                    <span class="hero-stat-number">240+</span>
+                    <span class="hero-stat-number counter-animate" data-target="240" data-suffix="+">0</span>
                     <span class="hero-stat-label">Practice Questions</span>
                 </div>
                 <div class="hero-stat">
-                    <span class="hero-stat-number">4</span>
+                    <span class="hero-stat-number counter-animate" data-target="4" data-suffix="">0</span>
                     <span class="hero-stat-label">Patient Guides</span>
                 </div>
             </div>
@@ -1288,7 +1343,7 @@
                 <div class="logo">
                     <div class="logo-icon">M</div>
                     <div class="logo-text">
-                        <h1>Menopause Mastery</h1>
+                        <h1 class="gradient-text">Menopause Mastery</h1>
                         <p>Certification Study Platform</p>
                     </div>
                 </div>
@@ -1335,6 +1390,7 @@
                     <p class="progress-text"><span id="progressText">0 of 10 weeks</span></p>
                 </div>
 
+                <div id="streakBadge"></div>
                 <h3 style="margin-bottom: 1rem; color: var(--primary);">Study Plan</h3>
                 <ul class="week-selector" id="weekSelector"></ul>
             </aside>
@@ -1344,7 +1400,7 @@
     </div>
 
     <!-- About the Author -->
-    <section class="about-author">
+    <section class="about-author scroll-reveal">
         <div class="about-author-inner">
             <div class="about-author-photo">JP</div>
             <div class="about-author-text">
@@ -7398,7 +7454,7 @@ function showWelcomeScreen() {
     content.innerHTML = `
         <div style="text-align: center; padding: 4rem 2rem;">
             <h2 style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;">
-                Welcome to Your Certification Journey
+                <span class="gradient-text">Welcome to Your Certification Journey</span>
             </h2>
             <p style="font-size: 1.2rem; color: var(--text-mid); max-width: 700px; margin: 0 auto 3rem; line-height: 1.8;">
                 This 10-week study plan will guide you through all the material you need to pass 
@@ -7609,6 +7665,106 @@ function updateProgressRing(completed, total) {
 window.addEventListener('scroll', function() {
     var btn = document.getElementById('backToTop');
     if (btn) btn.classList.toggle('visible', window.scrollY > 400);
+});
+
+// === SCROLL REVEAL ===
+function initScrollReveal() {
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.scroll-reveal').forEach(function(el) {
+        observer.observe(el);
+    });
+}
+
+// === ANIMATED COUNTERS ===
+function animateCounter(el, target, suffix) {
+    suffix = suffix || '';
+    var start = 0;
+    var duration = 1500;
+    var startTime = null;
+    function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        var current = Math.round(eased * target);
+        el.textContent = current + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+}
+
+function initAnimatedCounters() {
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting && !entry.target.dataset.counted) {
+                entry.target.dataset.counted = 'true';
+                var target = parseInt(entry.target.dataset.target);
+                var suffix = entry.target.dataset.suffix || '';
+                animateCounter(entry.target, target, suffix);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.counter-animate').forEach(function(el) {
+        observer.observe(el);
+    });
+}
+
+// === STUDY STREAK ===
+function updateStreak() {
+    var today = new Date().toISOString().split('T')[0];
+    var streakData = JSON.parse(localStorage.getItem('mm-streak') || '{"dates":[],"current":0}');
+    var lastDate = streakData.dates[streakData.dates.length - 1];
+
+    if (lastDate === today) return streakData.current; // already logged today
+
+    var yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    if (lastDate === yesterday) {
+        streakData.current++;
+    } else if (lastDate !== today) {
+        streakData.current = 1;
+    }
+    streakData.dates.push(today);
+    // Keep only last 30 days
+    if (streakData.dates.length > 30) streakData.dates = streakData.dates.slice(-30);
+    localStorage.setItem('mm-streak', JSON.stringify(streakData));
+    return streakData.current;
+}
+
+function getStreakDisplay() {
+    var streak = updateStreak();
+    if (streak <= 1) return '';
+    return '<div style="text-align:center;padding:0.5rem;margin-top:0.5rem;font-size:0.85rem;color:var(--accent);font-weight:600;">🔥 ' + streak + '-day streak!</div>';
+}
+
+// === KEYBOARD SHORTCUTS ===
+document.addEventListener('keydown', function(e) {
+    // Only in quiz mode
+    var quizActive = document.querySelector('.question-card');
+    if (!quizActive) return;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        var nextBtn = document.querySelector('.btn-primary[onclick*="nextQuestion"], .btn[onclick*="nextQuestion"]');
+        if (nextBtn) nextBtn.click();
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        var prevBtn = document.querySelector('.btn[onclick*="prevQuestion"]');
+        if (prevBtn) prevBtn.click();
+    }
+    // Number keys 1-5 to select answer
+    if (['1','2','3','4','5'].includes(e.key)) {
+        var options = document.querySelectorAll('.option-btn');
+        var idx = parseInt(e.key) - 1;
+        if (options[idx]) options[idx].click();
+    }
 });
 
 // Show quiz view
@@ -8454,9 +8610,14 @@ setInterval(saveProgress, 30000);
 // Save on page unload
 window.addEventListener('beforeunload', saveProgress);
 
-// Load progress on init
+// Load progress on init + start features
 document.addEventListener('DOMContentLoaded', function() {
     loadProgress();
+    initScrollReveal();
+    initAnimatedCounters();
+    // Streak badge
+    var streakEl = document.getElementById('streakBadge');
+    if (streakEl) streakEl.innerHTML = getStreakDisplay();
 });
 </script>
 
