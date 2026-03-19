@@ -236,6 +236,7 @@
         }
 
         .email-gate-card input[type="text"],
+        .email-gate-card input[type="password"],
         .email-gate-card input[type="email"] {
             width: 100%;
             padding: 1rem 1.2rem;
@@ -250,6 +251,7 @@
         }
 
         .email-gate-card input[type="text"]:focus,
+        .email-gate-card input[type="password"]:focus,
         .email-gate-card input[type="email"]:focus {
             outline: none;
             border-color: #009E87;
@@ -1208,6 +1210,20 @@
     </style>
 </head>
 <body>
+    <!-- Password Gate Overlay -->
+    <div class="email-gate" id="passwordGate" style="z-index:10001;">
+        <div class="email-gate-card">
+            <div class="gate-logo">🔒</div>
+            <h2>Members Only</h2>
+            <p>This study platform is password-protected. Enter the access code to continue.</p>
+            <form id="passwordGateForm" onsubmit="handlePasswordGate(event)">
+                <input type="password" name="password" placeholder="Enter access code" required autocomplete="off" />
+                <button type="submit">Unlock</button>
+            </form>
+            <p class="gate-fine-print" id="passwordError" style="color:var(--incorrect);display:none;">Incorrect password. Please try again.</p>
+        </div>
+    </div>
+
     <!-- Welcome Gate Overlay -->
     <div class="email-gate" id="emailGate">
         <div class="email-gate-card">
@@ -1317,6 +1333,29 @@
 
 
 <script>
+// ===== PASSWORD GATE LOGIC =====
+function handlePasswordGate(e) {
+    e.preventDefault();
+    var input = document.querySelector('#passwordGateForm input[name="password"]');
+    var pw = input.value;
+    if (pw === 'Menomeno') {
+        localStorage.setItem('mm-auth', 'true');
+        document.getElementById('passwordGate').classList.add('hidden');
+        document.getElementById('passwordError').style.display = 'none';
+    } else {
+        document.getElementById('passwordError').style.display = 'block';
+        input.value = '';
+        input.focus();
+    }
+}
+
+(function() {
+    if (localStorage.getItem('mm-auth') === 'true') {
+        var gate = document.getElementById('passwordGate');
+        if (gate) gate.classList.add('hidden');
+    }
+})();
+
 // ===== WELCOME GATE LOGIC =====
 function handleEmailGate(e) {
     e.preventDefault();
