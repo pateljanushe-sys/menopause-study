@@ -127,6 +127,49 @@
             background: #142222;
         }
 
+        [data-theme="dark"] .about-hero {
+            background: linear-gradient(135deg, #0a2a28 0%, #0f3d38 50%, #1a4a3a 100%);
+        }
+
+        [data-theme="dark"] .about-mission {
+            background: #142222;
+            border-color: #2a4040;
+        }
+
+        [data-theme="dark"] .about-mission h3 {
+            color: var(--primary);
+        }
+
+        [data-theme="dark"] .leadership-card {
+            background: var(--bg-white);
+            border-color: var(--border);
+        }
+
+        [data-theme="dark"] .leadership-avatar {
+            background: linear-gradient(135deg, #00d4a8, #004D49);
+        }
+
+        [data-theme="dark"] .team-card {
+            background: var(--bg-white);
+            border-color: var(--border);
+        }
+
+        [data-theme="dark"] .team-avatar {
+            background: linear-gradient(135deg, #00d4a8, #004D49);
+        }
+
+        [data-theme="dark"] .credential-tag {
+            background: #0f2d2a;
+            border-color: #2a4040;
+            color: var(--primary);
+        }
+
+        [data-theme="dark"] .team-card:hover,
+        [data-theme="dark"] .leadership-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 12px 32px rgba(0, 212, 168, 0.15);
+        }
+
         /* Dark Mode Toggle */
         .theme-toggle {
             background: none;
@@ -794,22 +837,21 @@
         }
 
         .meta-item {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
+            gap: 0.4rem;
+            font-size: 0.85rem;
             color: var(--text-mid);
+            background: var(--bg-cream);
+            padding: 0.35rem 0.9rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            font-weight: 500;
         }
 
         .meta-icon {
-            width: 20px;
-            height: 20px;
-            background: var(--accent-bright);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
+            font-size: 0.85rem;
+            line-height: 1;
         }
 
         /* Detailed Content Sections */
@@ -885,11 +927,15 @@
         }
 
         .clinical-pearl::before {
-            content: "Clinical Pearl";
-            display: block;
+            content: "💎 Clinical Pearl";
+            display: inline-block;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 0.8rem;
+            background: rgba(0, 77, 73, 0.1);
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
         }
 
         .exam-tip {
@@ -905,15 +951,24 @@
         }
 
         .exam-tip::before {
-            content: "Exam Tip";
-            display: block;
+            content: "📝 Exam Tip";
+            display: inline-block;
             font-weight: 700;
             color: #8a6c2a;
             margin-bottom: 0.8rem;
+            background: rgba(138, 108, 42, 0.1);
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
+        }
+
+        [data-theme="dark"] .clinical-pearl::before {
+            background: rgba(0, 212, 168, 0.15);
         }
 
         [data-theme="dark"] .exam-tip::before {
             color: var(--accent);
+            background: rgba(255, 214, 153, 0.12);
         }
 
         /* Quiz Styles */
@@ -957,10 +1012,13 @@
 
         .question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
         .question-number { background: var(--primary); color: white; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; }
-        .question-difficulty { padding: 0.3rem 0.8rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; }
-        .difficulty-easy { background: #d1fae5; color: #065f46; }
-        .difficulty-medium { background: #fef3c7; color: #92400e; }
-        .difficulty-hard { background: #fee2e2; color: #991b1b; }
+        .question-difficulty { padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.3px; }
+        .difficulty-easy { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+        .difficulty-medium { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+        .difficulty-hard { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+        [data-theme="dark"] .difficulty-easy { background: #064e3b; color: #6ee7b7; border-color: #065f46; }
+        [data-theme="dark"] .difficulty-medium { background: #451a03; color: #fcd34d; border-color: #92400e; }
+        [data-theme="dark"] .difficulty-hard { background: #450a0a; color: #fca5a5; border-color: #991b1b; }
 
         .question-text { font-size: 1.1rem; line-height: 1.8; color: var(--text-dark); margin-bottom: 1.5rem; font-weight: 500; }
         .question-stem { background: var(--bg-white); padding: 1.2rem; border-radius: 8px; margin-bottom: 1.5rem; font-style: italic; border-left: 3px solid var(--accent); }
@@ -1006,7 +1064,7 @@
         .explanation-header { font-weight: 700; color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem; }
         .explanation-content { line-height: 1.8; color: var(--text-mid); }
         .explanation-content strong { color: var(--text-dark); }
-        .reference { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.9rem; color: var(--text-light); font-style: italic; }
+        .reference { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-light); font-style: normal; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
 
         .quiz-actions { display: flex; gap: 1rem; margin-top: 2rem; justify-content: center; }
 
