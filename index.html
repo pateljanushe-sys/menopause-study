@@ -1443,6 +1443,37 @@
             border: 2px solid var(--bg-cream);
         }
 
+        .leadership-photo, .team-photo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            display: block;
+            border: 3px solid var(--bg-mint);
+            box-shadow: 0 4px 12px var(--shadow);
+            background: var(--bg-cream);
+        }
+        .team-photo {
+            width: 80px;
+            height: 80px;
+        }
+
+        .about-pill {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            background: var(--bg-mint);
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin-top: 0.6rem;
+        }
+        .about-pill:hover { background: var(--primary); color: white; }
+        [data-theme="dark"] .about-pill:hover { color: #0f1a1a; }
+
         .leadership-card h4 {
             font-size: 1rem;
             color: var(--text-dark);
@@ -8378,137 +8409,87 @@ function showAboutUs() {
             <p>Meet the team of dedicated clinicians and leaders driving evidence-based menopause care at One Medical — empowering providers and transforming patient outcomes nationwide.</p>
         </div>
 
-        <div class="about-mission">
-            <h3>🎯 Our Mission</h3>
-            <p>We believe every provider should feel confident and prepared to deliver exceptional menopause care. Our team of Menopause Society Certified Practitioners and clinical leaders has built this platform to bridge the gap between evidence-based research and clinical practice — helping providers feel empowered and prepared for certification and beyond.</p>
-        </div>
-
         <div class="about-section-title">👩‍⚕️ Leadership Team</div>
         <div class="about-section-subtitle">The clinical leaders guiding One Medical's Menopause Care Pathway</div>
 
         <div class="leadership-grid">
             <div class="leadership-card">
-                <div class="leadership-avatar">ED</div>
+                <img src="photos/erin-duralde.png" alt="Erin Duralde" class="leadership-photo">
                 <h4>Erin Duralde, MD MPH MSCP</h4>
-                <div class="team-role">Medical Director, Menopause Care Pathway</div>
-                <div class="team-bio" style="text-align:left; font-size:0.82rem;">Clinical Effectiveness Director, Women's Health</div>
+                <div class="team-role">Medical Director, Menopause Care Pathway · Clinical Effectiveness Director, Women's Health</div>
+                <a href="https://www.onemedical.com/providers/erin-duralde-2/" target="_blank" class="about-pill">View Profile →</a>
             </div>
             <div class="leadership-card">
-                <div class="leadership-avatar">JP</div>
-                <h4>Janu Patel, MD MPH</h4>
-                <div class="team-role">National Menopause Implementation Lead</div>
-                <div class="team-bio" style="text-align:left; font-size:0.82rem;">District Medical Director, SF Bay Area. Menopause Mentor.</div>
-            </div>
-            <div class="leadership-card">
-                <div class="leadership-avatar">CF</div>
+<img src="photos/caroline-furrier.png" alt="Caroline Furrier" class="leadership-photo">
                 <h4>Caroline Furrier</h4>
                 <div class="team-role">Program Manager, Pathways</div>
-                <div class="team-bio" style="text-align:left; font-size:0.82rem;"></div>
             </div>
             <div class="leadership-card">
-                <div class="leadership-avatar">MS</div>
+                <img src="photos/janu-patel-leadership.png" alt="Janu Patel" class="leadership-photo">
+                <h4>Janu Patel, MD</h4>
+                <div class="team-role">DMD Implementation Lead · DMD — PEN South Bay</div>
+                <a href="https://www.onemedical.com/providers/janu-patel/" target="_blank" class="about-pill">View Profile →</a>
+            </div>
+            <div class="leadership-card">
+                <img src="photos/meg-scott.png" alt="Meg Scott" class="leadership-photo">
                 <h4>Meg Scott, NP</h4>
                 <div class="team-role">Medical Director, Clinical Learning</div>
-                <div class="team-bio" style="text-align:left; font-size:0.82rem;"></div>
             </div>
         </div>
 
         <div class="about-section-title">🌟 2026 Menopause Mentors</div>
-        <div class="about-section-subtitle">Our nationwide team of certified practitioners providing mentorship, clinical expertise, and hands-on guidance to providers across One Medical</div>
+        <div class="about-section-subtitle">Our nationwide team of certified practitioners providing mentorship and clinical expertise across One Medical</div>
 
         <div class="team-grid">
             <div class="team-card">
-                <div class="team-avatar">DG</div>
-                <h4>Daphne Gellerson, MD</h4>
-                <div class="team-role">Menopause Mentor</div>
-                <div class="team-location">📍 DMV — Tysons</div>
-                <div class="team-bio">Takes a personal approach with each patient, collaborating to create individualized plans. Areas of expertise include mental health and women's health. Menopause Society Certified Practitioner practicing evidence-based menopause care.</div>
-                <div class="team-credentials">
-                    <span class="credential-tag">MSCP</span>
-                    <span class="credential-tag">ABIM</span>
-                    <span class="credential-tag">U of Maryland</span>
-                </div>
+                <img src="photos/janu-patel.png" alt="Janu Patel" class="team-photo">
+                <h4>Janu Patel, MD — DMD</h4>
+                <div class="team-location">📍 Menlo Park — Sharon Heights</div>
+                <a href="https://www.onemedical.com/providers/janu-patel/" target="_blank" class="about-pill">View Profile →</a>
             </div>
-
             <div class="team-card">
-                <div class="team-avatar">CB</div>
-                <h4>Carrie Bowler, DO</h4>
-                <div class="team-role">Menopause Mentor</div>
-                <div class="team-location">📍 Brooklyn / Remote — Park Slope</div>
-                <div class="team-bio">An accomplished family practitioner who employs a holistic approach to health care, disease prevention, and chronic disease management. Holds a plant-based nutrition certification. Menopause Society Certified Practitioner.</div>
-                <div class="team-credentials">
-                    <span class="credential-tag">MSCP</span>
-                    <span class="credential-tag">Family Medicine</span>
-                    <span class="credential-tag">Midwestern U</span>
-                </div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-avatar">JM</div>
+                <img src="photos/jerusalem-makonnen.png" alt="Jerusalem Makonnen" class="team-photo">
                 <h4>Jerusalem Makonnen, FNP-C</h4>
-                <div class="team-role">Menopause Mentor</div>
                 <div class="team-location">📍 Oakland — Grand Lake</div>
-                <div class="team-bio">Enjoys partnering with patients across the lifespan about the health issues and goals important to them. Strives to create a safe space for everyone. Area of expertise in Peri/Menopause care.</div>
-                <div class="team-credentials">
-                    <span class="credential-tag">ANCC</span>
-                    <span class="credential-tag">Peri/Menopause</span>
-                    <span class="credential-tag">Yale</span>
-                </div>
+                <a href="https://www.onemedical.com/providers/jerusalem-makonnen/" target="_blank" class="about-pill">View Profile →</a>
             </div>
-
             <div class="team-card">
-                <div class="team-avatar">MS</div>
+                <img src="photos/carrie-bowler.png" alt="Carrie Bowler" class="team-photo">
+                <h4>Carrie Bowler, DO</h4>
+                <div class="team-location">📍 Brooklyn/Remote — Park Slope</div>
+                <a href="https://www.onemedical.com/providers/carrie-bowler/" target="_blank" class="about-pill">View Profile →</a>
+            </div>
+            <div class="team-card">
+                <img src="photos/mandy-smith.png" alt="Mandy Smith" class="team-photo">
                 <h4>Mandy Smith, DNP</h4>
-                <div class="team-role">Menopause Mentor</div>
-                <div class="team-location">📍 Phoenix — Scottsdale Fashion Square</div>
-                <div class="team-bio">A dedicated primary care nurse practitioner who integrates evidence-based practice with deep respect for each patient's unique story and goals. Passionate about women's health and became a certified menopause provider to serve patients navigating midlife.</div>
-                <div class="team-credentials">
-                    <span class="credential-tag">NAMS Certified</span>
-                    <span class="credential-tag">ANCC</span>
-                    <span class="credential-tag">ASU</span>
-                </div>
+                <div class="team-location">📍 Phoenix — Scottsdale</div>
             </div>
-
             <div class="team-card">
-                <div class="team-avatar">KS</div>
-                <h4>Kristen Semanision, DO</h4>
-                <div class="team-role">Office Medical Director</div>
+                <img src="photos/kristen-semanision.png" alt="Kristen Semanision" class="team-photo">
+                <h4>Kristen Semanision, DO — OMD</h4>
                 <div class="team-location">📍 New York — Upper East Side</div>
-                <div class="team-bio">Builds collaborative relationships with patients that cultivate health and wellness over time. Prioritizes prevention through healthy nutrition, stress management, and mental well-being. Particularly enjoys working with people in midlife.</div>
-                <div class="team-credentials">
-                    <span class="credential-tag">MSCP</span>
-                    <span class="credential-tag">ABFM</span>
-                    <span class="credential-tag">Columbia Residency</span>
-                </div>
+                <a href="https://www.onemedical.com/providers/kristen-semanision/" target="_blank" class="about-pill">View Profile →</a>
             </div>
-
             <div class="team-card">
-                <div class="team-avatar">SW</div>
+                <img src="photos/daphne-gellerson.png" alt="Daphne Gellerson" class="team-photo">
+                <h4>Daphne Gellerson, MD</h4>
+                <div class="team-location">📍 DMV — Tysons</div>
+                <a href="https://www.onemedical.com/providers/daphne-gellerson/" target="_blank" class="about-pill">View Profile →</a>
+            </div>
+            <div class="team-card">
+                <img src="photos/sara-whitmore.png" alt="Sara Whitmore" class="team-photo">
                 <h4>Sara Whitmore, NP</h4>
-                <div class="team-role">Menopause Mentor</div>
                 <div class="team-location">📍 Brooklyn — Cobble Hill</div>
-                <div class="team-bio">A longtime Brooklynite with over a decade of experience at One Medical providing comprehensive primary care. Expertise in women's health, mental health, and LGBTQ health. Menopause Society Certified Practitioner.</div>
-                <div class="team-credentials">
-                    <span class="credential-tag">MSCP</span>
-                    <span class="credential-tag">AANP</span>
-                    <span class="credential-tag">Columbia</span>
-                </div>
+                <a href="https://www.onemedical.com/providers/sara-whitmore/" target="_blank" class="about-pill">View Profile →</a>
             </div>
-
             <div class="team-card">
-                <div class="team-avatar">PK</div>
+                <img src="photos/petra-kelsey.png" alt="Petra Kelsey" class="team-photo">
                 <h4>Petra Kelsey, MD</h4>
-                <div class="team-role">Menopause Mentor</div>
                 <div class="team-location">📍 Austin — Aldrich Street Mueller</div>
-                <div class="team-bio">Brings a whole-bodied, integrative, and evidence-based approach to care. Enjoys collaborating with patients who want to pursue natural healing approaches. Born and raised in Austin with experience in West Texas, Wisconsin, and rural New Zealand.</div>
-                <div class="team-credentials">
-                    <span class="credential-tag">MSCP</span>
-                    <span class="credential-tag">ABFM</span>
-                    <span class="credential-tag">UT Medical Branch</span>
-                </div>
+                <a href="https://www.onemedical.com/providers/petra-kelsey/" target="_blank" class="about-pill">View Profile →</a>
             </div>
         </div>
-    `;
+    \`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
