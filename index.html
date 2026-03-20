@@ -1764,6 +1764,7 @@ function handlePasswordGate(e) {
         localStorage.setItem('mm-auth', 'true');
         document.getElementById('passwordGate').classList.add('hidden');
         document.getElementById('passwordError').style.display = 'none';
+        resetIdleTimer();
     } else {
         document.getElementById('passwordError').style.display = 'block';
         input.value = '';
@@ -1771,10 +1772,34 @@ function handlePasswordGate(e) {
     }
 }
 
+// Auto-lock after 10 minutes of inactivity
+var _idleTimer = null;
+var _idleTimeout = 10 * 60 * 1000; // 10 minutes
+
+function resetIdleTimer() {
+    if (_idleTimer) clearTimeout(_idleTimer);
+    _idleTimer = setTimeout(function() {
+        // Lock the site
+        localStorage.removeItem('mm-auth');
+        var gate = document.getElementById('passwordGate');
+        if (gate) {
+            gate.classList.remove('hidden');
+            var input = document.querySelector('#passwordGateForm input[name="password"]');
+            if (input) { input.value = ''; input.focus(); }
+        }
+    }, _idleTimeout);
+}
+
+// Listen for any user activity
+['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'].forEach(function(evt) {
+    document.addEventListener(evt, resetIdleTimer, { passive: true });
+});
+
 (function() {
     if (localStorage.getItem('mm-auth') === 'true') {
         var gate = document.getElementById('passwordGate');
         if (gate) gate.classList.add('hidden');
+        resetIdleTimer(); // Start the idle timer
     }
 })();
 
