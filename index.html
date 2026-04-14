@@ -1644,7 +1644,19 @@
     </style>
 </head>
 <body>
-    <!-- Password Gate Removed -->
+    <!-- Password Gate Overlay -->
+    <div class="email-gate" id="passwordGate" style="z-index:10001;">
+        <div class="email-gate-card">
+            <div class="gate-logo">🔒</div>
+            <h2>Members Only</h2>
+            <p>This study platform is password-protected. Enter the access code to continue.</p>
+            <form id="passwordGateForm" onsubmit="handlePasswordGate(event)">
+                <input type="password" name="password" placeholder="Enter access code" required autocomplete="off" />
+                <button type="submit">Unlock</button>
+            </form>
+            <p class="gate-fine-print" id="passwordError" style="color:var(--incorrect);display:none;">Incorrect password. Please try again.</p>
+        </div>
+    </div>
 
     <!-- Welcome Gate Overlay -->
     <div class="email-gate" id="emailGate">
@@ -1793,7 +1805,53 @@
 
 
 <script>
-// ===== PASSWORD GATE REMOVED =====
+// ===== PASSWORD GATE LOGIC =====
+function handlePasswordGate(e) {
+    e.preventDefault();
+    var input = document.querySelector('#passwordGateForm input[name="password"]');
+    var pw = input.value;
+    if (pw === 'Menomeno') {
+        localStorage.setItem('mm-auth', 'true');
+        document.getElementById('passwordGate').classList.add('hidden');
+        document.getElementById('passwordError').style.display = 'none';
+        resetIdleTimer();
+    } else {
+        document.getElementById('passwordError').style.display = 'block';
+        input.value = '';
+        input.focus();
+    }
+}
+
+// Auto-lock after 10 minutes of inactivity
+var _idleTimer = null;
+var _idleTimeout = 10 * 60 * 1000; // 10 minutes
+
+function resetIdleTimer() {
+    if (_idleTimer) clearTimeout(_idleTimer);
+    _idleTimer = setTimeout(function() {
+        // Lock the site
+        localStorage.removeItem('mm-auth');
+        var gate = document.getElementById('passwordGate');
+        if (gate) {
+            gate.classList.remove('hidden');
+            var input = document.querySelector('#passwordGateForm input[name="password"]');
+            if (input) { input.value = ''; input.focus(); }
+        }
+    }, _idleTimeout);
+}
+
+// Listen for any user activity
+['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'].forEach(function(evt) {
+    document.addEventListener(evt, resetIdleTimer, { passive: true });
+});
+
+(function() {
+    if (localStorage.getItem('mm-auth') === 'true') {
+        var gate = document.getElementById('passwordGate');
+        if (gate) gate.classList.add('hidden');
+        resetIdleTimer(); // Start the idle timer
+    }
+})();
 
 // ===== WELCOME GATE LOGIC =====
 function handleEmailGate(e) {
